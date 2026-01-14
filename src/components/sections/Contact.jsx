@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import Swal from 'sweetalert2'
+import tkLogo from '../../assets/images/tk logo.png'
+import BottomNavBar from './BottomNavBar'
 
 function Contact() {
   const navigate = useNavigate()
@@ -12,7 +15,6 @@ function Contact() {
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -26,10 +28,13 @@ function Contact() {
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     setIsSubmitting(false)
-    setShowSuccess(true)
+    Swal.fire({
+      icon: 'success',
+      title: 'Message Sent!',
+      text: "We'll get back to you soon.",
+      confirmButtonColor: '#00eaff'
+    });
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
-    
-    setTimeout(() => setShowSuccess(false), 5000)
   }
 
   const subjects = [
@@ -74,21 +79,22 @@ function Contact() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
+      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
       padding: '50px 20px',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Animated Background */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="rgba(255,255,255,0.05)"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/svg%3E")',
-        animation: 'float 20s ease-in-out infinite'
+        width: '100%',
+        height: '100%',
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
+        backgroundSize: '80px 80px',
       }} />
+      
+      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
 
       <style>{`
         @keyframes float {
@@ -123,23 +129,23 @@ function Contact() {
           style={{ textAlign: 'center', marginBottom: '60px', position: 'relative' }}
         >
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/events')}
             style={{
               position: 'absolute',
               left: 0,
               top: 0,
               padding: '12px 24px',
-              background: 'rgba(255,255,255,0.2)',
-              color: '#fff',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '25px',
+              background: 'rgba(0,234,255,0.1)',
+              color: '#00eaff',
+              border: '1px solid #00eaff55',
+              borderRadius: '12px',
               cursor: 'pointer',
               fontSize: '1rem',
               fontWeight: 'bold',
-              backdropFilter: 'blur(10px)'
+              fontFamily: 'Orbitron, monospace'
             }}
           >
-            ← Back to Home
+            ← Back
           </button>
 
           <motion.h1
@@ -147,14 +153,12 @@ function Contact() {
             animate={{ scale: 1 }}
             transition={{ duration: 0.6 }}
             style={{
-              fontSize: '4.5rem',
+              fontSize: '3.5rem',
               fontWeight: 'bold',
-              color: '#fff',
-              textShadow: '2px 2px 20px rgba(0,0,0,0.3)',
+              color: '#00eaff',
+              textShadow: '0 0 20px rgba(0,234,255,0.5)',
               marginBottom: '20px',
-              background: 'linear-gradient(45deg, #fff, #f0f0f0)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              fontFamily: 'Orbitron, monospace'
             }}
           >
             📞 Get In Touch
@@ -165,40 +169,18 @@ function Contact() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             style={{
-              fontSize: '1.4rem',
-              color: 'rgba(255,255,255,0.9)',
+              fontSize: '1.2rem',
+              color: '#00eaff',
               maxWidth: '700px',
               margin: '0 auto',
-              lineHeight: '1.6'
+              lineHeight: '1.6',
+              fontFamily: 'Orbitron, monospace',
+              opacity: 0.8
             }}
           >
-            Have questions about TRI-COD 2K26? We're here to help! Reach out to us through any of the channels below.
+            Have questions about TechnoKriti 2K25? We're here to help!
           </motion.p>
         </motion.div>
-
-        {/* Success Message */}
-        {showSuccess && (
-          <motion.div
-            initial={{ opacity: 0, y: -50, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -50, scale: 0.8 }}
-            style={{
-              position: 'fixed',
-              top: '20px',
-              right: '20px',
-              background: 'linear-gradient(45deg, #4CAF50, #45a049)',
-              color: '#fff',
-              padding: '20px 30px',
-              borderRadius: '15px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-              zIndex: 1000,
-              fontSize: '1.1rem',
-              fontWeight: 'bold'
-            }}
-          >
-            ✅ Message sent successfully! We'll get back to you soon.
-          </motion.div>
-        )}
 
         <div style={{
           display: 'grid',
@@ -213,12 +195,12 @@ function Contact() {
             transition={{ delay: 0.2 }}
             className="contact-card"
             style={{
-              background: 'rgba(255,255,255,0.15)',
+              background: 'rgba(0,234,255,0.08)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '30px',
+              borderRadius: '20px',
               padding: '50px',
-              border: '1px solid rgba(255,255,255,0.2)',
-              boxShadow: '0 15px 35px rgba(0,0,0,0.2)'
+              border: '1px solid #00eaff33',
+              boxShadow: '0 15px 35px rgba(0,234,255,0.1)'
             }}
           >
             <motion.h2
@@ -226,11 +208,12 @@ function Contact() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
               style={{
-                color: '#fff',
+                color: '#00eaff',
                 fontSize: '2.5rem',
                 marginBottom: '30px',
                 textAlign: 'center',
-                textShadow: '1px 1px 10px rgba(0,0,0,0.3)'
+                textShadow: '0 0 10px rgba(0,234,255,0.5)',
+                fontFamily: 'Orbitron, monospace'
               }}
             >
               📝 Send Us a Message
@@ -353,14 +336,15 @@ function Contact() {
                   padding: '20px 40px',
                   background: isSubmitting 
                     ? 'linear-gradient(45deg, #ccc, #999)' 
-                    : 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                    : 'linear-gradient(45deg, #00eaff, #667eea)',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '15px',
+                  borderRadius: '12px',
                   fontSize: '1.2rem',
                   fontWeight: 'bold',
                   cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.2)',
+                  boxShadow: '0 8px 25px rgba(0,234,255,0.2)',
+                  fontFamily: 'Orbitron, monospace',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
@@ -400,12 +384,12 @@ function Contact() {
                 className="contact-card"
                 onClick={contact.action}
                 style={{
-                  background: 'rgba(255,255,255,0.15)',
+                  background: 'rgba(0,234,255,0.08)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: '20px',
                   padding: '30px',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                  border: '1px solid #00eaff33',
+                  boxShadow: '0 10px 30px rgba(0,234,255,0.1)',
                   cursor: contact.action ? 'pointer' : 'default',
                   display: 'flex',
                   alignItems: 'center',
@@ -421,15 +405,16 @@ function Contact() {
                 </div>
                 <div>
                   <h3 style={{
-                    color: '#fff',
+                    color: '#00eaff',
                     fontSize: '1.4rem',
                     marginBottom: '8px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    fontFamily: 'Orbitron, monospace'
                   }}>
                     {contact.title}
                   </h3>
                   <p style={{
-                    color: '#fff',
+                    color: '#00eaff',
                     fontSize: '1.2rem',
                     fontWeight: 'bold',
                     marginBottom: '8px'
@@ -437,10 +422,11 @@ function Contact() {
                     {contact.info}
                   </p>
                   <p style={{
-                    color: 'rgba(255,255,255,0.8)',
+                    color: '#00eaff',
                     fontSize: '1rem',
                     margin: 0,
-                    lineHeight: '1.4'
+                    lineHeight: '1.4',
+                    opacity: 0.8
                   }}>
                     {contact.desc}
                   </p>
@@ -457,23 +443,24 @@ function Contact() {
           transition={{ delay: 1 }}
           style={{
             marginTop: '60px',
-            background: 'rgba(255,255,255,0.15)',
+            background: 'rgba(0,234,255,0.08)',
             backdropFilter: 'blur(20px)',
-            borderRadius: '30px',
+            borderRadius: '20px',
             padding: '40px',
-            border: '1px solid rgba(255,255,255,0.2)',
+            border: '1px solid #00eaff33',
             textAlign: 'center'
           }}
         >
           <h3 style={{
-            color: '#fff',
+            color: '#00eaff',
             fontSize: '2.5rem',
-            marginBottom: '30px'
+            marginBottom: '30px',
+            fontFamily: 'Orbitron, monospace'
           }}>
             🗺️ Find Us
           </h3>
           <div style={{
-            background: 'rgba(255,255,255,0.9)',
+            background: 'rgba(0,234,255,0.05)',
             borderRadius: '20px',
             padding: '40px',
             minHeight: '300px',
@@ -482,17 +469,20 @@ function Contact() {
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '1.3rem',
-            color: '#666'
+            color: '#00eaff',
+            border: '1px solid #00eaff22'
           }}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📍</div>
-            <strong>Interactive Map Coming Soon</strong>
-            <p style={{ marginTop: '15px', fontSize: '1.1rem', color: '#888' }}>
+            <strong style={{ fontFamily: 'Orbitron, monospace' }}>Interactive Map Coming Soon</strong>
+            <p style={{ marginTop: '15px', fontSize: '1.1rem', opacity: 0.8, fontFamily: 'Orbitron, monospace' }}>
               AITS Campus, Tirupati, Andhra Pradesh<br/>
               Annamacharya Institute of Technology & Sciences
             </p>
           </div>
         </motion.div>
       </div>
+      
+      <BottomNavBar />
     </div>
   )
 }
