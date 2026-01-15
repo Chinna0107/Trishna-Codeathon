@@ -12,7 +12,6 @@ const AdminNotifications = () => {
   const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem('admintoken');
-  const apiUrl = config.API_BASE_URL.replace('/api', '');
 
   useEffect(() => {
     fetchUsers();
@@ -20,7 +19,7 @@ const AdminNotifications = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/admin/users`, {
+      const res = await fetch(`${config.API_BASE_URL}/admin/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -63,7 +62,7 @@ const AdminNotifications = () => {
     if (attachment) formData.append('attachment', attachment);
 
     try {
-      const res = await fetch(`${apiUrl}/api/admin/send-notification`, {
+      const res = await fetch(`${config.API_BASE_URL}/admin/send-notification`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: formData
