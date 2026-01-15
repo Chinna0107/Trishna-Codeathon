@@ -38,6 +38,13 @@ const AdminDashboard = () => {
   const sidebarRef = useRef(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const adminToken = localStorage.getItem('admintoken');
+    if (!adminToken) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const handleNavClick = (page, event) => {
     event.preventDefault();
     setActivePage(page);

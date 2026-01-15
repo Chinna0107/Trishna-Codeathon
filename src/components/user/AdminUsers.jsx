@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { authFetch } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const AdminUsers = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const adminToken = localStorage.getItem('admintoken');
+    if (!adminToken) {
+      navigate('/login');
+      return;
+    }
     fetchEvents();
-  }, []);
+  }, [navigate]);
 
   const fetchEvents = async () => {
     try {

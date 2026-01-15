@@ -10,13 +10,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
-      fetchStats(JSON.parse(userData));
-    } else {
+    
+    if (!token || !userData) {
       navigate('/login');
+      return;
     }
+    
+    setUser(JSON.parse(userData));
+    fetchStats(JSON.parse(userData));
   }, [navigate]);
 
   const fetchStats = async (userData) => {

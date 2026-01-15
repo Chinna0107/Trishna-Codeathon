@@ -1,5 +1,6 @@
-import React, { useState } from 'react'; // Added useEffect
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/user/AdminEvents.css'; // Import the CSS file
 
 // Image Imports
@@ -61,8 +62,16 @@ const AdminEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventCode, setEventCode] = useState('');
   const [submissionStatus, setSubmissionStatus] = useState({ message: '', type: '' });
+  const navigate = useNavigate();
 // State for animated heading
   // Full text for animation
+
+  useEffect(() => {
+    const adminToken = localStorage.getItem('admintoken');
+    if (!adminToken) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import config from '../../config';
+import { useNavigate } from 'react-router-dom';
 
 const AdminNotifications = () => {
   const [users, setUsers] = useState([]);
@@ -10,12 +11,17 @@ const AdminNotifications = () => {
   const [sendToAll, setSendToAll] = useState(false);
   const [attachment, setAttachment] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('admintoken');
 
   useEffect(() => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     fetchUsers();
-  }, []);
+  }, [navigate, token]);
 
   const fetchUsers = async () => {
     try {

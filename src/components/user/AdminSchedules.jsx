@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 import tkLogo from '../../assets/images/tk logo.png';
+import { useNavigate } from 'react-router-dom';
 // import BottomNavBar from '../sections/BottomNavBar';
 
 const Schedule = () => {
   const [typedText, setTypedText] = useState('');
   const fullText = 'Schedule will be updated soon with time & dates';
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const adminToken = localStorage.getItem('admintoken');
+    if (!adminToken) {
+      navigate('/login');
+      return;
+    }
     let index = 0;
     const interval = setInterval(() => {
       if (index <= fullText.length) {
@@ -18,7 +25,7 @@ const Schedule = () => {
       }
     }, 60);
     return () => clearInterval(interval);
-  }, []);
+  }, [navigate]);
 
   return (
     <section style={{
