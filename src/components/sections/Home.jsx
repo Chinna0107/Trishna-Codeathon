@@ -26,8 +26,8 @@ const Home = () => {
     try {
       const token = localStorage.getItem('token');
       const [eventsRes, regsRes] = await Promise.all([
-        fetch(`${config.API_BASE_URL}/events`),
-        fetch(`${config.API_BASE_URL}/participants/registrations?email=${userData.email}`, {
+        fetch(`${config.BASE_URL}/api/events`),
+        fetch(`${config.BASE_URL}/api/participants/registrations?email=${userData.email}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
@@ -104,7 +104,7 @@ const Home = () => {
               <div className="text-3xl mb-2">📋</div>
               <div className="font-semibold">My Events</div>
             </button>
-            <button onClick={() => navigate('/schedules')} className="bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 rounded-xl border border-white/20 transition transform hover:scale-105">
+            <button onClick={() => navigate('/schedule')} className="bg-white/10 hover:bg-white/20 backdrop-blur-md p-4 rounded-xl border border-white/20 transition transform hover:scale-105">
               <div className="text-3xl mb-2">📅</div>
               <div className="font-semibold">Schedules</div>
             </button>

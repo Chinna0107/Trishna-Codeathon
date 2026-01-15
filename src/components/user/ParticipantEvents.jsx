@@ -24,13 +24,21 @@ const ParticipantEvents = () => {
   const fetchRegistrations = async (email) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${config.API_BASE_URL}/participants/registrations?email=${email}`, {
+      const res = await fetch(`${config.BASE_URL}/api/participants/registrations?email=${email}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      if (!res.ok) {
+        console.error('Failed to fetch registrations:', res.status);
+        setRegistrations([]);
+        return;
+      }
+      
       const data = await res.json();
       setRegistrations(data.registrations || data);
     } catch (err) {
       console.error('Error fetching registrations:', err);
+      setRegistrations([]);
     } finally {
       setLoading(false);
     }

@@ -14,7 +14,7 @@ const MENU_ITEMS_BASE = [
   { label: 'Home', url: '/', icon: faHome, hoverColor: 'hover:text-blue-500' }, // Blue for home/trust
   { label: 'About', url: '/about', icon: faInfoCircle, hoverColor: 'hover:text-sky-500' }, // Sky blue for information
   { label: 'Events', url: '/events', icon: faCalendarAlt, hoverColor: 'hover:text-violet-500' }, // Violet for events/celebration
-  { label: 'Co-ordinators', url: '/coordinators', icon: faCoins, hoverColor: 'hover:text-yellow-400' }, // Yellow/gold for money/sponsors
+  { label: 'Sponsors', url: '/sponsors', icon: faCoins, hoverColor: 'hover:text-yellow-400' }, // Yellow/gold for money/sponsors
   { label: 'Workshops', url: '/workshops', icon: faLaptop, hoverColor: 'hover:text-orange-500' }, // Orange for learning/workshops
  { label: 'Schedule', url: '/schedule', icon: faCalendarAlt, hoverColor: 'hover:text-rose-500' }, // Green for schedules/checkmarks
 

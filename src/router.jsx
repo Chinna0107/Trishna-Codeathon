@@ -39,7 +39,7 @@ const Router = () => (
       <Route path="/individual-registration" element={<IndividualRegistration />} />
       <Route path="/team-registration" element={<TeamRegistration />} />
       <Route path="/schedule" element={<Schedule />} />
-      <Route path='/teams' element={<Coordinators />} />
+      <Route path='/team' element={<Coordinators />} />
       <Route path="/location" element={<Location />} />
       <Route path="/contact" element={<Contact />} />
       <Route path='*' element={<Hero />} />

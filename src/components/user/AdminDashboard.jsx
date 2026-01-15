@@ -5,9 +5,10 @@ import AdminUsers from './AdminUsers';
 import AdminSchedules from './AdminSchedules';
 import AdminNotifications from './AdminNotifications';
 import AdminProfile from './AdminProfile';
+import AdminCoordinators from './AdminCoordinators';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faTachometerAlt, faCalendarAlt, faUsers, faCog, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock
+  faTachometerAlt, faCalendarAlt, faUsers, faUserTie, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TrishnaLogo from '../../assets/images/trishna.png'; // Import the logo
@@ -119,6 +120,8 @@ const AdminDashboard = () => {
         return <AdminNotifications />;
       case 'profile':
         return <AdminProfile />;
+      case 'coordinators':
+        return <AdminCoordinators />;
       case 'dashboard':
       default:
         return (
@@ -170,8 +173,8 @@ const AdminDashboard = () => {
               </a>
             </li>
             <li>
-              <a href="#" onClick={(e) => handleNavClick('settings', e)} className={activePage === 'settings' ? 'active' : ''}>
-                <FontAwesomeIcon icon={faCog} className="nav-icon" /> <span className="nav-text">Settings</span>
+              <a href="#" onClick={(e) => handleNavClick('coordinators', e)} className={activePage === 'coordinators' ? 'active' : ''}>
+                <FontAwesomeIcon icon={faUserTie} className="nav-icon" /> <span className="nav-text">Coordinators</span>
               </a>
             </li>
             
