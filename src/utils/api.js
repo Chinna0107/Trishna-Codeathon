@@ -1,7 +1,7 @@
 // API utility functions with authentication
 import config from '../config';
 
-const BASE_URL = config.API_BASE_URL;
+const BASE_URL = config.BASE_URL;
 
 // Get auth headers with token
 export const getAuthHeaders = () => {

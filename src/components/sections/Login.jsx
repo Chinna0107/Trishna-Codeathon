@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const apiUrl = config.LOCAL_BASE_URL;
+  const apiUrl = config.BASE_URL;
 
   // Check if user is already logged in
   useEffect(() => {
