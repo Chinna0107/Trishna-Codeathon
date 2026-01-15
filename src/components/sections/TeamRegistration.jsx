@@ -5,7 +5,7 @@ import tkLogo from '../../assets/images/tk logo.png';
 import BottomNavBar from './BottomNavBar';
 import config from '../../config';
 
-const BASE_URL = `${config.API_BASE_URL}/users`;
+const BASE_URL = `${config.BASE_URL}/api/users`;
 
 const TeamRegistration = () => {
   const navigate = useNavigate();

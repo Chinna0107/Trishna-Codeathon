@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 import config from '../../config';
 
-const BASE_URL = `${config.API_BASE_URL}/users`;
+const BASE_URL = `${config.BASE_URL}/api/users`;
 
 const IndividualRegistration = () => {
   const navigate = useNavigate();

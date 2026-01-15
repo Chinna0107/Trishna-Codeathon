@@ -13,7 +13,7 @@ const AdminUsers = () => {
 
   const fetchEvents = async () => {
     try {
-      const res = await authFetch('/admin/events');
+      const res = await authFetch('/api/admin/events');
       const data = await res.json();
       setEvents(data);
     } catch (err) {
@@ -24,7 +24,7 @@ const AdminUsers = () => {
   const fetchRegistrations = async (eventId) => {
     setLoading(true);
     try {
-      const res = await authFetch(`/admin/registrations/event/${eventId}`);
+      const res = await authFetch(`/api/admin/registrations/event/${eventId}`);
       const data = await res.json();
       setRegistrations(data);
       setSelectedEvent(eventId);
