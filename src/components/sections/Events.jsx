@@ -193,48 +193,33 @@ const Events = () => {
                       <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
                     </div>
                     <p className="text-gray-600 mb-4">{event.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {event.tags && event.tags.map((tag) => (
-                        <span 
-                          key={tag} 
-                          className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full"
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+                      {event.tags && event.tags.filter(tag => tag === 'Team' || tag === 'Individual').map((tag) => (
+                        <Link
+                          key={tag}
+                          to={tag === 'Team' ? `/team-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}` : `/individual-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}`}
+                          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-full transition-colors cursor-pointer"
+                          style={{ textDecoration: 'none' }}
                         >
-                          {tag}
-                        </span>
+                          Register as {tag}
+                        </Link>
                       ))}
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: 12 }}>
-                      <a href={event.pdf} target="_blank" rel="noopener noreferrer" style={{
-                        ...sciFiBtnStyle,
-                        minWidth: 90,
-                        minHeight: 32,
-                        fontSize: '0.95rem',
-                        background: 'linear-gradient(90deg, #00eaff 0%, #0057ff 100%)',
-                        color: '#fff',
-                        border: 'none',
-                        boxShadow: 'none',
-                        textDecoration: 'none',
-                        padding: '0.25em 0',
-                        display: 'inline-flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>Details</a>
-                      <Link to={event.tags.includes('Team') ? `/register/team?event=${event.id}` : `/register/individual?event=${event.id}`} style={{
-                        ...sciFiBtnStyle,
-                        minWidth: 90,
-                        minHeight: 32,
-                        fontSize: '0.95rem',
-                        background: 'linear-gradient(90deg, #00ffb8 0%, #00c853 100%)',
-                        color: '#fff',
-                        border: 'none',
-                        boxShadow: 'none',
-                        textDecoration: 'none',
-                        padding: '0.25em 0',
-                        display: 'inline-flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>Registration</Link>
-                    </div>
+                    <a href={event.pdf} target="_blank" rel="noopener noreferrer" style={{
+                      ...sciFiBtnStyle,
+                      minWidth: 90,
+                      minHeight: 32,
+                      fontSize: '0.95rem',
+                      background: 'linear-gradient(90deg, #00eaff 0%, #0057ff 100%)',
+                      color: '#fff',
+                      border: 'none',
+                      boxShadow: 'none',
+                      textDecoration: 'none',
+                      padding: '0.25em 0',
+                      display: 'inline-flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>Details</a>
                   </div>
                 </div>
               ))}
@@ -251,27 +236,27 @@ const Events = () => {
 function filteredEvents(category) {
   const allEvents = {
     technical: [
-      { id: 'project-expo', title: 'Project Expo', description: 'Showcase your innovative projects and compete with the best minds.', tags: ['Team', 'Engineering'], image: imgProjectExpo, pdf: samplePdf, icon: <FaLightbulb /> },
-      { id: 'web-design', title: 'Web Design', description: 'Design and build creative websites in a time-bound challenge.', tags: ['Solo', 'UI/UX'], image: imgWebDesign, pdf: samplePdf, icon: <FaPalette /> },
-      { id: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon.', tags: ['Team', 'Coding'], image: imgHackathon, pdf: samplePdf, icon: <FaLaptopCode /> },
-      { id: 'nextcode', title: 'NextCode', description: 'Compete in advanced coding rounds to prove your programming skills.', tags: ['Solo', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
+      { id: '1', eventId: 'project-expo', title: 'Project Expo', description: 'Showcase your innovative projects and compete with the best minds.', tags: ['Team', 'Engineering'], image: imgProjectExpo, pdf: samplePdf, icon: <FaLightbulb /> },
+      { id: '2', eventId: 'web-design', title: 'Web Design', description: 'Design and build creative websites in a time-bound challenge.', tags: ['Individual', 'UI/UX'], image: imgWebDesign, pdf: samplePdf, icon: <FaPalette /> },
+      { id: '3', eventId: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon.', tags: ['Team', 'Coding'], image: imgHackathon, pdf: samplePdf, icon: <FaLaptopCode /> },
+      { id: '4', eventId: 'nextcode', title: 'NextCode', description: 'Compete in advanced coding rounds to prove your programming skills.', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
     ],
     nontechnical: [
-      { id: 'rube-cube', title: 'Rube a Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Solo', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },
-      { id: 'poster-design', title: 'Poster Design', description: 'Show your creativity by designing eye-catching posters.', tags: ['Team', 'Design'], image: imgPosterDesign, pdf: samplePdf, icon: <FaPalette /> },
-      { id: 'cook-without-food', title: 'Cook Without Food', description: 'A unique event to test your creativity in the kitchen—without food!', tags: ['Team', 'Creativity'], image: imgCookWithoutFood, pdf: samplePdf, icon: <FaUtensils /> },
+      { id: '5', eventId: 'rube-cube', title: 'Rube a Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },
+      { id: '6', eventId: 'poster-design', title: 'Poster Design', description: 'Show your creativity by designing eye-catching posters.', tags: ['Team', 'Design'], image: imgPosterDesign, pdf: samplePdf, icon: <FaPalette /> },
+      { id: '7', eventId: 'cook-without-food', title: 'Cook Without Food', description: 'A unique event to test your creativity in the kitchen—without food!', tags: ['Team', 'Creativity'], image: imgCookWithoutFood, pdf: samplePdf, icon: <FaUtensils /> },
     ],
     robotics: [
-      { id: 'robo-race', title: 'Robo Race', description: 'Build and race your robots on challenging tracks.', tags: ['Team', 'Race'], image: imgRoboRace, pdf: samplePdf, icon: <FaCar /> },
-      { id: 'over-drive', title: 'Over Drive', description: 'Push your robots to the limit in this high-speed event.', tags: ['Team', 'Speed'], image: imgOverDrive, pdf: samplePdf, icon: <FaRocket /> },
+      { id: '8', eventId: 'robo-race', title: 'Robo Race', description: 'Build and race your robots on challenging tracks.', tags: ['Team', 'Race'], image: imgRoboRace, pdf: samplePdf, icon: <FaCar /> },
+      { id: '9', eventId: 'over-drive', title: 'Over Drive', description: 'Push your robots to the limit in this high-speed event.', tags: ['Team', 'Speed'], image: imgOverDrive, pdf: samplePdf, icon: <FaRocket /> },
     ],
     workshops: [
-      { id: 'full-stack', title: 'Full Stack', description: 'Hands-on workshop on full stack web development.', tags: ['Workshop', 'Web'], image: imgFullStack, pdf: samplePdf, icon: <FaReact /> },
-      { id: 'gen-ai', title: 'Gen AI', description: 'Explore the latest in Generative AI with practical sessions.', tags: ['Workshop', 'AI'], image: imgGenAI, pdf: samplePdf, icon: <FaBrain /> },
+      { id: '10', eventId: 'full-stack', title: 'Full Stack', description: 'Hands-on workshop on full stack web development.', tags: ['Workshop', 'Web'], image: imgFullStack, pdf: samplePdf, icon: <FaReact /> },
+      { id: '11', eventId: 'gen-ai', title: 'Gen AI', description: 'Explore the latest in Generative AI with practical sessions.', tags: ['Workshop', 'AI'], image: imgGenAI, pdf: samplePdf, icon: <FaBrain /> },
     ],
     guest: [
-      { id: 'gitt-github', title: 'Gitt & Github', description: 'Learn version control and collaboration with Git & GitHub.', tags: ['Guest', 'Git'], image: imgGittGithub, pdf: samplePdf, icon: <FaGithub /> },
-      { id: 'iot', title: 'IOT', description: 'Discover the world of Internet of Things from industry experts.', tags: ['Guest', 'IoT'], image: imgIOT, pdf: samplePdf, icon: <FaNetworkWired /> },
+      { id: '12', eventId: 'gitt-github', title: 'Gitt & Github', description: 'Learn version control and collaboration with Git & GitHub.', tags: ['Guest', 'Git'], image: imgGittGithub, pdf: samplePdf, icon: <FaGithub /> },
+      { id: '13', eventId: 'iot', title: 'IOT', description: 'Discover the world of Internet of Things from industry experts.', tags: ['Guest', 'IoT'], image: imgIOT, pdf: samplePdf, icon: <FaNetworkWired /> },
     ],
   };
   return allEvents[category] || [];

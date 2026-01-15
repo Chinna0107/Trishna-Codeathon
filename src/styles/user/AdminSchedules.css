@@ -1,0 +1,44 @@
+.admin-schedules-container {
+  padding: 2rem;
+}
+
+.admin-schedules-container h2 {
+  color: #00eaff;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 2rem;
+}
+
+.schedules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.schedule-card {
+  background: rgba(0, 234, 255, 0.1);
+  border: 1px solid #00eaff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.schedule-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 234, 255, 0.3);
+}
+
+.schedule-card h3 {
+  color: #00eaff;
+  margin-bottom: 1rem;
+}
+
+.schedule-info p {
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+.loading {
+  text-align: center;
+  color: #00eaff;
+  padding: 2rem;
+}

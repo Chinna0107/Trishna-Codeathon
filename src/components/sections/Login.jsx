@@ -1,34 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import config from '../../config';
 
 const LoginPage = () => {
-  const [view, setView] = useState('selection'); // 'selection', 'participantLogin', 'adminLogin'
   const navigate = useNavigate();
+  const [emailOrMobile, setEmailOrMobile] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // States for participant login form
-  const [participantEmail, setParticipantEmail] = useState('');
-  const [participantPassword, setParticipantPassword] = useState('');
-  const [rememberParticipant, setRememberParticipant] = useState(false);
+  const apiUrl = config.LOCAL_BASE_URL;
 
-  // States for admin login form
-  const [adminId, setAdminId] = useState('');
-  const [adminPassword, setAdminPassword] = useState('');
-  const [rememberAdmin, setRememberAdmin] = useState(false);
+  // Check if user is already logged in
+  useEffect(() => {
+    const adminToken = localStorage.getItem('admintoken');
+    const token = localStorage.getItem('token');
+    
+    if (adminToken) {
+      navigate('/admin/dashboard');
+    } else if (token) {
+      navigate('/home');
+    }
+  }, [navigate]);
 
-  const handleParticipantLoginSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // TODO: Implement actual participant login logic
-    console.log('Participant Login Attempt:', { participantEmail, participantPassword, rememberParticipant });
-    // alert('Participant login submitted (placeholder). Check console.');
-    navigate('/user/dashboard'); // Navigate to participant dashboard
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${apiUrl}/api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailOrMobile, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: data.message || 'Welcome back!',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        if (data.is_admin) {
+          if (data.token) localStorage.setItem('admintoken', data.token);
+          if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/admin/dashboard');
+          window.location.reload();
+        } else {
+          if (data.token) localStorage.setItem('token', data.token);
+          if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/home');
+          window.location.reload();
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: data.error || 'Something went wrong. Please try again.'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Something went wrong. Please try again.'
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAdminLoginSubmit = (e) => {
-    e.preventDefault();
-    // TODO: Implement actual admin login logic
-    console.log('Admin Login Attempt:', { adminId, adminPassword, rememberAdmin });
-    // alert('Admin login submitted (placeholder). Check console.');
-    navigate('/admin/dashboard'); // Navigate to admin dashboard
+  const handleForgotPassword = () => {
+    // TODO: Implement forgot password logic
+    alert('Forgot password functionality will be implemented soon.');
   };
 
   // Sci-fi styled input and button classes
@@ -38,23 +86,18 @@ const LoginPage = () => {
   const sciFiCheckboxLabelClass = "ml-2 text-sm text-cyan-300/80 font-sci-fi tracking-wide";
   const sciFiCheckboxClass = "form-checkbox h-4 w-4 text-cyan-500 bg-transparent border-cyan-400/50 rounded focus:ring-cyan-400 focus:ring-offset-0 focus:ring-offset-gray-900";
 
-  // Sci-fi card container style
-  const sciFiCardContainer = (
+  return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 font-sci-fi">
-      {/* Outer frame with corner details - conceptual, adjust with actual SVG/CSS for precise corners */}
       <div className="relative bg-black/70 backdrop-blur-md p-1 rounded-lg shadow-2xl border-2 border-cyan-500/70 w-full max-w-md" 
            style={{boxShadow: '0 0 25px rgba(0, 220, 255, 0.3), 0 0 10px rgba(0,220,255,0.2) inset'}}>
-        {/* Top-left corner graphic (example) */}
+        {/* Corner graphics */}
         <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-cyan-400 rounded-tl-md"></div>
-        {/* Top-right corner graphic (example) */}
         <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-cyan-400 rounded-tr-md"></div>
-        {/* Bottom-left corner graphic (example) */}
         <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-cyan-400 rounded-bl-md"></div>
-        {/* Bottom-right corner graphic (example) */}
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-cyan-400 rounded-br-md"></div>
         
         <div className="p-8">
-          {/* Close button - styled to fit sci-fi theme */}
+          {/* Close button */}
           <button 
             onClick={() => navigate('/')} 
             className="absolute top-3 right-3 text-cyan-300 hover:text-white text-3xl z-10 font-mono"
@@ -63,138 +106,54 @@ const LoginPage = () => {
             &times;
           </button>
 
-          {view === 'selection' && (
-            <>
-              <h1 className="text-4xl font-bold mb-10 text-center text-cyan-300 uppercase tracking-widest font-sci-fi">LOGIN AS</h1>
-              <div className="space-y-5">
-                <button
-                  onClick={() => setView('participantLogin')}
-                  className={`${sciFiButtonClass} bg-sky-500 hover:bg-sky-400`}
-                >
-                  Participant
-                </button>
-                <button
-                  onClick={() => setView('adminLogin')}
-                  className={`${sciFiButtonClass} bg-pink-500 hover:bg-pink-400`}
-                >
-                  Admin
-                </button>
-              </div>
-            </>
-          )}
-
-          {view === 'participantLogin' && (
-            <>
-              <button onClick={() => setView('selection')} className="absolute top-5 left-5 text-cyan-400 hover:text-cyan-200 mb-4 text-sm font-sci-fi tracking-wider">
-                &larr; BACK
+          <h2 className="text-3xl font-bold mb-8 text-center text-cyan-300 uppercase tracking-widest pt-2 font-sci-fi">Sign In</h2>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label htmlFor="emailOrMobile" className={sciFiLabelClass}>Email or Mobile Number</label>
+              <input
+                type="text"
+                id="emailOrMobile"
+                value={emailOrMobile}
+                onChange={(e) => setEmailOrMobile(e.target.value)}
+                required
+                className={sciFiInputClass}
+                placeholder="EMAIL OR MOBILE"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className={sciFiLabelClass}>Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={sciFiInputClass}
+                placeholder="************"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => alert('Forgot password functionality will be implemented soon.')}
+                className="text-sm text-cyan-400 hover:text-cyan-200 font-sci-fi tracking-wide"
+              >
+                Forgot Password?
               </button>
-              <h2 className="text-3xl font-bold mb-8 text-center text-cyan-300 uppercase tracking-widest pt-8 font-sci-fi">Participant Sign In</h2>
-              <form onSubmit={handleParticipantLoginSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="participantEmail" className={sciFiLabelClass}>Email Address</label>
-                  <input
-                    type="email"
-                    id="participantEmail"
-                    value={participantEmail}
-                    onChange={(e) => setParticipantEmail(e.target.value)}
-                    required
-                    className={sciFiInputClass}
-                    placeholder="USER@DOMAIN.COM"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="participantPassword" className={sciFiLabelClass}>Password</label>
-                  <input
-                    type="password"
-                    id="participantPassword"
-                    value={participantPassword}
-                    onChange={(e) => setParticipantPassword(e.target.value)}
-                    required
-                    className={sciFiInputClass}
-                    placeholder="************"
-                  />
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="rememberParticipant"
-                    checked={rememberParticipant}
-                    onChange={(e) => setRememberParticipant(e.target.checked)}
-                    className={sciFiCheckboxClass}
-                  />
-                  <label htmlFor="rememberParticipant" className={sciFiCheckboxLabelClass}>Remember me</label>
-                </div>
-                <button
-                  type="submit"
-                  className={sciFiButtonClass}
-                >
-                  Sign In
-                </button>
-              </form>
-            </>
-          )}
-
-          {view === 'adminLogin' && (
-            <>
-              <button onClick={() => setView('selection')} className="absolute top-5 left-5 text-pink-400 hover:text-pink-200 mb-4 text-sm font-sci-fi tracking-wider">
-                &larr; BACK
-              </button>
-              <h2 className="text-3xl font-bold mb-8 text-center text-pink-300 uppercase tracking-widest pt-8 font-sci-fi">Admin Sign In</h2>
-              <form onSubmit={handleAdminLoginSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="adminId" className={sciFiLabelClass}>Admin ID</label>
-                  <input
-                    type="text"
-                    id="adminId"
-                    value={adminId}
-                    onChange={(e) => setAdminId(e.target.value)}
-                    required
-                    className={`${sciFiInputClass} focus:ring-pink-300 focus:border-pink-300 border-pink-400/50 placeholder-pink-300/70 text-pink-200`}
-                    placeholder="ADMIN_ID_007"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="adminPassword" className={sciFiLabelClass}>Password</label>
-                  <input
-                    type="password"
-                    id="adminPassword"
-                    value={adminPassword}
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    required
-                    className={`${sciFiInputClass} focus:ring-pink-300 focus:border-pink-300 border-pink-400/50 placeholder-pink-300/70 text-pink-200`}
-                    placeholder="************"
-                  />
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="rememberAdmin"
-                    checked={rememberAdmin}
-                    onChange={(e) => setRememberAdmin(e.target.checked)}
-                    className={`${sciFiCheckboxClass} text-pink-500 focus:ring-pink-400 border-pink-400/50`}
-                  />
-                  <label htmlFor="rememberAdmin" className={`${sciFiCheckboxLabelClass} text-pink-300/80`}>Remember me</label>
-                </div>
-                <button
-                  type="submit"
-                  className={`${sciFiButtonClass} bg-pink-500 hover:bg-pink-400 shadow-[0_0_15px_rgba(255,0,150,0.5)] hover:shadow-[0_0_25px_rgba(255,0,150,0.8)]`}
-                >
-                  Sign In
-                </button>
-              </form>
-            </>
-          )}
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className={sciFiButtonClass}
+              style={{ opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
+            >
+              {loading ? 'Signing In...' : 'Sign In'}
+            </button>
+          </form>
         </div>
       </div>
     </div>
   );
-
-  // This part will now be wrapped by sciFiCardContainer logic if a view is active
-  if (view === 'selection' || view === 'participantLogin' || view === 'adminLogin') {
-    return sciFiCardContainer;
-  }
-
-  return null; // Should ideally not be reached
 };
 
 export default LoginPage;

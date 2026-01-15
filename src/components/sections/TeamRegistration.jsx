@@ -3,22 +3,31 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import tkLogo from '../../assets/images/tk logo.png';
 import BottomNavBar from './BottomNavBar';
+import config from '../../config';
+
+const BASE_URL = config.API_BASE_URL.replace('/api', '') + '/api/users';
 
 const TeamRegistration = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get('event');
+  const eventNameFromUrl = searchParams.get('name');
   
   const [step, setStep] = useState(1);
   const [teamName, setTeamName] = useState('');
   const [eventName, setEventName] = useState('');
   const [teamLeader, setTeamLeader] = useState({
-    name: '', rollNo: '', mobile: '', year: '', branch: '', email: '', college: ''
+    name: '', rollNo: '', mobile: '', year: '', branch: '', email: '', college: '', password: '', confirmPassword: ''
   });
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [members, setMembers] = useState([]);
   const [currentMember, setCurrentMember] = useState({
     name: '', rollNo: '', mobile: '', year: '', branch: '', email: '', college: ''
   });
+  const [screenshotLink, setScreenshotLink] = useState('');
 
   const eventsList = [
     { id: 'project-expo', name: 'Project Expo' },
@@ -37,11 +46,13 @@ const TeamRegistration = () => {
   ];
 
   useEffect(() => {
-    if (eventId) {
+    if (eventNameFromUrl) {
+      setEventName(eventNameFromUrl);
+    } else if (eventId) {
       const selectedEvent = eventsList.find(e => e.id === eventId);
       setEventName(selectedEvent?.name || '');
     }
-  }, [eventId]);
+  }, [eventId, eventNameFromUrl]);
 
   const handleLeaderChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +66,110 @@ const TeamRegistration = () => {
 
   const handleLeaderSubmit = (e) => {
     e.preventDefault();
+    if (!emailVerified) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Email Not Verified',
+        text: 'Please verify team leader email before continuing.',
+        confirmButtonColor: '#667eea'
+      });
+      return;
+    }
+    if (teamLeader.password !== teamLeader.confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Password Mismatch',
+        text: 'Passwords do not match!',
+        confirmButtonColor: '#667eea'
+      });
+      return;
+    }
     setStep(2);
+  };
+
+  const sendOtp = async () => {
+    if (!teamLeader.email) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Email Required',
+        text: 'Please enter team leader email first.',
+        confirmButtonColor: '#667eea'
+      });
+      return;
+    }
+    setSendingOtp(true);
+    try {
+      const response = await fetch(`${BASE_URL}/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: teamLeader.email })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'OTP Sent!',
+          text: `Verification code sent to ${teamLeader.email}`,
+          confirmButtonColor: '#667eea'
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to Send OTP',
+          text: data.message || 'Please try again.',
+          confirmButtonColor: '#667eea'
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Connection Error',
+        text: 'Failed to connect to server.',
+        confirmButtonColor: '#667eea'
+      });
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    setVerifyingOtp(true);
+    try {
+      const response = await fetch(`${BASE_URL}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: teamLeader.email, 
+          otp: otp 
+        })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setEmailVerified(true);
+        Swal.fire({
+          icon: 'success',
+          title: 'Email Verified!',
+          text: 'Team leader email verified successfully.',
+          confirmButtonColor: '#667eea'
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid OTP',
+          text: data.message || 'Please enter the correct verification code.',
+          confirmButtonColor: '#667eea'
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Connection Error',
+        text: 'Failed to verify OTP.',
+        confirmButtonColor: '#667eea'
+      });
+    } finally {
+      setVerifyingOtp(false);
+    }
   };
 
   const addMember = (e) => {
@@ -68,16 +182,62 @@ const TeamRegistration = () => {
     setMembers(members.filter((_, i) => i !== index));
   };
 
-  const handlePayment = (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
-    Swal.fire({
-      icon: 'success',
-      title: 'Registration Complete!',
-      html: `<strong>Team:</strong> ${teamName}<br><strong>Leader:</strong> ${teamLeader.name}<br><strong>Members:</strong> ${members.length}`,
-      confirmButtonColor: '#4CAF50'
-    }).then(() => {
-      navigate('/');
-    });
+    const transactionId = e.target[0].value;
+    
+    if (!screenshotLink) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Screenshot Link Required',
+        text: 'Please provide Google Drive link for payment screenshot.',
+        confirmButtonColor: '#667eea'
+      });
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${BASE_URL}/register-team`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teamName,
+          teamLeader,
+          members,
+          eventId: eventId || '',
+          eventName: eventName || '',
+          transactionId,
+          screenshotUrl: screenshotLink
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Complete!',
+          html: `<strong>Team:</strong> ${teamName}<br><strong>Leader:</strong> ${teamLeader.name}<br><strong>Members:</strong> ${members.length}`,
+          confirmButtonColor: '#4CAF50'
+        }).then(() => {
+          navigate('/');
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: data.error || 'Something went wrong!',
+          confirmButtonColor: '#667eea'
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Connection Error',
+        text: 'Failed to connect to server. Please try again.',
+        confirmButtonColor: '#667eea'
+      });
+    }
   };
 
   const inputStyle = {
@@ -130,11 +290,99 @@ const TeamRegistration = () => {
           border: '1px solid rgba(255,255,255,0.2)'
         }} onSubmit={handleLeaderSubmit}>
           <input placeholder="Team name" value={teamName} onChange={(e) => setTeamName(e.target.value)} required style={inputStyle} />
-          {['name', 'rollNo', 'mobile', 'year', 'branch', 'email', 'college'].map((field) => (
+          {['name', 'rollNo', 'mobile', 'year', 'branch', 'college'].map((field) => (
             <input key={field} placeholder={field === 'name' ? 'Leader name' : field === 'rollNo' ? 'Roll number' : field === 'mobile' ? 'Mobile number' : field.charAt(0).toUpperCase() + field.slice(1)}
-              name={field} type={field === 'email' ? 'email' : field === 'mobile' ? 'tel' : 'text'}
+              name={field} type={field === 'mobile' ? 'tel' : 'text'}
               value={teamLeader[field]} onChange={handleLeaderChange} required style={inputStyle} />
           ))}
+          
+          {/* Email with verification */}
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <input
+              placeholder="Leader Email"
+              name="email"
+              type="email"
+              value={teamLeader.email}
+              onChange={handleLeaderChange}
+              required
+              disabled={emailVerified}
+              style={{
+                ...inputStyle,
+                flex: 1,
+                border: emailVerified ? '2px solid #4CAF50' : '2px solid transparent',
+                background: emailVerified ? 'rgba(76, 175, 80, 0.2)' : 'rgba(255,255,255,0.95)'
+              }}
+            />
+            {!emailVerified && (
+              <button
+                type="button"
+                onClick={sendOtp}
+                disabled={sendingOtp}
+                style={{
+                  padding: '12px 20px',
+                  borderRadius: '12px',
+                  background: sendingOtp ? '#999' : '#667eea',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  border: 'none',
+                  cursor: sendingOtp ? 'not-allowed' : 'pointer',
+                  fontSize: '0.9rem'
+                }}
+              >
+                {sendingOtp ? 'Sending...' : 'Send OTP'}
+              </button>
+            )}
+            {emailVerified && <span style={{ color: '#4CAF50', fontSize: '1.5rem' }}>✓</span>}
+          </div>
+
+          {/* OTP verification */}
+          {!emailVerified && teamLeader.email && (
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                style={{ ...inputStyle, flex: 1 }}
+              />
+              <button
+                type="button"
+                onClick={verifyOtp}
+                disabled={verifyingOtp}
+                style={{
+                  padding: '12px 20px',
+                  borderRadius: '12px',
+                  background: verifyingOtp ? '#999' : '#4CAF50',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  border: 'none',
+                  cursor: verifyingOtp ? 'not-allowed' : 'pointer',
+                  fontSize: '0.9rem'
+                }}
+              >
+                {verifyingOtp ? 'Verifying...' : 'Verify'}
+              </button>
+            </div>
+          )}
+
+          {/* Password fields */}
+          <input
+            placeholder="Password"
+            name="password"
+            type="password"
+            value={teamLeader.password}
+            onChange={handleLeaderChange}
+            required
+            style={inputStyle}
+          />
+          <input
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            value={teamLeader.confirmPassword}
+            onChange={handleLeaderChange}
+            required
+            style={inputStyle}
+          />
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
             <button type="submit" style={{
               padding: '14px 32px', borderRadius: '14px', background: '#fff', color: '#667eea',
@@ -257,8 +505,34 @@ const TeamRegistration = () => {
         </div>
         <form onSubmit={handlePayment}>
           <input placeholder="Enter Transaction ID / UPI Reference" required style={{
-            ...inputStyle, marginBottom: '20px'
+            ...inputStyle, marginBottom: '15px'
           }} />
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '10px',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              textAlign: 'left',
+              color: '#fff'
+            }}>
+              🔗 Google Drive Link for Payment Screenshot *
+            </label>
+            <input
+              type="url"
+              placeholder="https://drive.google.com/..."
+              value={screenshotLink}
+              onChange={(e) => setScreenshotLink(e.target.value)}
+              required
+              style={{
+                ...inputStyle,
+                marginBottom: '5px'
+              }}
+            />
+            <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
+              Please ensure the link has view access enabled
+            </p>
+          </div>
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button type="submit" style={{
               padding: '14px 32px', borderRadius: '14px', background: '#4CAF50', color: '#fff',

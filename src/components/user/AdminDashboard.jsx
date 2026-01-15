@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../../styles/user/AdminDashboard.css';
 import AdminEvents from './AdminEvents';
+import AdminUsers from './AdminUsers';
+import AdminSchedules from './AdminSchedules';
+import AdminNotifications from './AdminNotifications';
+import AdminProfile from './AdminProfile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faTachometerAlt, faCalendarAlt, faUsers, faCog, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes // Added faBars and faTimes
+  faTachometerAlt, faCalendarAlt, faUsers, faCog, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TrishnaLogo from '../../assets/images/trishna.png'; // Import the logo
@@ -75,8 +79,9 @@ const AdminDashboard = () => {
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
-    // Perform any actual logout logic here (e.g., clearing tokens, API calls)
-    navigate('/'); // Redirect to home page (Hero.jsx)
+    localStorage.removeItem('admintoken');
+    localStorage.removeItem('user');
+    navigate('/');
   };
 
   const handleCloseModal = () => {
@@ -99,6 +104,14 @@ const AdminDashboard = () => {
     switch (activePage) {
       case 'events':
         return <AdminEvents />;
+      case 'users':
+        return <AdminUsers />;
+      case 'schedules':
+        return <AdminSchedules />;
+      case 'notifications':
+        return <AdminNotifications />;
+      case 'profile':
+        return <AdminProfile />;
       case 'dashboard':
       default:
         return (
@@ -137,6 +150,16 @@ const AdminDashboard = () => {
             <li>
               <a href="#" onClick={(e) => handleNavClick('users', e)} className={activePage === 'users' ? 'active' : ''}>
                 <FontAwesomeIcon icon={faUsers} className="nav-icon" /> <span className="nav-text">Users</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" onClick={(e) => handleNavClick('schedules', e)} className={activePage === 'schedules' ? 'active' : ''}>
+                <FontAwesomeIcon icon={faClock} className="nav-icon" /> <span className="nav-text">Schedules</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" onClick={(e) => handleNavClick('notifications', e)} className={activePage === 'notifications' ? 'active' : ''}>
+                <FontAwesomeIcon icon={faBell} className="nav-icon" /> <span className="nav-text">Notifications</span>
               </a>
             </li>
             <li>
@@ -179,7 +202,7 @@ const AdminDashboard = () => {
             <button className="icon-button" aria-label="Chat">
               <FontAwesomeIcon icon={faCommentDots} />
             </button>
-            <button className="icon-button" aria-label="Admin Profile">
+            <button className="icon-button" aria-label="Admin Profile" onClick={(e) => { e.preventDefault(); setActivePage('profile'); }}>
               <FontAwesomeIcon icon={faUserCircle} />
             </button>
             
