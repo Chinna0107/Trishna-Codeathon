@@ -5,9 +5,9 @@ import '../../styles/Countdown.css';
 import confetti from 'canvas-confetti';
 
 const Countdown = () => {
-  // Event dates (October 18-19, 2025)
-  const EVENT_START = '2025-10-18T00:00:00';
-  const EVENT_END = '2025-10-19T23:59:59';
+  // Event dates (February 20-21, 2026)
+  const EVENT_START = '2026-02-20T00:00:00';
+  const EVENT_END = '2026-02-25T23:59:59';
   
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -128,7 +128,7 @@ const Countdown = () => {
           <div className="live-badge pulse">LIVE NOW</div>
           <div className="celebrate-message">
             <p>TRISHNA 2K25 IS LIVE</p>
-            <p className="event-date">October 18-19, 2025</p>
+            <p className="event-date"><b>Feb 20 - 25</b></p>
             Join the Event! <span className="emoji">🎉</span>
           </div>
           <button className="join-button" onClick={handleLiveUpdatesClick}>

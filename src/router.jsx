@@ -1,6 +1,6 @@
 // router.jsx
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Hero from './components/sections/Hero';
 import AboutPage from './components/sections/AboutPage';
 import Events from './components/sections/Events';
@@ -21,7 +21,7 @@ import Location from './components/sections/Location';
 import Contact from './components/sections/Contact';
 
 const Router = () => (
-  <HashRouter>
+  <BrowserRouter>
     <Routes>
       <Route path="/" element={<Hero />} />
       <Route path="/about" element={<AboutPage />} />
@@ -39,12 +39,12 @@ const Router = () => (
       <Route path="/individual-registration" element={<IndividualRegistration />} />
       <Route path="/team-registration" element={<TeamRegistration />} />
       <Route path="/schedule" element={<Schedule />} />
-      <Route path='/coordinators' element={<Coordinators />} />
+      <Route path='/teams' element={<Coordinators />} />
       <Route path="/location" element={<Location />} />
       <Route path="/contact" element={<Contact />} />
       <Route path='*' element={<Hero />} />
     </Routes>
-  </HashRouter>
+  </BrowserRouter>
 );
 
 // Wrapper to pass state from navigation to AdminDashboard

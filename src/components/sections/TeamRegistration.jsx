@@ -196,22 +196,39 @@ const TeamRegistration = () => {
       return;
     }
     
+    const payload = {
+      teamName,
+      teamLeader: {
+        name: teamLeader.name,
+        rollNo: teamLeader.rollNo,
+        mobile: teamLeader.mobile,
+        year: teamLeader.year,
+        branch: teamLeader.branch,
+        email: teamLeader.email,
+        college: teamLeader.college,
+        password: teamLeader.password
+      },
+      members,
+      eventId: eventId || '',
+      eventName: eventName || '',
+      transactionId,
+      screenshotUrl: screenshotLink
+    };
+    
+    console.log('Payload being sent:', payload);
+    console.log('Members array:', members);
+    
     try {
       const response = await fetch(`${BASE_URL}/register-team`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          teamName,
-          teamLeader,
-          members,
-          eventId: eventId || '',
-          eventName: eventName || '',
-          transactionId,
-          screenshotUrl: screenshotLink
-        })
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
+      
+      console.log('Response status:', response.status);
+      console.log('Response data:', data);
 
       if (response.ok) {
         Swal.fire({
