@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import CoordinatorMenu from './CoordinatorMenu';
+import config from '../../config';
 
 const CoordinatorDashboard = () => {
   const [coordinator, setCoordinator] = useState(null);
@@ -25,7 +26,7 @@ const CoordinatorDashboard = () => {
 
   const fetchAssignedEvents = async (token) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/coordinators/my-event`, {
+      const res = await fetch(`${config.BASE_URL}/api/coordinators/my-event`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
