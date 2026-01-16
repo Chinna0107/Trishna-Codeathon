@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
+import CoordinatorMenu from './CoordinatorMenu';
 
 const CoordinatorProfile = () => {
   const [coordinator, setCoordinator] = useState(null);
@@ -38,6 +39,16 @@ const CoordinatorProfile = () => {
   });
 
   return (
+    <div style={{ display: 'flex', minHeight: '100vh' }}>
+      <CoordinatorMenu />
+      <div style={{ marginLeft: '280px', flex: 1 }} className="profile-content">
+        <style>
+          {`
+            @media (max-width: 768px) {
+              .profile-content { margin-left: 0 !important; padding-top: 80px !important; }
+            }
+          `}
+        </style>
     <>
       <style>
         {`
@@ -69,7 +80,7 @@ const CoordinatorProfile = () => {
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ maxWidth: '600px', width: '100%' }}>
         {/* Back Button */}
-        <button
+        {/* <button
           onClick={() => navigate('/coordinator/dashboard')}
           className="no-print"
           style={{
@@ -85,7 +96,7 @@ const CoordinatorProfile = () => {
           }}
         >
           ← Back to Dashboard
-        </button>
+        </button> */}
 
         {/* ID Card */}
         <div id="id-card-print" style={{
@@ -206,6 +217,8 @@ const CoordinatorProfile = () => {
       </div>
     </div>
     </>
+      </div>
+    </div>
   );
 };
 

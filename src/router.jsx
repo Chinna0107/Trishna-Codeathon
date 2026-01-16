@@ -21,8 +21,10 @@ import Location from './components/sections/Location';
 import Contact from './components/sections/Contact';
 import CoordinatorsLogin from './components/sections/CoordinatorLogin'; // Import coordinatorsLogin component
 import CoordinatorDashboard from './components/user/CoordinatorDashboard'; // Import CoordinatorDashboard
+import CoordinatorMenu from './components/user/CoordinatorMenu'; // Import CoordinatorMenu
 import CoordinatorProfile from './components/user/CoordinatorProfile'; // Import CoordinatorProfile
 import CoordinatorEvents from './components/user/CoordinatorEvents'; // Import CoordinatorEvents
+import EventDetails from './components/user/EventDetails'; // Import EventDetails
 import TakeAttendance from './components/user/TakeAttendance';
 import ViewAttendance from './components/user/ViewAttendance';
 import CoordinatorSchedule from './components/user/CoordinatorSchedule';
@@ -51,9 +53,11 @@ const Router = () => (
       <Route path="/location" element={<Location />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/coordinator-login" element={<CoordinatorsLogin />} />
+      <Route path="/coordinator/menu" element={<CoordinatorMenu />} />
       <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
       <Route path="/coordinator/profile" element={<CoordinatorProfile />} />
       <Route path="/coordinator/events" element={<CoordinatorEvents />} />
+      <Route path="/coordinator/event-details/:eventName" element={<EventDetails />} />
       <Route path="/coordinator/schedules" element={<CoordinatorSchedule />} />
       <Route path="/coordinator/certifications" element={<CoordinatorCertifications />} />
       <Route path="/coordinator/take-attendance/:eventName" element={<TakeAttendance />} />

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Removed useNavigate as it's unused
 import { FaCode, FaGamepad, FaRobot, FaChalkboardTeacher, FaMicrophone, FaLaptopCode, FaPalette, FaLightbulb, FaCube, FaUtensils, FaCar, FaRocket, FaReact, FaBrain, FaGithub, FaNetworkWired } from 'react-icons/fa';
 import tkLogo from '../../assets/images/tk logo.png';
-import eventpic from '../../assets/images/event tk.png';
+import eventpic from '../../assets/images/elephant-removebg-preview (1).png';
 import samplePdf from '../../assets/images/21AK1A0427 APSCHE.pdf';
 import imgProjectExpo from '../../assets/images/12979916_5079835.jpg';
 import imgWebDesign from '../../assets/images/7a43990d-d691-4aa5-a7d6-5f9c9c5d530f.jpg';
