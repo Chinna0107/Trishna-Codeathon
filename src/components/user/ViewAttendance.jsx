@@ -23,18 +23,45 @@ const ViewAttendance = () => {
       if (res.ok) {
         const data = await res.json();
         setAttendance(data.attendance || []);
+      } else if (res.status === 404) {
+        console.log('Attendance endpoint not found, using empty data');
+        setAttendance([]);
       } else {
         throw new Error('Failed to fetch attendance');
       }
     } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Failed to load attendance data'
-      });
+      console.error('Error fetching attendance:', err);
+      setAttendance([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePrintPDF = () => {
+    window.print();
+  };
+
+  const handleExportExcel = () => {
+    const headers = ['S.No', 'Participant Name', 'Participant ID', 'Time'];
+    const rows = attendance.map((record, idx) => [
+      idx + 1,
+      record.participantName,
+      record.participantId,
+      new Date(record.timestamp).toLocaleString()
+    ]);
+    
+    let csv = headers.join(',') + '\n';
+    rows.forEach(row => {
+      csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+    });
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${eventName}_attendance.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   if (loading) {
@@ -65,9 +92,17 @@ const ViewAttendance = () => {
             <h1 style={{ color: '#37474f', fontSize: 'clamp(1.2rem, 4vw, 2rem)', fontWeight: 'bold', marginBottom: '5px' }}>Attendance - {eventName}</h1>
             <p style={{ color: '#546e7a', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Total Present: {attendance.length}</p>
           </div>
-          <button onClick={() => navigate('/coordinator/events')} style={{ padding: 'clamp(8px 16px, 2vw, 12px 24px)', background: 'rgba(255,255,255,0.6)', border: '2px solid rgba(255,255,255,0.8)', borderRadius: '10px', color: '#37474f', fontWeight: 'bold', cursor: 'pointer', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
-            ← Back
-          </button>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <button onClick={handlePrintPDF} style={{ padding: 'clamp(8px 16px, 2vw, 12px 24px)', background: '#4CAF50', border: 'none', borderRadius: '10px', color: '#fff', fontWeight: 'bold', cursor: 'pointer', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
+              📄 Print PDF
+            </button>
+            <button onClick={handleExportExcel} style={{ padding: 'clamp(8px 16px, 2vw, 12px 24px)', background: '#2196F3', border: 'none', borderRadius: '10px', color: '#fff', fontWeight: 'bold', cursor: 'pointer', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
+              📊 Export Excel
+            </button>
+            <button onClick={() => navigate('/coordinator/events')} style={{ padding: 'clamp(8px 16px, 2vw, 12px 24px)', background: 'rgba(255,255,255,0.6)', border: '2px solid rgba(255,255,255,0.8)', borderRadius: '10px', color: '#37474f', fontWeight: 'bold', cursor: 'pointer', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>
+              ← Back
+            </button>
+          </div>
         </div>
 
         <div style={{ background: '#fff', padding: 'clamp(15px, 4vw, 30px)', borderRadius: '15px', boxShadow: '0 8px 30px rgba(0,0,0,0.1)', overflowX: 'auto' }}>

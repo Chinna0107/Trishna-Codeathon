@@ -36,11 +36,12 @@ const TakeAttendance = () => {
 
   const handleScan = async (decodedText) => {
     try {
-      // Parse the QR code data
       const qrData = JSON.parse(decodedText);
       const participantEmail = qrData.email;
       const participantName = qrData.name;
       const token = localStorage.getItem('coordinatortoken');
+      
+      console.log('Sending attendance:', { email: participantEmail, eventName, present: true });
       
       const res = await fetch(`${config.BASE_URL}/api/coordinators/mark-attendance`, {
         method: 'POST',
@@ -57,6 +58,9 @@ const TakeAttendance = () => {
       });
 
       const data = await res.json();
+      
+      console.log('Response status:', res.status);
+      console.log('Response data:', data);
       
       if (res.ok) {
         Swal.fire({
@@ -79,6 +83,7 @@ const TakeAttendance = () => {
         });
       }
     } catch (err) {
+      console.error('Scan error:', err);
       Swal.fire({
         icon: 'error',
         title: 'Error',
