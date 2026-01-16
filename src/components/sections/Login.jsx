@@ -141,6 +141,15 @@ const LoginPage = () => {
                 Forgot Password?
               </button>
             </div>
+            <div className="flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => navigate('/coordinator-login')}
+                className="text-sm text-cyan-400 hover:text-cyan-200 font-sci-fi tracking-wide underline"
+              >
+                Coordinator Login
+              </button>
+            </div>
             <button
               type="submit"
               disabled={loading}

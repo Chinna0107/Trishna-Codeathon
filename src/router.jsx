@@ -19,6 +19,14 @@ import Schedule from './components/sections/Schedules'; // Import Schedule compo
 import Coordinators from './components/sections/Coordinators'; // Import Coordinators 
 import Location from './components/sections/Location';
 import Contact from './components/sections/Contact';
+import CoordinatorsLogin from './components/sections/CoordinatorLogin'; // Import coordinatorsLogin component
+import CoordinatorDashboard from './components/user/CoordinatorDashboard'; // Import CoordinatorDashboard
+import CoordinatorProfile from './components/user/CoordinatorProfile'; // Import CoordinatorProfile
+import CoordinatorEvents from './components/user/CoordinatorEvents'; // Import CoordinatorEvents
+import TakeAttendance from './components/user/TakeAttendance';
+import ViewAttendance from './components/user/ViewAttendance';
+import CoordinatorSchedule from './components/user/CoordinatorSchedule';
+import CoordinatorCertifications from './components/user/CoordinatorCertifications';
 
 const Router = () => (
   <BrowserRouter>
@@ -42,6 +50,14 @@ const Router = () => (
       <Route path='/team' element={<Coordinators />} />
       <Route path="/location" element={<Location />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/coordinator-login" element={<CoordinatorsLogin />} />
+      <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
+      <Route path="/coordinator/profile" element={<CoordinatorProfile />} />
+      <Route path="/coordinator/events" element={<CoordinatorEvents />} />
+      <Route path="/coordinator/schedules" element={<CoordinatorSchedule />} />
+      <Route path="/coordinator/certifications" element={<CoordinatorCertifications />} />
+      <Route path="/coordinator/take-attendance/:eventName" element={<TakeAttendance />} />
+      <Route path="/coordinator/view-attendance/:eventName" element={<ViewAttendance />} />
       <Route path='*' element={<Hero />} />
     </Routes>
   </BrowserRouter>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authFetch } from '../../utils/api';
 import config from '../../config';
+import { QRCodeSVG } from 'qrcode.react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -51,6 +52,14 @@ const Home = () => {
   };
 
   if (!user) return null;
+
+  // Generate unique QR data
+  const qrData = JSON.stringify({
+    id: user.id || user._id,
+    email: user.email,
+    name: user.name,
+    timestamp: Date.now()
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
@@ -160,6 +169,24 @@ const Home = () => {
             <button className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg w-full font-semibold transition shadow-lg">
               View My Events →
             </button>
+          </div>
+
+          {/* QR Code Card */}
+          <div className="bg-gradient-to-br from-purple-500/20 to-pink-600/20 backdrop-blur-md p-6 rounded-2xl border border-purple-400/50 hover:border-purple-400 transition transform hover:scale-105 shadow-xl">
+            <div className="text-5xl mb-3">📱</div>
+            <h2 className="text-2xl font-bold text-purple-300 mb-2">Your QR Code</h2>
+            <p className="text-gray-300 mb-4">Show this for attendance</p>
+            <div className="bg-white p-4 rounded-lg mb-4 flex justify-center">
+              <QRCodeSVG 
+                value={qrData} 
+                size={150} 
+                level="H"
+                includeMargin={true}
+              />
+            </div>
+            <div className="text-sm text-gray-300 text-center">
+              ID: PART-{user.id || user._id}
+            </div>
           </div>
 
           {/* Admin Panel */}
