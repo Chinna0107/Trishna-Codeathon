@@ -10,7 +10,7 @@ import { TracingBeam } from '../TracingBeam'; // Import TracingBeam
 
 // Image imports
 
-import namepic from '../../assets/images/nametk.png';
+import namepic from '../../assets/images/tk26.png';
 
 // Mascot/Logo imports for top-right section
 import ieteMascot from '../../assets/images/ietelogo.png';
