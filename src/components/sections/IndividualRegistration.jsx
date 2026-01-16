@@ -279,15 +279,12 @@ const IndividualRegistration = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {['name', 'rollNo', 'mobile', 'year', 'branch', 'college'].map((field) => (
+          {['name', 'rollNo', 'mobile'].map((field) => (
             <motion.input
               key={field}
               placeholder={field === 'name' ? 'Full name' :
                           field === 'rollNo' ? 'Roll number' :
-                          field === 'mobile' ? 'Mobile number' :
-                          field === 'year' ? 'Year' :
-                          field === 'branch' ? 'Branch / Department' :
-                          'College name'}
+                          'Mobile number'}
               name={field}
               type={field === 'mobile' ? 'tel' : 'text'}
               value={participant[field]}
@@ -305,6 +302,96 @@ const IndividualRegistration = () => {
               }}
             />
           ))}
+
+          <motion.select
+            name="year"
+            value={participant.year}
+            onChange={handleChange}
+            required
+            whileFocus={{ scale: 1.02 }}
+            style={{
+              padding: '12px',
+              borderRadius: '12px',
+              border: '2px solid transparent',
+              outline: 'none',
+              fontSize: '1rem',
+              background: 'rgba(255,255,255,0.95)',
+              color: participant.year ? '#333' : '#999'
+            }}
+          >
+            <option value="" disabled>Select Year</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+          </motion.select>
+
+          <motion.select
+            name="branch"
+            value={participant.branch}
+            onChange={handleChange}
+            required
+            whileFocus={{ scale: 1.02 }}
+            style={{
+              padding: '12px',
+              borderRadius: '12px',
+              border: '2px solid transparent',
+              outline: 'none',
+              fontSize: '1rem',
+              background: 'rgba(255,255,255,0.95)',
+              color: participant.branch ? '#333' : '#999'
+            }}
+          >
+            <option value="" disabled>Select Branch</option>
+            <optgroup label="Computer Science">
+              <option value="CSE">CSE</option>
+              <option value="IT">IT</option>
+              <option value="AIDS">AIDS</option>
+              <option value="AI&ML">AI & ML</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Cyber Security">Cyber Security</option>
+            </optgroup>
+            <optgroup label="Electronics">
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="EIE">EIE</option>
+            </optgroup>
+            <optgroup label="Mechanical">
+              <option value="MECH">MECH</option>
+              <option value="Automobile">Automobile</option>
+              <option value="Mechatronics">Mechatronics</option>
+            </optgroup>
+            <optgroup label="Civil & Others">
+              <option value="CIVIL">CIVIL</option>
+              <option value="Chemical">Chemical</option>
+              <option value="Biotechnology">Biotechnology</option>
+            </optgroup>
+            <optgroup label="PG Programs">
+              <option value="M.Tech">M.Tech</option>
+              <option value="MCA">MCA</option>
+              <option value="MBA">MBA</option>
+            </optgroup>
+            <option value="OTHERS">OTHERS</option>
+          </motion.select>
+
+          <motion.input
+            placeholder="College name"
+            name="college"
+            type="text"
+            value={participant.college}
+            onChange={handleChange}
+            required
+            whileFocus={{ scale: 1.02 }}
+            style={{
+              padding: '12px',
+              borderRadius: '12px',
+              border: '2px solid transparent',
+              outline: 'none',
+              fontSize: '1rem',
+              background: 'rgba(255,255,255,0.95)',
+              color: '#333'
+            }}
+          />
 
           {/* Email with verification */}
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

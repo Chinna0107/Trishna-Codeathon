@@ -307,11 +307,63 @@ const TeamRegistration = () => {
           border: '1px solid rgba(255,255,255,0.2)'
         }} onSubmit={handleLeaderSubmit}>
           <input placeholder="Team name" value={teamName} onChange={(e) => setTeamName(e.target.value)} required style={inputStyle} />
-          {['name', 'rollNo', 'mobile', 'year', 'branch', 'college'].map((field) => (
-            <input key={field} placeholder={field === 'name' ? 'Leader name' : field === 'rollNo' ? 'Roll number' : field === 'mobile' ? 'Mobile number' : field.charAt(0).toUpperCase() + field.slice(1)}
+          {['name', 'rollNo', 'mobile'].map((field) => (
+            <input key={field} placeholder={field === 'name' ? 'Leader name' : field === 'rollNo' ? 'Roll number' : 'Mobile number'}
               name={field} type={field === 'mobile' ? 'tel' : 'text'}
               value={teamLeader[field]} onChange={handleLeaderChange} required style={inputStyle} />
           ))}
+          <select
+            name="year"
+            value={teamLeader.year}
+            onChange={handleLeaderChange}
+            required
+            style={{ ...inputStyle, color: teamLeader.year ? '#333' : '#999' }}
+          >
+            <option value="" disabled>Select Year</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+          </select>
+          <select
+            name="branch"
+            value={teamLeader.branch}
+            onChange={handleLeaderChange}
+            required
+            style={{ ...inputStyle, color: teamLeader.branch ? '#333' : '#999' }}
+          >
+            <option value="" disabled>Select Branch</option>
+            <optgroup label="Computer Science">
+              <option value="CSE">CSE</option>
+              <option value="IT">IT</option>
+              <option value="AIDS">AIDS</option>
+              <option value="AI&ML">AI & ML</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Cyber Security">Cyber Security</option>
+            </optgroup>
+            <optgroup label="Electronics">
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="EIE">EIE</option>
+            </optgroup>
+            <optgroup label="Mechanical">
+              <option value="MECH">MECH</option>
+              <option value="Automobile">Automobile</option>
+              <option value="Mechatronics">Mechatronics</option>
+            </optgroup>
+            <optgroup label="Civil & Others">
+              <option value="CIVIL">CIVIL</option>
+              <option value="Chemical">Chemical</option>
+              <option value="Biotechnology">Biotechnology</option>
+            </optgroup>
+            <optgroup label="PG Programs">
+              <option value="M.Tech">M.Tech</option>
+              <option value="MCA">MCA</option>
+              <option value="MBA">MBA</option>
+            </optgroup>
+            <option value="OTHERS">OTHERS</option>
+          </select>
+          <input placeholder="College" name="college" type="text" value={teamLeader.college} onChange={handleLeaderChange} required style={inputStyle} />
           
           {/* Email with verification */}
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -459,11 +511,64 @@ const TeamRegistration = () => {
           border: '1px solid rgba(255,255,255,0.2)'
         }} onSubmit={addMember}>
           <h3 style={{ textAlign: 'left', marginBottom: '5px' }}>Add New Member:</h3>
-          {['name', 'rollNo', 'mobile', 'year', 'branch', 'email', 'college'].map((field) => (
-            <input key={field} placeholder={field === 'name' ? 'Member name' : field === 'rollNo' ? 'Roll number' : field === 'mobile' ? 'Mobile number' : field.charAt(0).toUpperCase() + field.slice(1)}
-              name={field} type={field === 'email' ? 'email' : field === 'mobile' ? 'tel' : 'text'}
+          {['name', 'rollNo', 'mobile'].map((field) => (
+            <input key={field} placeholder={field === 'name' ? 'Member name' : field === 'rollNo' ? 'Roll number' : 'Mobile number'}
+              name={field} type={field === 'mobile' ? 'tel' : 'text'}
               value={currentMember[field]} onChange={handleMemberChange} required style={inputStyle} />
           ))}
+          <select
+            name="year"
+            value={currentMember.year}
+            onChange={handleMemberChange}
+            required
+            style={{ ...inputStyle, color: currentMember.year ? '#333' : '#999' }}
+          >
+            <option value="" disabled>Select Year</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+          </select>
+          <select
+            name="branch"
+            value={currentMember.branch}
+            onChange={handleMemberChange}
+            required
+            style={{ ...inputStyle, color: currentMember.branch ? '#333' : '#999' }}
+          >
+            <option value="" disabled>Select Branch</option>
+            <optgroup label="Computer Science">
+              <option value="CSE">CSE</option>
+              <option value="IT">IT</option>
+              <option value="AIDS">AIDS</option>
+              <option value="AI&ML">AI & ML</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Cyber Security">Cyber Security</option>
+            </optgroup>
+            <optgroup label="Electronics">
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="EIE">EIE</option>
+            </optgroup>
+            <optgroup label="Mechanical">
+              <option value="MECH">MECH</option>
+              <option value="Automobile">Automobile</option>
+              <option value="Mechatronics">Mechatronics</option>
+            </optgroup>
+            <optgroup label="Civil & Others">
+              <option value="CIVIL">CIVIL</option>
+              <option value="Chemical">Chemical</option>
+              <option value="Biotechnology">Biotechnology</option>
+            </optgroup>
+            <optgroup label="PG Programs">
+              <option value="M.Tech">M.Tech</option>
+              <option value="MCA">MCA</option>
+              <option value="MBA">MBA</option>
+            </optgroup>
+            <option value="OTHERS">OTHERS</option>
+          </select>
+          <input placeholder="Email" name="email" type="email" value={currentMember.email} onChange={handleMemberChange} required style={inputStyle} />
+          <input placeholder="College" name="college" type="text" value={currentMember.college} onChange={handleMemberChange} required style={inputStyle} />
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
             <button type="submit" style={{
               padding: '14px 28px', borderRadius: '14px', background: '#fff', color: '#667eea',
