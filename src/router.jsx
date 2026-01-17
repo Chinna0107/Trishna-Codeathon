@@ -5,6 +5,7 @@ import Hero from './components/sections/Hero';
 import AboutPage from './components/sections/AboutPage';
 import Events from './components/sections/Events';
 import LoginPage from './components/sections/Login'; // Changed import from Login to LoginPage
+import ForgotPassword from './components/sections/ForgotPassword';
 import Home from './components/sections/Home';
 import AdminHome from './components/sections/AdminHome';
 import Profile from './components/sections/Profile';
@@ -45,6 +46,7 @@ const Router = () => (
       <Route path="/about" element={<AboutPage />} />
       <Route path="/events" element={<Events />} />
       <Route path="/login" element={<LoginPage />} /> // Changed component from Login to LoginPage
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/home" element={<Home />} />
       <Route path="/admin-home" element={<AdminHome />} />
       <Route path="/profile" element={<Profile />} />

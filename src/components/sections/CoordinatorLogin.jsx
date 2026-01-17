@@ -98,7 +98,7 @@ const CoordinatorLogin = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #2d1b69 0%, #1a0e3d 50%, #0f051f 100%)',
+      background: '#000',
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
@@ -598,7 +598,7 @@ const CoordinatorLogin = () => {
         className="magic-lamp"
         style={{
           position: 'relative',
-          background: 'rgba(0,0,0,0.4)',
+          background: '#000',
           backdropFilter: 'blur(20px)',
           borderRadius: '30px',
           padding: '40px',
@@ -773,6 +773,52 @@ const CoordinatorLogin = () => {
             }}
           />
         ))}
+
+        {/* Corner Pins */}
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          width: '20px',
+          height: '20px',
+          background: 'radial-gradient(circle, #a855f7, #7c3aed)',
+          borderRadius: '50%',
+          boxShadow: '0 0 15px rgba(168,85,247,0.8)',
+          zIndex: 20
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          width: '20px',
+          height: '20px',
+          background: 'radial-gradient(circle, #a855f7, #7c3aed)',
+          borderRadius: '50%',
+          boxShadow: '0 0 15px rgba(168,85,247,0.8)',
+          zIndex: 20
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: '10px',
+          width: '20px',
+          height: '20px',
+          background: 'radial-gradient(circle, #a855f7, #7c3aed)',
+          borderRadius: '50%',
+          boxShadow: '0 0 15px rgba(168,85,247,0.8)',
+          zIndex: 20
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '10px',
+          right: '10px',
+          width: '20px',
+          height: '20px',
+          background: 'radial-gradient(circle, #a855f7, #7c3aed)',
+          borderRadius: '50%',
+          boxShadow: '0 0 15px rgba(168,85,247,0.8)',
+          zIndex: 20
+        }} />
 
         {/* Enhanced Lamp Light Effect */}
         <div

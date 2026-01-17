@@ -101,7 +101,7 @@ function Contact() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
+      background: '#000',
       padding: '50px 20px',
       position: 'relative',
       overflow: 'hidden'
@@ -437,18 +437,49 @@ function Contact() {
                 className="contact-card contact-info-card"
                 onClick={contact.action}
                 style={{
-                  background: 'rgba(0,234,255,0.08)',
+                  background: 'rgba(255,255,255,0.1)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: '20px',
                   padding: '30px',
-                  border: '1px solid #00eaff33',
-                  boxShadow: '0 10px 30px rgba(0,234,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
                   cursor: contact.action ? 'pointer' : 'default',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '25px'
+                  gap: '25px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(0,234,255,0.4), inset 0 1px 0 rgba(255,255,255,0.3)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)';
                 }}
               >
+                {/* Pin decoration */}
+                <div style={{
+                  position: 'absolute',
+                  top: '15px',
+                  right: '15px',
+                  width: '12px',
+                  height: '12px',
+                  background: 'linear-gradient(45deg, #00eaff, #667eea)',
+                  borderRadius: '50%',
+                  boxShadow: '0 0 10px rgba(0,234,255,0.6), inset 0 2px 4px rgba(255,255,255,0.3)',
+                  border: '2px solid rgba(255,255,255,0.4)'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  width: '22px',
+                  height: '22px',
+                  border: '2px solid rgba(0,234,255,0.3)',
+                  borderRadius: '50%'
+                }} />
                 <div style={{
                   fontSize: '3rem',
                   animation: 'float 3s ease-in-out infinite',
@@ -458,11 +489,12 @@ function Contact() {
                 </div>
                 <div>
                   <h3 style={{
-                    color: '#00eaff',
+                    color: '#fff',
                     fontSize: '1.4rem',
                     marginBottom: '8px',
                     fontWeight: 'bold',
-                    fontFamily: 'Orbitron, monospace'
+                    fontFamily: 'Orbitron, monospace',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)'
                   }}>
                     {contact.title}
                   </h3>
@@ -470,16 +502,17 @@ function Contact() {
                     color: '#00eaff',
                     fontSize: '1.2rem',
                     fontWeight: 'bold',
-                    marginBottom: '8px'
+                    marginBottom: '8px',
+                    textShadow: '0 1px 2px rgba(0,0,0,0.3)'
                   }}>
                     {contact.info}
                   </p>
                   <p style={{
-                    color: '#00eaff',
+                    color: 'rgba(255,255,255,0.8)',
                     fontSize: '1rem',
                     margin: 0,
                     lineHeight: '1.4',
-                    opacity: 0.8
+                    textShadow: '0 1px 2px rgba(0,0,0,0.3)'
                   }}>
                     {contact.desc}
                   </p>

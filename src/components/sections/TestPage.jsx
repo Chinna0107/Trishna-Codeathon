@@ -5,7 +5,7 @@ const TestPage = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <UserMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="dashboard-wrapper">
         <style>
           {`
             @media (max-width: 768px) {
@@ -16,18 +16,22 @@ const TestPage = () => {
         
         <div style={{ 
           textAlign: 'center', 
-          background: '#fff', 
+          background: 'rgba(255,255,255,0.1)', 
+          backdropFilter: 'blur(20px)',
           padding: '60px 40px', 
           borderRadius: '20px', 
-          boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+          border: '1px solid rgba(255,255,255,0.2)',
           maxWidth: '500px',
-          width: '100%'
+          width: '100%',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
           <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🚧</div>
-          <h1 style={{ fontSize: '2.5rem', color: '#2d3748', marginBottom: '15px', fontWeight: 'bold' }}>
+          <h1 style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '15px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
             Coming Soon
           </h1>
-          <p style={{ fontSize: '1.1rem', color: '#718096', marginBottom: '30px', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', marginBottom: '30px', lineHeight: 1.6 }}>
             We're working hard to bring you an amazing test experience. Stay tuned for updates!
           </p>
           <div style={{ 

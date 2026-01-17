@@ -135,17 +135,17 @@ const Profile = () => {
           `}
         </style>
         
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)', padding: '0' }} className="mobile-padding">
+        <div style={{ minHeight: '100vh', background: '#000', padding: '0' }} className="mobile-padding">
           <div style={{ width: '100%' }}>
             {/* Profile Card */}
             <div className="profile-card" style={{
-              background: 'rgba(255,255,255,0.95)',
+              background: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(20px)',
               padding: '40px',
               borderRadius: '0',
-              boxShadow: 'none',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
               position: 'relative',
-              backdropFilter: 'blur(20px)',
-              border: 'none',
+              border: '1px solid rgba(255,255,255,0.2)',
               width: '100%',
               overflow: 'hidden',
               minHeight: '100vh'
@@ -153,12 +153,12 @@ const Profile = () => {
               <div style={{ position: 'relative', zIndex: 1 }}>
                 {/* Header */}
                 <div className="profile-header" style={{ textAlign: 'center', marginBottom: '40px' }}>
-                  <h1 style={{ fontSize: '2.5rem', color: '#667eea', margin: '0 0 10px 0', fontWeight: 'bold' }}>TRI-COD 2K26</h1>
-                  <p style={{ fontSize: '1.2rem', color: '#764ba2', margin: 0 }}>Participant Profile</p>
+                  <h1 style={{ fontSize: '2.5rem', color: '#00eaff', margin: '0 0 10px 0', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>TRI-COD 2K26</h1>
+                  <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>Participant Profile</p>
                 </div>
 
                 {/* Profile Section */}
-                <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.2)', marginBottom: '30px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '30px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
                   {/* Details and QR Grid */}
                   <div className="details-qr-grid" style={{ 
                     display: 'grid', 
@@ -186,8 +186,8 @@ const Profile = () => {
                         }}>
                           {profile.name?.charAt(0).toUpperCase()}
                         </div>
-                        <h2 className="profile-title" style={{ fontSize: '2.2rem', margin: '0 0 8px 0', color: '#667eea', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>{profile.name}</h2>
-                        <p className="profile-subtitle" style={{ fontSize: '1.2rem', color: '#764ba2', margin: '0 0 10px 0', fontWeight: '600' }}>🎯 Event Participant</p>
+                        <h2 className="profile-title" style={{ fontSize: '2.2rem', margin: '0 0 8px 0', color: '#00eaff', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>{profile.name}</h2>
+                        <p className="profile-subtitle" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', margin: '0 0 10px 0', fontWeight: '600' }}>🎯 Event Participant</p>
                         <div style={{ 
                           background: 'linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1))',
                           padding: '8px 20px',
@@ -208,8 +208,8 @@ const Profile = () => {
                         boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
                         border: '1px solid rgba(102, 126, 234, 0.1)'
                       }}>
-                        <p className="profile-field-label" style={{ margin: 0, fontSize: '0.85rem', color: '#764ba2', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📧 Email Address</p>
-                        <p className="profile-field-value" style={{ margin: 0, fontSize: '1.1rem', color: '#667eea', fontWeight: '600', wordBreak: 'break-word' }}>{profile.email}</p>
+                        <p className="profile-field-label" style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📧 Email Address</p>
+                        <p className="profile-field-value" style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600', wordBreak: 'break-word' }}>{profile.email}</p>
                       </div>
                       
                       {profile.mobile && (

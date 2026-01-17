@@ -135,7 +135,7 @@ const LoginPage = () => {
             <div className="flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => alert('Forgot password functionality will be implemented soon.')}
+                onClick={() => navigate('/forgot-password')}
                 className="text-sm text-cyan-400 hover:text-cyan-200 font-sci-fi tracking-wide"
               >
                 Forgot Password?

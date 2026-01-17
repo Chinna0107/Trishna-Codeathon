@@ -60,7 +60,7 @@ const Home = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <UserMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh' }} className="dashboard-wrapper">
         <style>
           {`
             @media (max-width: 768px) {
@@ -68,12 +68,12 @@ const Home = () => {
             }
           `}
         </style>
-        <h2 style={{ fontSize: '2.5rem', color: '#2d3748', marginBottom: '10px', fontWeight: 'bold' }}>Welcome Back! 👋</h2>
-        <p style={{ color: '#4a5568', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {user?.name}, ready to explore amazing events?</p>
+        <h2 style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '10px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Welcome Back! 👋</h2>
+        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {user?.name}, ready to explore amazing events?</p>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '30px' }}>
           {/* Stats Cards */}
-          <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', borderTop: '3px solid #667eea' }}>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
             <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>🎯 Available Events</h3>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', marginBottom: '5px' }}>{loading ? '...' : stats.totalEvents}</div>
             <p style={{ fontSize: '0.85rem', color: '#718096', margin: 0 }}>Total events to explore</p>
