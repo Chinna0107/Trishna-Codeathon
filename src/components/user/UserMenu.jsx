@@ -101,13 +101,13 @@ const UserMenu = () => {
           left: '20px',
           zIndex: 2000,
           padding: '15px',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
           border: 'none',
           borderRadius: '12px',
           color: '#fff',
           fontSize: '1.5rem',
           cursor: 'pointer',
-          boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+          boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)',
           transition: 'all 0.3s ease',
           animation: 'bounce 2s infinite'
         }}

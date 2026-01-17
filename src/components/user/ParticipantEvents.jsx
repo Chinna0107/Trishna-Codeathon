@@ -80,9 +80,12 @@ const ParticipantEvents = () => {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px' }}>
             {registrations.map((reg, idx) => (
-              <div key={idx} style={{ background: 'rgba(255,255,255,0.95)', padding: '25px', borderRadius: '15px', boxShadow: '0 8px 20px rgba(0,0,0,0.2)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '15px' }}>
-                  <h3 style={{ color: '#2d3748', fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>{reg.eventName || 'Event'}</h3>
+              <div key={idx} style={{ background: 'rgba(255,255,255,0.95)', padding: '25px', borderRadius: '15px', boxShadow: '0 8px 20px rgba(0,0,0,0.2)', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '15px', left: '20px', background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#1a202c', width: '35px', height: '35px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', fontWeight: '900', boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)', border: '2px solid #fff', fontFamily: 'Arial, sans-serif' }}>
+                  {idx + 1}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '15px', marginTop: '10px' }}>
+                  <h3 style={{ color: '#2d3748', fontSize: '1.5rem', fontWeight: 'bold', margin: 0, paddingLeft: '35px' }}>{reg.eventName || 'Event'}</h3>
                   <span style={{ padding: '5px 12px', background: reg.registrationType === 'Team' ? '#667eea' : '#48bb78', color: '#fff', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold' }}>
                     {reg.registrationType || 'Individual'}
                   </span>

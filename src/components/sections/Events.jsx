@@ -245,7 +245,7 @@ function filteredEvents(category) {
       { id: '7', eventId: 'coding', title: 'Coding / Problem Solving', description: 'Solve challenging coding problems and algorithms.', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
       { id: '8', eventId: 'debugging', title: 'Debugging', description: 'Find and fix bugs in code under time pressure. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaLaptopCode /> },
       { id: '9', eventId: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon. (NEW)', tags: ['Team', 'Coding'], image: imgHackathon, pdf: samplePdf, icon: <FaLaptopCode /> },
-      { id: '10', eventId: 'algorithm-building', title: 'Algorithm Building / Writing', description: 'Design and write efficient algorithms for complex problems. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
+      { id: '10', eventId: 'algorithm-building', title: 'Algorithm Building', description: 'Design and write efficient algorithms for complex problems. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
     ],
     nontechnical: [
       { id: '11', eventId: 'rube-cube', title: 'Rube A Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },
