@@ -234,7 +234,7 @@ const TeamRegistration = () => {
         Swal.fire({
           icon: 'success',
           title: 'Registration Complete!',
-          html: `<strong>Team:</strong> ${teamName}<br><strong>Leader:</strong> ${teamLeader.name}<br><strong>Members:</strong> ${members.length}`,
+          html: `<strong>Team:</strong> ${teamName}<br><strong>Leader:</strong> ${teamLeader.name}<br><strong>Total Team Size:</strong> ${members.length + 1}`,
           confirmButtonColor: '#4CAF50'
         }).then(() => {
           navigate('/');

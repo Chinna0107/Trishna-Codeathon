@@ -29,6 +29,11 @@ import TakeAttendance from './components/user/TakeAttendance';
 import ViewAttendance from './components/user/ViewAttendance';
 import CoordinatorSchedule from './components/user/CoordinatorSchedule';
 import CoordinatorCertifications from './components/user/CoordinatorCertifications';
+import Evaluation from './components/user/Evaluation';
+import MarkEvaluation from './components/user/MarkEvaluation';
+import ViewEvaluation from './components/user/ViewEvaluation';
+import WinnersData from './components/user/WinnersData';
+import AdminWinnersData from './components/user/AdminWinnersData';
 
 const Router = () => (
   <BrowserRouter>
@@ -62,6 +67,14 @@ const Router = () => (
       <Route path="/coordinator/certifications" element={<CoordinatorCertifications />} />
       <Route path="/coordinator/take-attendance/:eventName" element={<TakeAttendance />} />
       <Route path="/coordinator/view-attendance/:eventName" element={<ViewAttendance />} />
+      <Route path="/coordinator/evaluation/:eventName" element={<Evaluation />} />
+      <Route path="/coordinator/mark-evaluation/:eventName" element={<MarkEvaluation />} />
+      <Route path="/coordinator/mark-evaluation/:eventName/:participantName" element={<MarkEvaluation />} />
+      <Route path="/coordinator/view-evaluation/:eventName" element={<ViewEvaluation />} />
+      <Route path="/coordinator/winners" element={<WinnersData />} />
+      <Route path="/coordinator/winners/:eventName" element={<WinnersData />} />
+      <Route path="/admin/winners" element={<AdminWinnersData />} />
+      <Route path="/admin/winners/:eventName" element={<AdminWinnersData />} />
       <Route path='*' element={<Hero />} />
     </Routes>
   </BrowserRouter>

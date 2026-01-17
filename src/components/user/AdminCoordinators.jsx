@@ -172,8 +172,37 @@ const AdminCoordinators = () => {
 
   return (
     <div style={{ padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .admin-coord-container { padding: 10px !important; }
+            .coord-header { flex-direction: column !important; gap: 15px !important; text-align: center !important; }
+            .coord-header h2 { font-size: 1.8rem !important; }
+            .coord-header p { font-size: 1rem !important; }
+            .coord-form { padding: 20px !important; }
+            .coord-form-grid { grid-template-columns: 1fr !important; }
+            .coord-cards { grid-template-columns: 1fr !important; }
+            .coord-card { padding: 15px !important; }
+            .coord-form h3 { font-size: 1.4rem !important; }
+            .coord-form input, .coord-form select { padding: 10px !important; font-size: 0.9rem !important; }
+            .coord-form button { padding: 12px !important; font-size: 1rem !important; }
+          }
+          @media (max-width: 480px) {
+            .admin-coord-container { padding: 5px !important; }
+            .coord-header h2 { font-size: 1.5rem !important; }
+            .coord-header p { font-size: 0.9rem !important; }
+            .coord-form { padding: 15px !important; }
+            .coord-form h3 { font-size: 1.2rem !important; }
+            .coord-form input, .coord-form select { padding: 8px !important; font-size: 0.8rem !important; }
+            .coord-form button { padding: 10px !important; font-size: 0.9rem !important; }
+            .coord-card { padding: 12px !important; }
+            .coord-card h4 { font-size: 1.2rem !important; }
+            .coord-card p { font-size: 0.85rem !important; }
+          }
+        `}
+      </style>
+      <div className="admin-coord-container" style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <div className="coord-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#2d3748', marginBottom: '8px' }}>👥 Coordinator Management</h2>
           <p style={{ color: '#718096', fontSize: '1.1rem' }}>Manage event coordinators and their assignments</p>
@@ -440,10 +469,11 @@ const AdminCoordinators = () => {
           <p style={{ color: '#718096' }}>Add your first coordinator to get started.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: '25px' }}>
+        <div className="coord-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: '25px' }}>
           {coordinators.map((coordinator) => (
             <div
               key={coordinator.id}
+              className="coord-card"
               style={{
                 background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98))',
                 padding: '25px',

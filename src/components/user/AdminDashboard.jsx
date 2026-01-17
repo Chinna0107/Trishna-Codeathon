@@ -8,7 +8,7 @@ import AdminProfile from './AdminProfile';
 import AdminCoordinators from './AdminCoordinators';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faTachometerAlt, faCalendarAlt, faUsers, faUserTie, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock
+  faTachometerAlt, faCalendarAlt, faUsers, faUserTie, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock, faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TrishnaLogo from '../../assets/images/trishna.png'; // Import the logo
@@ -175,6 +175,11 @@ const AdminDashboard = () => {
             <li>
               <a href="#" onClick={(e) => handleNavClick('coordinators', e)} className={activePage === 'coordinators' ? 'active' : ''}>
                 <FontAwesomeIcon icon={faUserTie} className="nav-icon" /> <span className="nav-text">Coordinators</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" onClick={() => navigate('/admin/winners')} className="">
+                <FontAwesomeIcon icon={faTrophy} className="nav-icon" /> <span className="nav-text">Winners Data</span>
               </a>
             </li>
             

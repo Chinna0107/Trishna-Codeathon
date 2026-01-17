@@ -2,28 +2,70 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import CoordinatorMenu from './CoordinatorMenu';
+import config from '../../config';
 
 const CoordinatorProfile = () => {
   const [coordinator, setCoordinator] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const coordinatorToken = localStorage.getItem('coordinatortoken');
-    const coordinatorData = localStorage.getItem('coordinator');
     
     if (!coordinatorToken) {
       navigate('/coordinator-login');
       return;
     }
     
-    if (coordinatorData) {
-      setCoordinator(JSON.parse(coordinatorData));
-    }
+    fetchCoordinatorProfile();
   }, [navigate]);
+
+  const fetchCoordinatorProfile = async () => {
+    try {
+      const token = localStorage.getItem('coordinatortoken');
+      const res = await fetch(`${config.BASE_URL}/api/coordinators/profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setCoordinator(data);
+      } else {
+        // Fallback to localStorage if API fails
+        const coordinatorData = localStorage.getItem('coordinator');
+        if (coordinatorData) {
+          setCoordinator(JSON.parse(coordinatorData));
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching coordinator profile:', err);
+      // Fallback to localStorage
+      const coordinatorData = localStorage.getItem('coordinator');
+      if (coordinatorData) {
+        setCoordinator(JSON.parse(coordinatorData));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDownload = () => {
     window.print();
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
+        <CoordinatorMenu />
+        <div style={{ marginLeft: '280px', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ width: '60px', height: '60px', border: '6px solid rgba(102, 126, 234, 0.3)', borderTop: '6px solid #667eea', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
+            <p style={{ color: '#2d3748', fontSize: '1.1rem', fontWeight: 'bold' }}>Loading profile...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!coordinator) return null;
 
@@ -33,7 +75,7 @@ const CoordinatorProfile = () => {
     name: coordinator.name,
     email: coordinator.email,
     mobile: coordinator.mobile,
-    eventName: coordinator.eventName,
+    eventName: coordinator?.events ? coordinator.events.join(', ') : coordinator?.eventName,
     role: 'coordinator',
     timestamp: Date.now()
   });
@@ -46,6 +88,9 @@ const CoordinatorProfile = () => {
           {`
             @media (max-width: 768px) {
               .profile-content { margin-left: 0 !important; padding-top: 80px !important; }
+              .details-qr-grid { grid-template-columns: 1fr !important; }
+              .qr-section { padding-top: 20px !important; order: 2; }
+              .details-section { order: 1; }
             }
           `}
         </style>
@@ -77,8 +122,8 @@ const CoordinatorProfile = () => {
           }
         `}
       </style>
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ maxWidth: '600px', width: '100%' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', padding: '40px' }}>
+      <div style={{ width: '100%' }}>
         {/* Back Button */}
         {/* <button
           onClick={() => navigate('/coordinator/dashboard')}
@@ -100,88 +145,93 @@ const CoordinatorProfile = () => {
 
         {/* ID Card */}
         <div id="id-card-print" style={{
-          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-          padding: '30px',
+          background: '#fff',
+          padding: '40px',
           borderRadius: '25px',
-          boxShadow: '0 30px 80px rgba(0,0,0,0.3)',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
           position: 'relative',
-          overflow: 'hidden'
+          border: '2px solid #87CEEB',
+          width: '100%'
         }}>
-          <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '250px', height: '250px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
-          <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '300px', height: '300px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
-
           <div style={{ position: 'relative', zIndex: 1 }}>
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <h1 style={{ fontSize: '2.5rem', color: '#fff', margin: '0 0 10px 0', fontWeight: 'bold' }}>TRI-COD 2K26</h1>
-              <p style={{ fontSize: '1.2rem', color: '#fff', opacity: 0.9, margin: 0 }}>Coordinator ID Card</p>
+              <h1 style={{ fontSize: '2.5rem', color: '#4682B4', margin: '0 0 10px 0', fontWeight: 'bold' }}>TRI-COD 2K26</h1>
+              <p style={{ fontSize: '1.2rem', color: '#87CEEB', margin: 0 }}>Coordinator ID Card</p>
             </div>
 
             {/* Profile Section */}
-            <div style={{ background: 'rgba(255,255,255,0.25)', padding: '30px', borderRadius: '20px', backdropFilter: 'blur(10px)', marginBottom: '30px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
-                <div style={{
-                  width: '150px',
-                  height: '150px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #fff 0%, #f0f0f0 100%)',
-                  color: '#f5576c',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '4rem',
-                  fontWeight: 'bold',
-                  marginBottom: '20px',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.3)'
-                }}>
-                  {coordinator?.name?.charAt(0).toUpperCase()}
-                </div>
-                <h2 style={{ fontSize: '2.5rem', margin: '0 0 10px 0', color: '#fff', fontWeight: 'bold', textAlign: 'center' }}>{coordinator?.name}</h2>
-                <p style={{ fontSize: '1.3rem', color: '#fff', opacity: 0.95, margin: 0 }}>🎯 Event Coordinator</p>
-              </div>
-
-              {/* Details and QR Grid - Responsive */}
-              <div style={{ 
+            <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.2)', marginBottom: '30px' }}>
+              {/* Details and QR Grid - Left details, Right QR */}
+              <div className="details-qr-grid" style={{ 
                 display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-                gap: '15px', 
+                gridTemplateColumns: '2fr 1fr', 
+                gap: '30px', 
                 alignItems: 'start' 
               }}>
-                <div style={{ display: 'grid', gap: '15px' }}>
-                  <div style={{ background: 'rgba(255,255,255,0.3)', padding: '15px', borderRadius: '10px' }}>
-                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', opacity: 0.8, marginBottom: '5px' }}>📧 Email Address</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#fff', fontWeight: '600', wordBreak: 'break-word' }}>{coordinator?.email}</p>
+                {/* Left Side - Coordinator Details */}
+                <div className="details-section" style={{ display: 'grid', gap: '20px' }}>
+                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                    <div style={{
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #87CEEB 0%, #4682B4 100%)',
+                      color: '#fff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '3rem',
+                      fontWeight: 'bold',
+                      margin: '0 auto 15px',
+                      boxShadow: '0 8px 25px rgba(70, 130, 180, 0.3)'
+                    }}>
+                      {coordinator?.name?.charAt(0).toUpperCase()}
+                    </div>
+                    <h2 style={{ fontSize: '2rem', margin: '0 0 5px 0', color: '#87CEEB', fontWeight: 'bold' }}>{coordinator?.name}</h2>
+                    <p style={{ fontSize: '1.1rem', color: '#4682B4', margin: 0, fontWeight: '600' }}>🎯 Event Coordinator</p>
                   </div>
-                  <div style={{ background: 'rgba(255,255,255,0.3)', padding: '15px', borderRadius: '10px' }}>
-                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', opacity: 0.8, marginBottom: '5px' }}>📱 Mobile Number</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#fff', fontWeight: '600' }}>{coordinator?.mobile}</p>
+                  
+                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
+                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>📧 Email Address</p>
+                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600', wordBreak: 'break-word' }}>{coordinator?.email}</p>
                   </div>
-                  <div style={{ background: 'rgba(255,255,255,0.3)', padding: '15px', borderRadius: '10px' }}>
-                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', opacity: 0.8, marginBottom: '5px' }}>🎪 Assigned Event</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#fff', fontWeight: '600' }}>{coordinator?.eventName}</p>
+                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
+                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>📱 Mobile Number</p>
+                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>{coordinator?.mobile}</p>
                   </div>
-                  <div style={{ background: 'rgba(255,255,255,0.3)', padding: '15px', borderRadius: '10px' }}>
-                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', opacity: 0.8, marginBottom: '5px' }}>🔖 Coordinator ID</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#fff', fontWeight: '600' }}>COORD-{coordinator?.id}</p>
+                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
+                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>🎪 Assigned Events</p>
+                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>
+                      {coordinator?.events ? coordinator.events.join(', ') : coordinator?.eventName}
+                    </p>
+                  </div>
+                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
+                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>🔖 Coordinator ID</p>
+                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>COORD-{coordinator?.id}</p>
                   </div>
                 </div>
                 
-                {/* QR Code - Right on desktop, below on mobile */}
-                <div style={{ 
+                {/* Right Side - QR Code */}
+                <div className="qr-section" style={{ 
                   display: 'flex', 
-                  justifyContent: 'center', 
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  minHeight: '140px'
+                  justifyContent: 'center',
+                  minHeight: '300px',
+                  paddingTop: '250px'
                 }}>
+                  <h3 style={{ color: '#4682B4', marginBottom: '20px', fontSize: '1.2rem', fontWeight: 'bold' }}>QR Code</h3>
                   <div style={{ 
                     background: '#fff', 
-                    padding: '10px', 
-                    borderRadius: '10px', 
-                    boxShadow: '0 5px 15px rgba(0,0,0,0.2)' 
+                    padding: '15px', 
+                    borderRadius: '15px', 
+                    boxShadow: '0 8px 25px rgba(70, 130, 180, 0.3)',
+                    border: '3px solid #87CEEB'
                   }}>
                     <QRCodeSVG 
                       value={qrData}
-                      size={120}
+                      size={150}
                       level="H"
                       includeMargin={false}
                     />
