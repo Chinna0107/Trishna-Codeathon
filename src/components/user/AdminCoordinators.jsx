@@ -171,7 +171,24 @@ const AdminCoordinators = () => {
   };
 
   return (
-    <div style={{ padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }}>
+    <div style={{ 
+      padding: '40px', 
+      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)', 
+      minHeight: '100vh',
+      position: 'relative'
+    }}>
+      {/* Grid overlay like other admin pages */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
+        backgroundSize: '80px 80px',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
       <style>
         {`
           @media (max-width: 768px) {
@@ -475,29 +492,31 @@ const AdminCoordinators = () => {
               key={coordinator.id}
               className="coord-card"
               style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98))',
+                background: 'rgba(0,234,255,0.08)',
+                border: '2px solid #00eaff55',
                 padding: '25px',
                 borderRadius: '15px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                border: '1px solid #e2e8f0',
+                boxShadow: '0 4px 20px rgba(0,234,255,0.1)',
                 transition: 'all 0.3s',
                 cursor: 'pointer'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,234,255,0.3)';
+                e.currentTarget.style.background = 'rgba(0,234,255,0.18)';
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,234,255,0.1)';
+                e.currentTarget.style.background = 'rgba(0,234,255,0.08)';
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '15px' }}>
                 <div style={{ flex: 1 }}>
-                <h4 style={{ fontSize: '1.4rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>{coordinator.name}</h4>
-                <p style={{ color: '#718096', marginBottom: '6px', fontSize: '0.95rem' }}>📧 {coordinator.email}</p>
-                <p style={{ color: '#718096', marginBottom: '15px', fontSize: '0.95rem' }}>📱 {coordinator.mobile}</p>
-                <div style={{ marginTop: '15px', paddingTop: '15px', borderTop: '2px solid #e2e8f0' }}>
+                <h4 style={{ fontSize: '1.4rem', color: '#00eaff', marginBottom: '12px', fontWeight: 'bold' }}>{coordinator.name}</h4>
+                <p style={{ color: '#00eaff', marginBottom: '6px', fontSize: '0.95rem', opacity: 0.8 }}>📧 {coordinator.email}</p>
+                <p style={{ color: '#00eaff', marginBottom: '15px', fontSize: '0.95rem', opacity: 0.8 }}>📱 {coordinator.mobile}</p>
+                <div style={{ marginTop: '15px', paddingTop: '15px', borderTop: '2px solid #00eaff55' }}>
                   {coordinator.category1 && coordinator.event1 && (
                     <div style={{ 
                       padding: '10px 15px', 

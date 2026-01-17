@@ -28,6 +28,9 @@ const TeamRegistration = () => {
     name: '', rollNo: '', mobile: '', year: '', branch: '', email: '', college: ''
   });
   const [screenshotLink, setScreenshotLink] = useState('');
+  const [submittingPayment, setSubmittingPayment] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
   const eventsList = [
     { id: 'project-expo', name: 'Project Expo' },
@@ -75,7 +78,7 @@ const TeamRegistration = () => {
       });
       return;
     }
-    if (teamLeader.password !== teamLeader.confirmPassword) {
+    if (!isExistingUser && teamLeader.password !== teamLeader.confirmPassword) {
       Swal.fire({
         icon: 'error',
         title: 'Password Mismatch',
@@ -106,6 +109,10 @@ const TeamRegistration = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        setOtpSent(true);
+        if (data.isExistingUser) {
+          setIsExistingUser(true);
+        }
         Swal.fire({
           icon: 'success',
           title: 'OTP Sent!',
@@ -196,6 +203,8 @@ const TeamRegistration = () => {
       return;
     }
     
+    setSubmittingPayment(true);
+    
     const payload = {
       teamName,
       teamLeader: {
@@ -212,7 +221,8 @@ const TeamRegistration = () => {
       eventId: eventId || '',
       eventName: eventName || '',
       transactionId,
-      screenshotUrl: screenshotLink
+      screenshotUrl: screenshotLink,
+      isExistingUser
     };
     
     console.log('Payload being sent:', payload);
@@ -254,6 +264,8 @@ const TeamRegistration = () => {
         text: 'Failed to connect to server. Please try again.',
         confirmButtonColor: '#667eea'
       });
+    } finally {
+      setSubmittingPayment(false);
     }
   };
 
@@ -386,19 +398,19 @@ const TeamRegistration = () => {
               <button
                 type="button"
                 onClick={sendOtp}
-                disabled={sendingOtp}
+                disabled={sendingOtp || otpSent}
                 style={{
                   padding: '12px 20px',
                   borderRadius: '12px',
-                  background: sendingOtp ? '#999' : '#667eea',
+                  background: otpSent ? '#4CAF50' : sendingOtp ? '#999' : '#667eea',
                   color: '#fff',
                   fontWeight: 'bold',
                   border: 'none',
-                  cursor: sendingOtp ? 'not-allowed' : 'pointer',
+                  cursor: sendingOtp || otpSent ? 'not-allowed' : 'pointer',
                   fontSize: '0.9rem'
                 }}
               >
-                {sendingOtp ? 'Sending...' : 'Send OTP'}
+                {sendingOtp ? 'Sending...' : otpSent ? 'Sent ✓' : 'Send OTP'}
               </button>
             )}
             {emailVerified && <span style={{ color: '#4CAF50', fontSize: '1.5rem' }}>✓</span>}
@@ -434,24 +446,28 @@ const TeamRegistration = () => {
           )}
 
           {/* Password fields */}
-          <input
-            placeholder="Password"
-            name="password"
-            type="password"
-            value={teamLeader.password}
-            onChange={handleLeaderChange}
-            required
-            style={inputStyle}
-          />
-          <input
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            value={teamLeader.confirmPassword}
-            onChange={handleLeaderChange}
-            required
-            style={inputStyle}
-          />
+          {!isExistingUser && (
+            <>
+              <input
+                placeholder="Password"
+                name="password"
+                type="password"
+                value={teamLeader.password}
+                onChange={handleLeaderChange}
+                required
+                style={inputStyle}
+              />
+              <input
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                type="password"
+                value={teamLeader.confirmPassword}
+                onChange={handleLeaderChange}
+                required
+                style={inputStyle}
+              />
+            </>
+          )}
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
             <button type="submit" style={{
               padding: '14px 32px', borderRadius: '14px', background: '#fff', color: '#667eea',
@@ -574,7 +590,15 @@ const TeamRegistration = () => {
               padding: '14px 28px', borderRadius: '14px', background: '#fff', color: '#667eea',
               fontWeight: 'bold', border: 'none', cursor: 'pointer'
             }}>➕ Add Member</button>
-            <button type="button" onClick={() => setStep(3)} style={{
+            <button type="button" onClick={() => {
+              // Auto-add current member if form is filled
+              if (currentMember.name && currentMember.rollNo && currentMember.mobile && 
+                  currentMember.year && currentMember.branch && currentMember.email && currentMember.college) {
+                setMembers([...members, currentMember]);
+                setCurrentMember({ name: '', rollNo: '', mobile: '', year: '', branch: '', email: '', college: '' });
+              }
+              setStep(3);
+            }} style={{
               padding: '14px 28px', borderRadius: '14px', background: '#4CAF50', color: '#fff',
               fontWeight: 'bold', border: 'none', cursor: 'pointer'
             }}>Continue to Payment →</button>
@@ -656,10 +680,14 @@ const TeamRegistration = () => {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button type="submit" style={{
-              padding: '14px 32px', borderRadius: '14px', background: '#4CAF50', color: '#fff',
-              fontWeight: 'bold', border: 'none', cursor: 'pointer', fontSize: '1.05rem'
-            }}>✓ Submit Payment</button>
+            <button type="submit" disabled={submittingPayment} style={{
+              padding: '14px 32px', borderRadius: '14px', 
+              background: submittingPayment ? '#999' : '#4CAF50', 
+              color: '#fff',
+              fontWeight: 'bold', border: 'none', 
+              cursor: submittingPayment ? 'not-allowed' : 'pointer', 
+              fontSize: '1.05rem'
+            }}>{submittingPayment ? 'Submitting...' : '✓ Submit Payment'}</button>
             <button type="button" onClick={() => setStep(2)} style={{
               padding: '14px 28px', borderRadius: '14px', background: 'rgba(255,255,255,0.2)', color: '#fff',
               fontWeight: 'bold', border: '1px solid rgba(255,255,255,0.3)', cursor: 'pointer'

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Swal from 'sweetalert2'
 import tkLogo from '../../assets/images/tk logo.png'
 import BottomNavBar from './BottomNavBar'
+import config from '../../config'
 
 function Contact() {
   const navigate = useNavigate()
@@ -24,17 +25,38 @@ function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
-    Swal.fire({
-      icon: 'success',
-      title: 'Message Sent!',
-      text: "We'll get back to you soon.",
-      confirmButtonColor: '#00eaff'
-    });
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+    try {
+      const response = await fetch(`${config.BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      
+      const data = await response.json()
+      
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Message Sent!',
+          text: "We'll get back to you soon.",
+          confirmButtonColor: '#00eaff'
+        })
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+      } else {
+        throw new Error(data.message || 'Failed to send message')
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Send',
+        text: error.message || 'Please try again later.',
+        confirmButtonColor: '#00eaff'
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const subjects = [
@@ -105,19 +127,39 @@ function Contact() {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
         .contact-card {
           transition: all 0.3s ease;
         }
         .contact-card:hover {
           transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+          box-shadow: 0 20px 40px rgba(0,234,255,0.3);
         }
         .form-input {
           transition: all 0.3s ease;
         }
         .form-input:focus {
           transform: scale(1.02);
-          box-shadow: 0 0 20px rgba(255,255,255,0.3);
+          box-shadow: 0 0 20px rgba(0,234,255,0.4);
+          border-color: #00eaff !important;
+        }
+        @media (max-width: 768px) {
+          .contact-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+          .form-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
+          .contact-header h1 { font-size: 2.5rem !important; }
+          .contact-header p { font-size: 1rem !important; }
+          .contact-form { padding: 30px 20px !important; }
+          .contact-info-card { padding: 20px !important; }
+          .back-button { position: relative !important; margin-bottom: 20px !important; }
+          .map-section { padding: 20px !important; }
+        }
+        @media (max-width: 480px) {
+          .contact-header h1 { font-size: 2rem !important; }
+          .contact-form { padding: 20px 15px !important; }
+          .form-input { padding: 15px !important; font-size: 1rem !important; }
         }
       `}</style>
 
@@ -126,10 +168,12 @@ function Contact() {
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
+          className="contact-header"
           style={{ textAlign: 'center', marginBottom: '60px', position: 'relative' }}
         >
           <button
             onClick={() => navigate('/events')}
+            className="back-button"
             style={{
               position: 'absolute',
               left: 0,
@@ -142,7 +186,16 @@ function Contact() {
               cursor: 'pointer',
               fontSize: '1rem',
               fontWeight: 'bold',
-              fontFamily: 'Orbitron, monospace'
+              fontFamily: 'Orbitron, monospace',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = 'rgba(0,234,255,0.2)';
+              e.target.style.transform = 'translateX(-5px)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = 'rgba(0,234,255,0.1)';
+              e.target.style.transform = 'translateX(0)';
             }}
           >
             ← Back
@@ -182,7 +235,7 @@ function Contact() {
           </motion.p>
         </motion.div>
 
-        <div style={{
+        <div className="contact-grid" style={{
           display: 'grid',
           gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr',
           gap: '50px',
@@ -193,7 +246,7 @@ function Contact() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="contact-card"
+            className="contact-card contact-form"
             style={{
               background: 'rgba(0,234,255,0.08)',
               backdropFilter: 'blur(20px)',
@@ -220,7 +273,7 @@ function Contact() {
             </motion.h2>
 
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '25px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <input
                   name="name"
                   placeholder="Your Name *"
@@ -381,7 +434,7 @@ function Contact() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + index * 0.1 }}
-                className="contact-card"
+                className="contact-card contact-info-card"
                 onClick={contact.action}
                 style={{
                   background: 'rgba(0,234,255,0.08)',
@@ -441,6 +494,7 @@ function Contact() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
+          className="map-section"
           style={{
             marginTop: '60px',
             background: 'rgba(0,234,255,0.08)',
@@ -462,19 +516,32 @@ function Contact() {
           <div style={{
             background: 'rgba(0,234,255,0.05)',
             borderRadius: '20px',
-            padding: '40px',
-            minHeight: '300px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.3rem',
-            color: '#00eaff',
-            border: '1px solid #00eaff22'
+            padding: '20px',
+            border: '1px solid #00eaff22',
+            overflow: 'hidden'
           }}>
-            <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📍</div>
-            <strong style={{ fontFamily: 'Orbitron, monospace' }}>Interactive Map Coming Soon</strong>
-            <p style={{ marginTop: '15px', fontSize: '1.1rem', opacity: 0.8, fontFamily: 'Orbitron, monospace' }}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.8234567890123!2d79.4197!3d13.6288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4d4b0c6d2e8f90%3A0x1234567890abcdef!2sAnnamacharya%20Institute%20of%20Technology%20%26%20Sciences!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+              width="100%"
+              height="400"
+              style={{
+                border: 'none',
+                borderRadius: '15px',
+                filter: 'hue-rotate(180deg) invert(90%) contrast(120%)'
+              }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="AITS Location"
+            />
+            <p style={{ 
+              marginTop: '15px', 
+              fontSize: '1.1rem', 
+              opacity: 0.8, 
+              fontFamily: 'Orbitron, monospace',
+              textAlign: 'center',
+              color: '#00eaff'
+            }}>
               AITS Campus, Tirupati, Andhra Pradesh<br/>
               Annamacharya Institute of Technology & Sciences
             </p>

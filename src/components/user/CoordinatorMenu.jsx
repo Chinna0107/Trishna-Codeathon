@@ -161,7 +161,7 @@ const CoordinatorMenu = () => {
           ))}
 
           <div style={{ borderTop: '1px solid rgba(0,0,0,0.1)', margin: '20px 0', paddingTop: '20px' }}>
-            <button
+            {/* <button
               onClick={() => handleNavClick('/coordinator/settings')}
               style={{
                 width: '100%',
@@ -188,7 +188,7 @@ const CoordinatorMenu = () => {
             >
               <FontAwesomeIcon icon={faCog} style={{ fontSize: '1.2rem' }} />
               <span>Settings</span>
-            </button>
+            </button> */}
 
             <button
               onClick={handleLogout}

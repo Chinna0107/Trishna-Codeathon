@@ -32,8 +32,11 @@ import CoordinatorCertifications from './components/user/CoordinatorCertificatio
 import Evaluation from './components/user/Evaluation';
 import MarkEvaluation from './components/user/MarkEvaluation';
 import ViewEvaluation from './components/user/ViewEvaluation';
+import RegisteredData from './components/user/RegisteredData';
 import WinnersData from './components/user/WinnersData';
 import AdminWinnersData from './components/user/AdminWinnersData';
+import UserEvents from './components/user/UserEvents';
+import TestPage from './components/sections/TestPage';
 
 const Router = () => (
   <BrowserRouter>
@@ -45,7 +48,8 @@ const Router = () => (
       <Route path="/home" element={<Home />} />
       <Route path="/admin-home" element={<AdminHome />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/my-events" element={<ParticipantEvents />} />
+      <Route path="/my-events" element={<UserEvents />} />
+      <Route path="/test" element={<TestPage />} />
       <Route path="/user/dashboard" element={<Dashboard />} />
       <Route path="/admin/dashboard" element={<AdminDashboardWrapper />} />
       <Route path="/playground" element={<Playground />} /> // Added route for Playground page
@@ -71,6 +75,7 @@ const Router = () => (
       <Route path="/coordinator/mark-evaluation/:eventName" element={<MarkEvaluation />} />
       <Route path="/coordinator/mark-evaluation/:eventName/:participantName" element={<MarkEvaluation />} />
       <Route path="/coordinator/view-evaluation/:eventName" element={<ViewEvaluation />} />
+      <Route path="/coordinator/registered-data/:eventName" element={<RegisteredData />} />
       <Route path="/coordinator/winners" element={<WinnersData />} />
       <Route path="/coordinator/winners/:eventName" element={<WinnersData />} />
       <Route path="/admin/winners" element={<AdminWinnersData />} />

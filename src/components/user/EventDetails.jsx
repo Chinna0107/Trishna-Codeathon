@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CoordinatorMenu from './CoordinatorMenu';
+import config from '../../config';
 import Swal from 'sweetalert2';
 
 const EventDetails = () => {
@@ -11,16 +12,34 @@ const EventDetails = () => {
     attended: 0,
     absent: 0
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch event stats here
-    // Mock data for now
-    setStats({
-      totalParticipants: 50,
-      attended: 35,
-      absent: 15
-    });
+    fetchEventStats();
   }, [eventName]);
+
+  const fetchEventStats = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('coordinatortoken');
+      const res = await fetch(`${config.BASE_URL}/api/coordinators/event-stats/${eventName}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setStats({
+          totalParticipants: data.totalParticipants || 0,
+          attended: data.attended || 0,
+          absent: data.absent || 0
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching event stats:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
@@ -30,6 +49,10 @@ const EventDetails = () => {
           {`
             @media (max-width: 768px) {
               .event-details-content { margin-left: 0 !important; padding: 20px !important; padding-top: 80px !important; }
+            }
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
             }
           `}
         </style>
@@ -156,19 +179,31 @@ const EventDetails = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
               <div style={{ background: '#48bb78', padding: '15px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(72, 187, 120, 0.3)', textAlign: 'center', border: '3px solid #38a169' }}>
                 <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>👥</div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.totalParticipants}</h3>
+                {loading ? (
+                  <div style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTop: '3px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '10px auto' }}></div>
+                ) : (
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.totalParticipants}</h3>
+                )}
                 <p style={{ color: '#fff', margin: 0, fontSize: '0.85rem', fontWeight: '600' }}>Total Participants</p>
               </div>
               
               <div style={{ background: '#48bb78', padding: '15px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(72, 187, 120, 0.3)', textAlign: 'center', border: '3px solid #38a169' }}>
                 <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>✅</div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.attended}</h3>
+                {loading ? (
+                  <div style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTop: '3px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '10px auto' }}></div>
+                ) : (
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.attended}</h3>
+                )}
                 <p style={{ color: '#fff', margin: 0, fontSize: '0.85rem', fontWeight: '600' }}>Attended</p>
               </div>
               
               <div style={{ background: '#48bb78', padding: '15px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(72, 187, 120, 0.3)', textAlign: 'center', border: '3px solid #38a169' }}>
                 <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>❌</div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.absent}</h3>
+                {loading ? (
+                  <div style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTop: '3px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '10px auto' }}></div>
+                ) : (
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', margin: '0 0 5px 0' }}>{stats.absent}</h3>
+                )}
                 <p style={{ color: '#fff', margin: 0, fontSize: '0.85rem', fontWeight: '600' }}>Absent</p>
               </div>
             </div>

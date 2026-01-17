@@ -30,6 +30,8 @@ const IndividualRegistration = () => {
   const [verifyingOtp, setVerifyingOtp] = useState(false);
   const [screenshotLink, setScreenshotLink] = useState('');
   const [eventName, setEventName] = useState('');
+  const [isExistingUser, setIsExistingUser] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
 
   const eventsList = [
     { id: 'project-expo', name: 'Project Expo' },
@@ -72,7 +74,7 @@ const IndividualRegistration = () => {
       });
       return;
     }
-    if (participant.password !== participant.confirmPassword) {
+    if (!isExistingUser && participant.password !== participant.confirmPassword) {
       Swal.fire({
         icon: 'error',
         title: 'Password Mismatch',
@@ -103,6 +105,10 @@ const IndividualRegistration = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        setOtpSent(true);
+        if (data.isExistingUser) {
+          setIsExistingUser(true);
+        }
         Swal.fire({
           icon: 'success',
           title: 'OTP Sent!',
@@ -419,21 +425,21 @@ const IndividualRegistration = () => {
               <motion.button
                 type="button"
                 onClick={sendOtp}
-                disabled={sendingOtp}
+                disabled={sendingOtp || otpSent}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
                   padding: '12px 20px',
                   borderRadius: '12px',
-                  background: sendingOtp ? '#999' : '#667eea',
+                  background: otpSent ? '#4CAF50' : sendingOtp ? '#999' : '#667eea',
                   color: '#fff',
                   fontWeight: 'bold',
                   border: 'none',
-                  cursor: sendingOtp ? 'not-allowed' : 'pointer',
+                  cursor: sendingOtp || otpSent ? 'not-allowed' : 'pointer',
                   fontSize: '0.9rem'
                 }}
               >
-                {sendingOtp ? 'Sending...' : 'Send OTP'}
+                {sendingOtp ? 'Sending...' : otpSent ? 'Sent ✓' : 'Send OTP'}
               </motion.button>
             )}
             {emailVerified && <span style={{ color: '#4CAF50', fontSize: '1.5rem' }}>✓</span>}
@@ -481,42 +487,46 @@ const IndividualRegistration = () => {
           )}
 
           {/* Password fields */}
-          <motion.input
-            placeholder="Password"
-            name="password"
-            type="password"
-            value={participant.password}
-            onChange={handleChange}
-            required
-            whileFocus={{ scale: 1.02 }}
-            style={{
-              padding: '12px',
-              borderRadius: '12px',
-              border: '2px solid transparent',
-              outline: 'none',
-              fontSize: '1rem',
-              background: 'rgba(255,255,255,0.95)',
-              color: '#333'
-            }}
-          />
-          <motion.input
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            value={participant.confirmPassword}
-            onChange={handleChange}
-            required
-            whileFocus={{ scale: 1.02 }}
-            style={{
-              padding: '12px',
-              borderRadius: '12px',
-              border: '2px solid transparent',
-              outline: 'none',
-              fontSize: '1rem',
-              background: 'rgba(255,255,255,0.95)',
-              color: '#333'
-            }}
-          />
+          {!isExistingUser && (
+            <>
+              <motion.input
+                placeholder="Password"
+                name="password"
+                type="password"
+                value={participant.password}
+                onChange={handleChange}
+                required
+                whileFocus={{ scale: 1.02 }}
+                style={{
+                  padding: '12px',
+                  borderRadius: '12px',
+                  border: '2px solid transparent',
+                  outline: 'none',
+                  fontSize: '1rem',
+                  background: 'rgba(255,255,255,0.95)',
+                  color: '#333'
+                }}
+              />
+              <motion.input
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                type="password"
+                value={participant.confirmPassword}
+                onChange={handleChange}
+                required
+                whileFocus={{ scale: 1.02 }}
+                style={{
+                  padding: '12px',
+                  borderRadius: '12px',
+                  border: '2px solid transparent',
+                  outline: 'none',
+                  fontSize: '1rem',
+                  background: 'rgba(255,255,255,0.95)',
+                  color: '#333'
+                }}
+              />
+            </>
+          )}
 
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
             <motion.button
