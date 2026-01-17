@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import UserMenu from '../user/UserMenu';
-import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
+import Events from './Events';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ const Profile = () => {
     mobile: profile.mobile,
     rollNo: profile.rollNo,
     role: 'participant',
+    event:'profile.event_name',
     timestamp: Date.now()
   });
 
@@ -147,191 +149,118 @@ const Profile = () => {
           `}
         </style>
         
-        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)', padding: '0', position: 'relative', overflow: 'hidden' }} className="mobile-padding">
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)', padding: '60px 40px 40px 40px', position: 'relative', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="mobile-padding">
           {/* Animated background elements */}
           <div style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', height: '100px', background: 'radial-gradient(circle, rgba(0,234,255,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 6s ease-in-out infinite' }}></div>
           <div style={{ position: 'absolute', top: '60%', right: '10%', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 8s ease-in-out infinite reverse' }}></div>
           <div style={{ position: 'absolute', bottom: '20%', left: '15%', width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 7s ease-in-out infinite' }}></div>
-          <div style={{ width: '100%' }}>
-            {/* Profile Card */}
-            <div className="profile-card" style={{
-              background: 'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05))',
-              backdropFilter: 'blur(30px)',
-              padding: '40px',
-              borderRadius: '0',
-              boxShadow: '0 20px 60px rgba(0,234,255,0.15), 0 8px 32px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.3)',
-              position: 'relative',
-              border: '2px solid rgba(0,234,255,0.2)',
-              width: '100%',
-              overflow: 'hidden',
-              minHeight: '100vh',
-              animation: 'glow 4s ease-in-out infinite'
-            }}>
+          
+          {/* Profile Card */}
+          <div className="profile-card" style={{
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05))',
+            backdropFilter: 'blur(30px)',
+            padding: '40px',
+            borderRadius: '20px',
+            boxShadow: '0 20px 60px rgba(0,234,255,0.15), 0 8px 32px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.3)',
+            position: 'relative',
+            border: '2px solid rgba(0,234,255,0.2)',
+            maxWidth: '950px',
+            width: '100%',
+            overflow: 'hidden',
+            animation: 'glow 4s ease-in-out infinite'
+          }}>
               <div style={{ position: 'relative', zIndex: 1 }}>
-                {/* Header */}
-                <div className="profile-header" style={{ textAlign: 'center', marginBottom: '40px', position: 'relative' }}>
-                  {/* Decorative elements */}
-                  <div style={{ position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', width: '200px', height: '4px', background: 'linear-gradient(90deg, transparent, #00eaff, transparent)', borderRadius: '2px' }}></div>
-                  <h1 style={{ fontSize: '2.8rem', color: '#00eaff', margin: '0 0 10px 0', fontWeight: 'bold', textShadow: '0 0 20px rgba(0,234,255,0.6), 0 4px 8px rgba(0,0,0,0.3)', letterSpacing: '2px' }}>TRI-COD 2K26</h1>
-                  <p style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.9)', margin: 0, fontWeight: '300', letterSpacing: '1px' }}>✨ Participant Profile ✨</p>
-                  <div style={{ position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)', width: '100px', height: '2px', background: 'linear-gradient(90deg, transparent, #667eea, transparent)', borderRadius: '1px' }}></div>
-                </div>
-
                 {/* Profile Section */}
-                <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '30px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ background: '#000', backdropFilter: 'blur(20px)', padding: '30px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+                  {/* Corner Pins */}
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                  <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                  <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                  <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
                   {/* Details and QR Grid */}
                   <div className="details-qr-grid" style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: '2fr 1fr', 
-                    gap: '30px', 
+                    gridTemplateColumns: '1fr 2px 1fr', 
+                    gap: '15px', 
                     alignItems: 'start' 
                   }}>
                     {/* Left Side - Profile Details */}
-                    <div className="details-section" style={{ display: 'grid', gap: '20px' }}>
-                      <div className="profile-header" style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        <div className="avatar-glow profile-avatar" style={{
-                          width: '160px',
-                          height: '160px',
+                    <div className="details-section" style={{ display: 'flex', flexDirection: 'column', gap: '15px', background: '#000', padding: '20px', borderRadius: '15px' }}>
+                      {/* Avatar with name and roll number */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+                        <div style={{
+                          width: '80px',
+                          height: '80px',
                           borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #00eaff 100%)',
-                          color: '#fff',
+                          background: '#000',
+                          color: '#ffff00',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '4rem',
+                          fontSize: '2rem',
                           fontWeight: 'bold',
-                          margin: '0 auto 25px',
-                          boxShadow: '0 20px 50px rgba(102, 126, 234, 0.5), 0 10px 25px rgba(0,234,255,0.3), inset 0 2px 0 rgba(255,255,255,0.4)',
-                          border: '4px solid rgba(255,255,255,0.4)',
-                          position: 'relative',
-                          animation: 'pulse 3s ease-in-out infinite'
+                          border: '3px solid #ffff00'
                         }}>
                           {profile.name?.charAt(0).toUpperCase()}
                         </div>
-                        <h2 className="profile-title" style={{ fontSize: '2.4rem', margin: '0 0 10px 0', color: '#00eaff', fontWeight: 'bold', textShadow: '0 0 15px rgba(0,234,255,0.6), 0 4px 8px rgba(0,0,0,0.3)', letterSpacing: '1px' }}>{profile.name}</h2>
-                        <p className="profile-subtitle" style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.9)', margin: '0 0 15px 0', fontWeight: '500', letterSpacing: '0.5px' }}>🎯 Event Participant</p>
-                        <div style={{ 
-                          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2))',
-                          padding: '10px 25px',
-                          borderRadius: '25px',
-                          display: 'inline-block',
-                          fontSize: '1rem',
-                          color: '#00eaff',
-                          fontWeight: '600',
-                          border: '2px solid rgba(0,234,255,0.3)',
-                          boxShadow: '0 4px 15px rgba(0,234,255,0.2)',
-                          animation: 'glow 3s ease-in-out infinite'
-                        }}>
-                          ✨ Active Member
+                        <div>
+                          <h2 style={{ fontSize: '1.8rem', margin: '0', color: '#87CEEB', fontWeight: 'bold' }}>{profile.name}</h2>
+                          <p style={{ fontSize: '1rem', color: '#87CEEB', margin: '0', fontWeight: '500' }}>{profile.rollNo}</p>
                         </div>
                       </div>
                       
-                      <div className="profile-field" style={{ 
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))', 
-                        backdropFilter: 'blur(25px)',
-                        padding: '25px', 
-                        borderRadius: '20px',
-                        boxShadow: '0 8px 32px rgba(0,234,255,0.1), 0 4px 16px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.2)',
-                        border: '2px solid rgba(0,234,255,0.2)',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}>
-                        <p className="profile-field-label" style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📧 Email Address</p>
-                        <p className="profile-field-value" style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600', wordBreak: 'break-word' }}>{profile.email}</p>
+                      {/* Horizontal Line */}
+                      <hr style={{ border: 'none', height: '2px', background: 'linear-gradient(90deg, #87CEEB, transparent)', margin: '10px 0', borderRadius: '1px' }} />
+                      
+
+                      
+                      {/* Event Name */}
+                      <div style={{ marginBottom: '10px', display: 'flex' }}>
+                        <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Event :</span>
+                        <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px' }}>TRISHNA 2K26</span>
                       </div>
                       
-                      {profile.mobile && (
-                        <div className="profile-field" style={{ 
-                          background: 'rgba(255,255,255,0.1)', 
-                          backdropFilter: 'blur(20px)',
-                          padding: '20px', 
-                          borderRadius: '15px',
-                          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-                          border: '1px solid rgba(255,255,255,0.2)',
-                          position: 'relative',
-                          overflow: 'hidden'
-                        }}>
-                          <div style={{ position: 'absolute', top: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
-                          <div style={{ position: 'absolute', top: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
-                          <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
-                          <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📱 Mobile Number</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600' }}>{profile.mobile}</p>
-                        </div>
-                      )}
+                      {/* Email */}
+                      <div style={{ marginBottom: '10px', display: 'flex' }}>
+                        <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Email :</span>
+                        <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px', wordBreak: 'break-word' }}>{profile.email}</span>
+                      </div>
                       
-                      {profile.rollNo && (
-                        <div className="profile-field" style={{ 
-                          background: 'linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))', 
-                          backdropFilter: 'blur(25px)',
-                          padding: '25px', 
-                          borderRadius: '20px',
-                          boxShadow: '0 8px 32px rgba(0,234,255,0.1), 0 4px 16px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.2)',
-                          border: '2px solid rgba(0,234,255,0.2)',
-                          position: 'relative',
-                          overflow: 'hidden',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                        }}>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>🎓 Roll Number</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600' }}>{profile.rollNo}</p>
-                        </div>
-                      )}
-                      
+                      {/* College */}
                       {profile.college && (
-                        <div className="profile-field" style={{ 
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8))', 
-                          padding: '20px', 
-                          borderRadius: '15px',
-                          boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                          border: '1px solid rgba(102, 126, 234, 0.1)'
-                        }}>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: '#764ba2', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>🏫 College</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#667eea', fontWeight: '600' }}>{profile.college}</p>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>College :</span>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px' }}>{profile.college}</span>
                         </div>
                       )}
                       
+                      {/* Department/Branch */}
                       {profile.branch && (
-                        <div className="profile-field" style={{ 
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8))', 
-                          padding: '20px', 
-                          borderRadius: '15px',
-                          boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                          border: '1px solid rgba(102, 126, 234, 0.1)'
-                        }}>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: '#764ba2', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📚 Branch</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#667eea', fontWeight: '600' }}>{profile.branch}</p>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Branch :</span>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px' }}>{profile.branch}</span>
                         </div>
                       )}
                       
+                      {/* Year */}
                       {profile.year && (
-                        <div className="profile-field" style={{ 
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8))', 
-                          padding: '20px', 
-                          borderRadius: '15px',
-                          boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                          border: '1px solid rgba(102, 126, 234, 0.1)'
-                        }}>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: '#764ba2', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📅 Year</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#667eea', fontWeight: '600' }}>{profile.year}</p>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Year :</span>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px' }}>{profile.year}</span>
                         </div>
                       )}
                       
-                      <div className="profile-field" style={{ 
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))', 
-                        backdropFilter: 'blur(25px)',
-                        padding: '25px', 
-                        borderRadius: '20px',
-                        boxShadow: '0 8px 32px rgba(0,234,255,0.1), 0 4px 16px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.2)',
-                        border: '2px solid rgba(0,234,255,0.2)',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}>
-                        <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>🔖 Participant ID</p>
-                        <p style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600' }}>PART-{profile.id || profile._id}</p>
-                      </div>
+                      {/* Mobile */}
+                      {profile.mobile && (
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Mobile :</span>
+                          <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', marginLeft: '10px' }}>{profile.mobile}</span>
+                        </div>
+                      )}
                     </div>
+                    
+                    {/* Vertical Line */}
+                    <div style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
                     
                     {/* Right Side - QR Code */}
                     <div className="qr-section qr-container" style={{ 
@@ -341,14 +270,15 @@ const Profile = () => {
                       justifyContent: 'center',
                       minHeight: '300px',
                       paddingTop: '250px',
-                      padding: '20px'
+                      padding: '20px',
+                      position: 'relative'
                     }}>
-                      <h3 style={{ color: '#667eea', marginBottom: '25px', fontSize: '1.3rem', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>QR Code</h3>
+                      <h3 style={{ color: '#87CEEB', marginBottom: '25px', fontSize: '1.3rem', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>QR Code</h3>
                       <div className="qr-wrapper" style={{ 
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9))', 
-                        padding: '25px', 
-                        borderRadius: '20px', 
-                        boxShadow: '0 15px 35px rgba(102, 126, 234, 0.2), 0 5px 15px rgba(0,0,0,0.1)',
+                        padding: '20px', 
+                        borderRadius: '15px', 
+                        boxShadow: '0 10px 25px rgba(102, 126, 234, 0.2), 0 5px 15px rgba(0,0,0,0.1)',
                         border: '2px solid rgba(102, 126, 234, 0.1)',
                         position: 'relative',
                         overflow: 'hidden'
@@ -365,7 +295,7 @@ const Profile = () => {
                         <QRCodeSVG 
                           className="qr-code"
                           value={qrData}
-                          size={160}
+                          size={140}
                           level="H"
                           includeMargin={false}
                           style={{ position: 'relative', zIndex: 1 }}
@@ -374,18 +304,34 @@ const Profile = () => {
                       <p style={{ 
                         marginTop: '15px', 
                         fontSize: '0.85rem', 
-                        color: '#764ba2', 
+                        color: '#87CEEB', 
                         textAlign: 'center',
                         opacity: 0.8,
                         fontWeight: '500'
                       }}>
                         ✨ Scan for attendance
                       </p>
+                      
+                      {/* Logo below QR code */}
+                      <div style={{ marginTop: '15px', textAlign: 'center' }}>
+                        <img 
+                          src={tkLogo} 
+                          alt="TK26 Logo" 
+                          style={{ 
+                            height: '50px', 
+                            width: 'auto', 
+                            objectFit: 'contain',
+                            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+                            animation: 'glow 2s ease-in-out infinite alternate'
+                          }} 
+                        />
+                      </div>
+                      
+
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../config';
 import Swal from 'sweetalert2';
 import CoordinatorMenu from './CoordinatorMenu';
+import tkLogo from '../../assets/images/tk26.png';
 
 const CoordinatorEvents = () => {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const CoordinatorEvents = () => {
     return (
       <div style={{ display: 'flex', minHeight: '100vh' }}>
         <CoordinatorMenu />
-        <div style={{ marginLeft: '280px', flex: 1, background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="events-content">
+        <div style={{ marginLeft: '280px', flex: 1, background: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="events-content">
           <style>
             {`
               @media (max-width: 768px) {
@@ -84,8 +85,8 @@ const CoordinatorEvents = () => {
             `}
           </style>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ width: '60px', height: '60px', border: '6px solid rgba(102, 126, 234, 0.3)', borderTop: '6px solid #667eea', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
-            <p style={{ color: '#2d3748', fontSize: '1.1rem', fontWeight: 'bold' }}>Loading events...</p>
+            <div style={{ width: '60px', height: '60px', border: '6px solid rgba(255, 255, 255, 0.3)', borderTop: '6px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
+            <p style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 'bold' }}>Loading events...</p>
             <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
           </div>
         </div>
@@ -96,17 +97,36 @@ const CoordinatorEvents = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <CoordinatorMenu />
-      <div style={{ marginLeft: '280px', flex: 1, background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', padding: '40px' }} className="events-content">
+      <div style={{ marginLeft: '280px', flex: 1, background: '#000', padding: '40px', position: 'relative' }} className="events-content">
         <style>
           {`
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+            }
             @media (max-width: 768px) {
               .events-content { margin-left: 0 !important; padding: 20px !important; padding-top: 80px !important; }
             }
           `}
         </style>
+        
+        {/* Logo in top right corner */}
+        <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+          <img 
+            src={tkLogo} 
+            alt="TK26 Logo" 
+            style={{ 
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
+            }} 
+          />
+        </div>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 style={{ color: '#2d3748', fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '10px' }}>My Events</h1>
-          <p style={{ color: '#4a5568', fontSize: '1.1rem', marginBottom: '20px' }}>Manage your assigned events</p>
+          <h1 style={{ color: '#fff', fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '10px' }}>My Events</h1>
+          <p style={{ color: '#ccc', fontSize: '1.1rem', marginBottom: '20px' }}>Manage your assigned events</p>
 
           {/* Search Bar */}
           <div style={{ marginBottom: '20px' }}>
@@ -165,7 +185,7 @@ const CoordinatorEvents = () => {
           {filteredEvents.length > 0 ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               {filteredEvents.map((event, idx) => (
-                <div key={idx} style={{ background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                <div key={idx} style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '20px', borderRadius: '12px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)' }}>
                   <div style={{ width: '100%', height: '150px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '8px', marginBottom: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)' }}>
                     {idx === 0 ? '🎯' : '🌟'}
                   </div>
@@ -191,22 +211,24 @@ const CoordinatorEvents = () => {
                       📂 Open
                     </button>
                     
-                    <h2 style={{ fontSize: '1.1rem', color: '#2d3748', margin: 0, fontWeight: 'bold', flex: 1 }}>{event.name}</h2>
+                    <h2 style={{ fontSize: '1.1rem', color: '#fff', margin: 0, fontWeight: 'bold', flex: 1 }}>{event.name}</h2>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             <div style={{
-              background: '#fff',
+              background: 'rgba(0,0,0,0.8)',
+              backdropFilter: 'blur(20px)', 
               padding: '60px',
               borderRadius: '15px',
               textAlign: 'center',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.2)'
             }}>
               <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🔍</div>
-              <h3 style={{ color: '#2d3748', marginBottom: '10px' }}>No Events Found</h3>
-              <p style={{ color: '#718096' }}>Try adjusting your search or category filter.</p>
+              <h3 style={{ color: '#fff', marginBottom: '10px' }}>No Events Found</h3>
+              <p style={{ color: '#ccc' }}>Try adjusting your search or category filter.</p>
             </div>
           )}
         </div>

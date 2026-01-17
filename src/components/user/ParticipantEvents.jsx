@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
 
 const ParticipantEvents = () => {
   const navigate = useNavigate();
@@ -46,14 +47,37 @@ const ParticipantEvents = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea, #764ba2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff' }}>
+      <div style={{ minHeight: '100vh', background: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff' }}>
         <div>Loading your events...</div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea, #764ba2)', padding: '40px 20px' }}>
+    <div style={{ minHeight: '100vh', background: '#000', padding: '40px 20px', position: 'relative' }}>
+      <style>
+        {`
+          @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+            50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+          }
+        `}
+      </style>
+      
+      {/* Logo in top right corner */}
+      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <h1 style={{ color: '#fff', fontSize: '2.5rem', fontWeight: 'bold' }}>My Registered Events</h1>
@@ -66,10 +90,10 @@ const ParticipantEvents = () => {
         </div>
 
         {registrations.length === 0 ? (
-          <div style={{ background: 'rgba(255,255,255,0.95)', padding: '60px', borderRadius: '20px', textAlign: 'center' }}>
+          <div style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '60px', borderRadius: '20px', textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)' }}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📋</div>
-            <h2 style={{ color: '#2d3748', fontSize: '1.8rem', marginBottom: '10px' }}>No Events Registered</h2>
-            <p style={{ color: '#718096', marginBottom: '30px' }}>You haven't registered for any events yet.</p>
+            <h2 style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '10px' }}>No Events Registered</h2>
+            <p style={{ color: '#ccc', marginBottom: '30px' }}>You haven't registered for any events yet.</p>
             <button
               onClick={() => navigate('/events')}
               style={{ padding: '12px 30px', background: 'linear-gradient(135deg, #667eea, #764ba2)', border: 'none', borderRadius: '10px', color: '#fff', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}
@@ -80,38 +104,38 @@ const ParticipantEvents = () => {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px' }}>
             {registrations.map((reg, idx) => (
-              <div key={idx} style={{ background: 'rgba(255,255,255,0.95)', padding: '25px', borderRadius: '15px', boxShadow: '0 8px 20px rgba(0,0,0,0.2)', position: 'relative' }}>
+              <div key={idx} style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '15px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative' }}>
                 <div style={{ position: 'absolute', top: '15px', left: '20px', background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#1a202c', width: '35px', height: '35px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', fontWeight: '900', boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)', border: '2px solid #fff', fontFamily: 'Arial, sans-serif' }}>
                   {idx + 1}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '15px', marginTop: '10px' }}>
-                  <h3 style={{ color: '#2d3748', fontSize: '1.5rem', fontWeight: 'bold', margin: 0, paddingLeft: '35px' }}>{reg.eventName || 'Event'}</h3>
+                  <h3 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 'bold', margin: 0, paddingLeft: '35px' }}>{reg.eventName || 'Event'}</h3>
                   <span style={{ padding: '5px 12px', background: reg.registrationType === 'Team' ? '#667eea' : '#48bb78', color: '#fff', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold' }}>
                     {reg.registrationType || 'Individual'}
                   </span>
                 </div>
                 
                 <div style={{ marginBottom: '10px', paddingBottom: '10px', borderBottom: '1px solid #e2e8f0' }}>
-                  <div style={{ color: '#718096', fontSize: '0.85rem', marginBottom: '3px' }}>Registration Date</div>
-                  <div style={{ color: '#2d3748', fontWeight: '600' }}>{new Date(reg.createdAt || Date.now()).toLocaleDateString()}</div>
+                  <div style={{ color: '#ccc', fontSize: '0.85rem', marginBottom: '3px' }}>Registration Date</div>
+                  <div style={{ color: '#fff', fontWeight: '600' }}>{new Date(reg.createdAt || Date.now()).toLocaleDateString()}</div>
                 </div>
 
                 {reg.teamName && (
                   <div style={{ marginBottom: '10px', paddingBottom: '10px', borderBottom: '1px solid #e2e8f0' }}>
-                    <div style={{ color: '#718096', fontSize: '0.85rem', marginBottom: '3px' }}>Team Name</div>
-                    <div style={{ color: '#2d3748', fontWeight: '600' }}>{reg.teamName}</div>
+                    <div style={{ color: '#ccc', fontSize: '0.85rem', marginBottom: '3px' }}>Team Name</div>
+                    <div style={{ color: '#fff', fontWeight: '600' }}>{reg.teamName}</div>
                   </div>
                 )}
 
                 <div style={{ marginBottom: '10px' }}>
-                  <div style={{ color: '#718096', fontSize: '0.85rem', marginBottom: '3px' }}>Status</div>
+                  <div style={{ color: '#ccc', fontSize: '0.85rem', marginBottom: '3px' }}>Status</div>
                   <div style={{ color: '#48bb78', fontWeight: '600' }}>✓ Registered</div>
                 </div>
 
                 {reg.transactionId && (
-                  <div style={{ marginTop: '15px', padding: '10px', background: '#f7fafc', borderRadius: '8px' }}>
-                    <div style={{ color: '#718096', fontSize: '0.75rem', marginBottom: '3px' }}>Transaction ID</div>
-                    <div style={{ color: '#2d3748', fontSize: '0.9rem', fontFamily: 'monospace' }}>{reg.transactionId}</div>
+                  <div style={{ marginTop: '15px', padding: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}>
+                    <div style={{ color: '#ccc', fontSize: '0.75rem', marginBottom: '3px' }}>Transaction ID</div>
+                    <div style={{ color: '#fff', fontSize: '0.9rem', fontFamily: 'monospace' }}>{reg.transactionId}</div>
                   </div>
                 )}
               </div>

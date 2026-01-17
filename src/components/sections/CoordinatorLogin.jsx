@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import config from '../../config';
 
 const CoordinatorLogin = () => {
@@ -30,30 +31,40 @@ const CoordinatorLogin = () => {
       const data = await res.json();
 
       if (res.ok) {
-        await Swal.fire({
-          icon: 'success',
-          title: 'Login Successful',
-          text: 'Welcome Coordinator!',
-          timer: 2000,
-          showConfirmButton: false
+        toast.success('Welcome Coordinator!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
         });
 
         localStorage.setItem('coordinatortoken', data.token);
         localStorage.setItem('coordinator', JSON.stringify(data.coordinator));
-        navigate('/coordinator/dashboard');
-        window.location.reload();
+        
+        setTimeout(() => {
+          navigate('/coordinator/dashboard');
+          window.location.reload();
+        }, 1000);
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: data.error || 'Invalid credentials'
+        toast.error(data.error || 'Invalid credentials', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
         });
       }
     } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Something went wrong. Please try again.'
+      toast.error('Something went wrong. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
       });
     } finally {
       setLoading(false);
@@ -130,6 +141,18 @@ const CoordinatorLogin = () => {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

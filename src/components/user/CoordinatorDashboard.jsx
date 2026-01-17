@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import CoordinatorMenu from './CoordinatorMenu';
 import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
 
 const CoordinatorDashboard = () => {
   const [coordinator, setCoordinator] = useState(null);
@@ -55,21 +56,40 @@ const CoordinatorDashboard = () => {
   return coordinator ? (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <CoordinatorMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh', position: 'relative' }} className="dashboard-wrapper">
         <style>
           {`
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+            }
             @media (max-width: 768px) {
               .dashboard-wrapper { margin-left: 0 !important; padding: 20px !important; padding-top: 80px !important; }
             }
           `}
         </style>
-        <h2 style={{ fontSize: '2.5rem', color: '#2d3748', marginBottom: '10px', fontWeight: 'bold' }}>Welcome Back! 👋</h2>
-        <p style={{ color: '#4a5568', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {coordinator?.name}, manage your event efficiently</p>
+        
+        {/* Logo in top right corner */}
+        <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+          <img 
+            src={tkLogo} 
+            alt="TK26 Logo" 
+            style={{ 
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
+            }} 
+          />
+        </div>
+        <h2 style={{ fontSize: '2.5rem', color: '#fff', marginBottom: '10px', fontWeight: 'bold' }}>Welcome Back! 👋</h2>
+        <p style={{ color: '#ccc', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {coordinator?.name}, manage your event efficiently</p>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px' }}>
           {/* Events Count Card */}
-          <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-            <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>📅 My Events</h3>
+          <div style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: '12px', fontWeight: 'bold' }}>📅 My Events</h3>
             
             {loading ? (
               <div style={{ 
@@ -89,7 +109,7 @@ const CoordinatorDashboard = () => {
                   animation: 'spin 1s linear infinite',
                   marginBottom: '10px'
                 }}></div>
-                <p style={{ margin: 0, fontSize: '0.85rem', color: '#718096' }}>Loading events...</p>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#ccc' }}>Loading events...</p>
                 <style>
                   {`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
                 </style>
@@ -97,10 +117,10 @@ const CoordinatorDashboard = () => {
             ) : assignedEvents.length > 0 ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '8px' }}>
                 {assignedEvents.map((event, idx) => (
-                  <div key={idx} style={{ background: '#f7fafc', padding: '10px', borderRadius: '6px', textAlign: 'center', borderTop: '2px solid #FFD700' }}>
+                  <div key={idx} style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '10px', borderRadius: '6px', textAlign: 'center', borderTop: '2px solid #FFD700', border: '1px solid rgba(255,255,255,0.2)' }}>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#FFD700', marginBottom: '5px' }}>{idx + 1}</div>
-                    <h4 style={{ fontSize: '0.85rem', color: '#2d3748', margin: '0 0 3px 0', fontWeight: 'bold' }}>{event.name}</h4>
-                    <p style={{ fontSize: '0.75rem', color: '#718096', margin: 0 }}>📂 {event.category}</p>
+                    <h4 style={{ fontSize: '0.85rem', color: '#fff', margin: '0 0 3px 0', fontWeight: 'bold' }}>{event.name}</h4>
+                    <p style={{ fontSize: '0.75rem', color: '#ccc', margin: 0 }}>📂 {event.category}</p>
                   </div>
                 ))}
               </div>
@@ -108,7 +128,7 @@ const CoordinatorDashboard = () => {
               <div style={{ 
                 textAlign: 'center', 
                 padding: '20px',
-                color: '#718096',
+                color: '#ccc',
                 fontSize: '0.9rem'
               }}>
                 No events assigned yet
@@ -117,8 +137,8 @@ const CoordinatorDashboard = () => {
           </div>
 
           {/* ID Card */}
-          <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-            <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>🆔 ID Card</h3>
+          <div style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: '12px', fontWeight: 'bold' }}>🆔 ID Card</h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
               <div style={{ 
                 width: '50px', 
@@ -136,8 +156,8 @@ const CoordinatorDashboard = () => {
                 {coordinator?.name?.charAt(0).toUpperCase()}
               </div>
               <div>
-                <h4 style={{ fontSize: '0.95rem', margin: '0 0 2px 0', color: '#2d3748', fontWeight: 'bold' }}>{coordinator?.name}</h4>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: '#718096' }}>Event Coordinator</p>
+                <h4 style={{ fontSize: '0.95rem', margin: '0 0 2px 0', color: '#fff', fontWeight: 'bold' }}>{coordinator?.name}</h4>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: '#ccc' }}>Event Coordinator</p>
               </div>
             </div>
 

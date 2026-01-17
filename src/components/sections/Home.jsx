@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import UserMenu from '../user/UserMenu';
 import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -60,14 +61,33 @@ const Home = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <UserMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh', position: 'relative' }} className="dashboard-wrapper">
         <style>
           {`
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+            }
             @media (max-width: 768px) {
               .dashboard-wrapper { margin-left: 0 !important; padding: 20px !important; padding-top: 80px !important; }
             }
           `}
         </style>
+        
+        {/* Logo in top right corner */}
+        <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+          <img 
+            src={tkLogo} 
+            alt="TK26 Logo" 
+            style={{ 
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
+            }} 
+          />
+        </div>
         <h2 style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '10px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Welcome Back! 👋</h2>
         <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {user?.name}, ready to explore amazing events?</p>
         

@@ -149,7 +149,7 @@ const Evaluation = () => {
                   ✏️ Edit Evaluation
                 </button>
 
-                <div className="evaluation-export-buttons" style={{ display: 'flex', gap: '10px' }}>
+                {/* <div className="evaluation-export-buttons" style={{ display: 'flex', gap: '10px' }}>
                   <button
                     onClick={exportToPDF}
                     style={{
@@ -190,7 +190,7 @@ const Evaluation = () => {
                   >
                     📊 Excel
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -305,7 +305,7 @@ const TeamRegistration = () => {
     return (
       <div style={{
         padding: '50px 20px', textAlign: 'center',
-        background: 'linear-gradient(135deg, #667eea, #764ba2)',
+        background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
         minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}>
         <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
@@ -487,7 +487,7 @@ const TeamRegistration = () => {
   if (step === 2) {
     return (
       <div style={{
-        padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #667eea, #764ba2)',
+        padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
         minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', overflowY: 'auto'
       }}>
         <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
@@ -615,7 +615,7 @@ const TeamRegistration = () => {
 
   return (
     <div style={{
-      padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #667eea, #764ba2)',
+      padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
       minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'
     }}>
       <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />

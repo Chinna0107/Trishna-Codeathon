@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCalendarAlt, faUser, faClipboardList, faSignOutAlt, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,30 +11,17 @@ const UserMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleLogout = () => {
-    Swal.fire({
-      title: 'Logout?',
-      text: 'Are you sure you want to logout?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#667eea',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        Swal.fire({
-          icon: 'success',
-          title: 'Logged Out!',
-          text: 'You have been successfully logged out.',
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
-          navigate('/login');
-        });
-      }
-    });
+    if (window.confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      toast.success('You have been successfully logged out.', {
+        position: "top-right",
+        autoClose: 1500
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
+    }
   };
 
   const menuItems = [
@@ -101,13 +89,13 @@ const UserMenu = () => {
           left: '20px',
           zIndex: 2000,
           padding: '15px',
-          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+          background: 'linear-gradient(135deg, #1c1c1a 0%, #161615 100%)',
           border: 'none',
           borderRadius: '12px',
           color: '#fff',
           fontSize: '1.5rem',
           cursor: 'pointer',
-          boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)',
+          boxShadow: '0 4px 15px rgba(10, 10, 10, 0.4)',
           transition: 'all 0.3s ease',
           animation: 'bounce 2s infinite'
         }}
@@ -262,6 +250,18 @@ const UserMenu = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

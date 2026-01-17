@@ -1,18 +1,38 @@
 import React from 'react';
 import UserMenu from '../user/UserMenu';
+import tkLogo from '../../assets/images/tk26.png';
 
 const TestPage = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <UserMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }} className="dashboard-wrapper">
         <style>
           {`
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+            }
             @media (max-width: 768px) {
               .dashboard-wrapper { margin-left: 0 !important; padding: 20px !important; padding-top: 80px !important; }
             }
           `}
         </style>
+        
+        {/* Logo in top right corner */}
+        <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+          <img 
+            src={tkLogo} 
+            alt="TK26 Logo" 
+            style={{ 
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
+            }} 
+          />
+        </div>
         
         <div style={{ 
           textAlign: 'center', 

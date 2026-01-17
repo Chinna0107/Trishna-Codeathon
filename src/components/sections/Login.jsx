@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import config from '../../config';
 
 const LoginPage = () => {
@@ -37,38 +38,31 @@ const LoginPage = () => {
       const data = await res.json();
 
       if (res.ok) {
-        await Swal.fire({
-          icon: 'success',
-          title: 'Login Successful',
-          text: data.message || 'Welcome back!',
-          timer: 2000,
-          showConfirmButton: false
+        toast.success(data.message || 'Welcome back!', {
+          position: "top-right",
+          autoClose: 2000
         });
 
         if (data.is_admin) {
           if (data.token) localStorage.setItem('admintoken', data.token);
           if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
-          navigate('/admin/dashboard');
-          window.location.reload();
+          setTimeout(() => {
+            navigate('/admin/dashboard');
+            window.location.reload();
+          }, 1000);
         } else {
           if (data.token) localStorage.setItem('token', data.token);
           if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
-          navigate('/home');
-          window.location.reload();
+          setTimeout(() => {
+            navigate('/home');
+            window.location.reload();
+          }, 1000);
         }
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: data.error || 'Something went wrong. Please try again.'
-        });
+        toast.error(data.error || 'Something went wrong. Please try again.');
       }
     } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Something went wrong. Please try again.'
-      });
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -161,6 +155,18 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

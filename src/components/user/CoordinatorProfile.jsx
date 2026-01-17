@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import CoordinatorMenu from './CoordinatorMenu';
 import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
 
 const CoordinatorProfile = () => {
   const [coordinator, setCoordinator] = useState(null);
@@ -86,187 +87,197 @@ const CoordinatorProfile = () => {
       <div style={{ marginLeft: '280px', flex: 1 }} className="profile-content">
         <style>
           {`
+            @keyframes fadeInUp {
+              from { opacity: 0; transform: translateY(30px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes pulse {
+              0%, 100% { transform: scale(1); }
+              50% { transform: scale(1.05); }
+            }
+            @keyframes shimmer {
+              0% { background-position: -200px 0; }
+              100% { background-position: calc(200px + 100%) 0; }
+            }
+            @keyframes glow {
+              0%, 100% { box-shadow: 0 0 20px rgba(0,234,255,0.3), 0 0 40px rgba(0,234,255,0.1); }
+              50% { box-shadow: 0 0 30px rgba(0,234,255,0.5), 0 0 60px rgba(0,234,255,0.2); }
+            }
+            @keyframes float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+            }
+            .mobile-padding {
+              padding: 0;
+            }
             @media (max-width: 768px) {
-              .profile-content { margin-left: 0 !important; padding-top: 80px !important; }
-              .details-qr-grid { grid-template-columns: 1fr !important; }
-              .qr-section { padding-top: 20px !important; order: 2; }
+              .mobile-padding { padding: 15px !important; }
+              .profile-content { margin-left: 0 !important; padding: 0 !important; padding-top: 80px !important; }
+              .details-qr-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+              .qr-section { padding-top: 0 !important; order: 2; }
               .details-section { order: 1; }
+              .profile-card { padding: 25px !important; border-radius: 20px !important; }
             }
           `}
         </style>
-    <>
-      <style>
-        {`
-          @media print {
-            @page {
-              size: A4 portrait;
-              margin: 10mm;
-            }
-            body * {
-              visibility: hidden;
-            }
-            #id-card-print, #id-card-print * {
-              visibility: visible;
-            }
-            #id-card-print {
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              transform: translate(-50%, -50%);
-              width: 90mm;
-              max-width: 100%;
-            }
-            .no-print {
-              display: none !important;
-            }
-          }
-        `}
-      </style>
-    <div style={{ minHeight: '100vh', background: '#fff', padding: '40px' }}>
-      <div style={{ width: '100%' }}>
-        {/* Back Button */}
-        {/* <button
-          onClick={() => navigate('/coordinator/dashboard')}
-          className="no-print"
-          style={{
-            marginBottom: '20px',
-            padding: '12px 24px',
-            background: 'rgba(255,255,255,0.2)',
-            border: '2px solid rgba(255,255,255,0.5)',
-            borderRadius: '10px',
-            color: '#fff',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            fontSize: '1rem'
-          }}
-        >
-          ← Back to Dashboard
-        </button> */}
-
-        {/* ID Card */}
-        <div id="id-card-print" style={{
-          background: '#fff',
-          padding: '40px',
-          borderRadius: '25px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-          position: 'relative',
-          border: '2px solid #87CEEB',
-          width: '100%'
-        }}>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            {/* Header */}
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <h1 style={{ fontSize: '2.5rem', color: '#4682B4', margin: '0 0 10px 0', fontWeight: 'bold' }}>TRI-COD 2K26</h1>
-              <p style={{ fontSize: '1.2rem', color: '#87CEEB', margin: 0 }}>Coordinator ID Card</p>
-            </div>
-
-            {/* Profile Section */}
-            <div style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.2)', marginBottom: '30px' }}>
-              {/* Details and QR Grid - Left details, Right QR */}
-              <div className="details-qr-grid" style={{ 
-                display: 'grid', 
-                gridTemplateColumns: '2fr 1fr', 
-                gap: '30px', 
-                alignItems: 'start' 
-              }}>
-                {/* Left Side - Coordinator Details */}
-                <div className="details-section" style={{ display: 'grid', gap: '20px' }}>
-                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                    <div style={{
-                      width: '120px',
-                      height: '120px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #87CEEB 0%, #4682B4 100%)',
-                      color: '#fff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '3rem',
-                      fontWeight: 'bold',
-                      margin: '0 auto 15px',
-                      boxShadow: '0 8px 25px rgba(70, 130, 180, 0.3)'
-                    }}>
-                      {coordinator?.name?.charAt(0).toUpperCase()}
+        
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)', padding: '40px', position: 'relative', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="mobile-padding">
+          {/* Logo in top right corner */}
+          <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+            <img 
+              src={tkLogo} 
+              alt="TK26 Logo" 
+              style={{ 
+                height: '35px', 
+                width: 'auto', 
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+                animation: 'glow 2s ease-in-out infinite alternate'
+              }} 
+            />
+          </div>
+          {/* Animated background elements */}
+          <div style={{ position: 'absolute', top: '10%', left: '5%', width: '100px', height: '100px', background: 'radial-gradient(circle, rgba(0,234,255,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 6s ease-in-out infinite' }}></div>
+          <div style={{ position: 'absolute', top: '60%', right: '10%', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 8s ease-in-out infinite reverse' }}></div>
+          <div style={{ position: 'absolute', bottom: '20%', left: '15%', width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%)', borderRadius: '50%', animation: 'float 7s ease-in-out infinite' }}></div>
+          
+          {/* Profile Card */}
+          <div className="profile-card" style={{
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05))',
+            backdropFilter: 'blur(30px)',
+            padding: '40px',
+            borderRadius: '20px',
+            boxShadow: '0 20px 60px rgba(0,234,255,0.15), 0 8px 32px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.3)',
+            position: 'relative',
+            border: '2px solid rgba(0,234,255,0.2)',
+            maxWidth: '900px',
+            width: '100%',
+            overflow: 'hidden',
+            animation: 'glow 4s ease-in-out infinite'
+          }}>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              {/* Profile Section */}
+              <div style={{ background: '#000', backdropFilter: 'blur(20px)', padding: '30px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+                {/* Corner Pins */}
+                <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#C0C0C0', borderRadius: '50%' }}></div>
+                {/* Details and QR Grid */}
+                <div className="details-qr-grid" style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1fr 2px 1fr', 
+                  gap: '15px', 
+                  alignItems: 'start' 
+                }}>
+                  {/* Left Side - Profile Details */}
+                  <div className="details-section" style={{ display: 'flex', flexDirection: 'column', gap: '15px', background: '#000', padding: '20px', borderRadius: '15px' }}>
+                    {/* Avatar with name and ID */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+                      <div style={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '50%',
+                        background: '#000',
+                        color: '#ffff00',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '2rem',
+                        fontWeight: 'bold',
+                        border: '3px solid #ffff00'
+                      }}>
+                        {coordinator?.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <h2 style={{ fontSize: '1.8rem', margin: '0', color: '#87CEEB', fontWeight: 'bold' }}>{coordinator?.name}</h2>
+                        <p style={{ fontSize: '1rem', color: '#87CEEB', margin: '0', fontWeight: '500' }}>COORD-{coordinator?.id}</p>
+                      </div>
                     </div>
-                    <h2 style={{ fontSize: '2rem', margin: '0 0 5px 0', color: '#87CEEB', fontWeight: 'bold' }}>{coordinator?.name}</h2>
-                    <p style={{ fontSize: '1.1rem', color: '#4682B4', margin: 0, fontWeight: '600' }}>🎯 Event Coordinator</p>
+                    
+                    {/* Horizontal Line */}
+                    <hr style={{ border: 'none', height: '2px', background: 'linear-gradient(90deg, #87CEEB, transparent)', margin: '10px 0', borderRadius: '1px' }} />
+                    
+                    {/* Event Name */}
+                    <div style={{ marginBottom: '10px' }}>
+                      <p style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', margin: '0' }}>TRI-COD 2K26</p>
+                    </div>
+                    
+                    {/* Email */}
+                    <div style={{ marginBottom: '10px' }}>
+                      <p style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', margin: '0', wordBreak: 'break-word' }}>{coordinator?.email}</p>
+                    </div>
+                    
+                    {/* Assigned Events */}
+                    <div style={{ marginBottom: '10px' }}>
+                      <p style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', margin: '0' }}>
+                        {coordinator?.events ? coordinator.events.join(', ') : coordinator?.eventName}
+                      </p>
+                    </div>
+                    
+                    {/* Mobile */}
+                    <div style={{ marginBottom: '10px' }}>
+                      <p style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', margin: '0' }}>{coordinator?.mobile}</p>
+                    </div>
                   </div>
                   
-                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
-                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>📧 Email Address</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600', wordBreak: 'break-word' }}>{coordinator?.email}</p>
-                  </div>
-                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
-                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>📱 Mobile Number</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>{coordinator?.mobile}</p>
-                  </div>
-                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
-                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>🎪 Assigned Events</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>
-                      {coordinator?.events ? coordinator.events.join(', ') : coordinator?.eventName}
-                    </p>
-                  </div>
-                  <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', border: '2px solid #87CEEB' }}>
-                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#4682B4', opacity: 0.8, marginBottom: '5px' }}>🔖 Coordinator ID</p>
-                    <p style={{ margin: 0, fontSize: '1rem', color: '#87CEEB', fontWeight: '600' }}>COORD-{coordinator?.id}</p>
-                  </div>
-                </div>
-                
-                {/* Right Side - QR Code */}
-                <div className="qr-section" style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minHeight: '300px',
-                  paddingTop: '250px'
-                }}>
-                  <h3 style={{ color: '#4682B4', marginBottom: '20px', fontSize: '1.2rem', fontWeight: 'bold' }}>QR Code</h3>
-                  <div style={{ 
-                    background: '#fff', 
-                    padding: '15px', 
-                    borderRadius: '15px', 
-                    boxShadow: '0 8px 25px rgba(70, 130, 180, 0.3)',
-                    border: '3px solid #87CEEB'
+                  {/* Vertical Line */}
+                  <div style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
+                  
+                  {/* Right Side - QR Code */}
+                  <div className="qr-section" style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '300px',
+                    paddingTop: '250px',
+                    padding: '20px'
                   }}>
-                    <QRCodeSVG 
-                      value={qrData}
-                      size={150}
-                      level="H"
-                      includeMargin={false}
-                    />
+                    <h3 style={{ color: '#87CEEB', marginBottom: '25px', fontSize: '1.3rem', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>QR Code</h3>
+                    <div className="qr-wrapper" style={{ 
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9))', 
+                      padding: '25px', 
+                      borderRadius: '20px', 
+                      boxShadow: '0 15px 35px rgba(102, 126, 234, 0.2), 0 5px 15px rgba(0,0,0,0.1)',
+                      border: '2px solid rgba(102, 126, 234, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)',
+                        animation: 'shimmer 2s infinite'
+                      }}></div>
+                      <QRCodeSVG 
+                        className="qr-code"
+                        value={qrData}
+                        size={160}
+                        level="H"
+                        includeMargin={false}
+                        style={{ position: 'relative', zIndex: 1 }}
+                      />
+                    </div>
+                    <p style={{ 
+                      marginTop: '15px', 
+                      fontSize: '0.85rem', 
+                      color: '#87CEEB', 
+                      textAlign: 'center',
+                      opacity: 0.8,
+                      fontWeight: '500'
+                    }}>
+                      ✨ Coordinator Access
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Download Button */}
-            <button
-              onClick={handleDownload}
-              className="no-print"
-              style={{
-                width: '100%',
-                padding: '18px',
-                background: 'rgba(255,255,255,0.9)',
-                border: 'none',
-                borderRadius: '15px',
-                color: '#f5576c',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                fontSize: '1.2rem',
-                transition: 'all 0.3s',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-              }}
-              onMouseOver={(e) => e.target.style.background = '#fff'}
-              onMouseOut={(e) => e.target.style.background = 'rgba(255,255,255,0.9)'}
-            >
-              ⬇️ Download ID Card
-            </button>
           </div>
         </div>
-      </div>
-    </div>
-    </>
       </div>
     </div>
   );

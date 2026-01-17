@@ -249,7 +249,7 @@ const IndividualRegistration = () => {
         style={{
           padding: '50px 20px',
           textAlign: 'center',
-          background: 'linear-gradient(135deg, #667eea, #764ba2)',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%),',
           minHeight: '100vh',
           color: '#fff',
           display: 'flex',
@@ -581,7 +581,7 @@ const IndividualRegistration = () => {
       style={{
         padding: '50px 20px',
         textAlign: 'center',
-        background: 'linear-gradient(135deg, #667eea, #764ba2)',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%),',
         minHeight: '100vh',
         color: '#fff',
         display: 'flex',
