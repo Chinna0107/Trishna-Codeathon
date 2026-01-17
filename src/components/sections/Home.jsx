@@ -74,27 +74,45 @@ const Home = () => {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '30px' }}>
           {/* Stats Cards */}
           <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
-            <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>🎯 Available Events</h3>
-            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', marginBottom: '5px' }}>{loading ? '...' : stats.totalEvents}</div>
-            <p style={{ fontSize: '0.85rem', color: '#718096', margin: 0 }}>Total events to explore</p>
+            {/* Corner pins */}
+            <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
+            <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: '12px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>🎯 Available Events</h3>
+            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#00eaff', marginBottom: '5px' }}>{loading ? '...' : stats.totalEvents}</div>
+            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>Total events to explore</p>
           </div>
 
-          <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', borderTop: '3px solid #48bb78' }}>
-            <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>✅ My Registrations</h3>
-            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#48bb78', marginBottom: '5px' }}>{loading ? '...' : stats.myRegistrations}</div>
-            <p style={{ fontSize: '0.85rem', color: '#718096', margin: 0 }}>Events registered</p>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+            {/* Corner pins */}
+            <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: '12px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>✅ My Registrations</h3>
+            <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#00eaff', marginBottom: '5px' }}>{loading ? '...' : stats.myRegistrations}</div>
+            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>Events registered</p>
           </div>
 
-          <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', borderTop: '3px solid #ed8936' }}>
-            <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>🏫 College</h3>
-            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#ed8936', marginBottom: '5px' }}>{user.college ? '🎓' : '👤'}</div>
-            <p style={{ fontSize: '0.85rem', color: '#718096', margin: 0 }}>{user.college || 'Participant'}</p>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: '12px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>🏫 College</h3>
+            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#00eaff', marginBottom: '5px' }}>{user.college ? '🎓' : '👤'}</div>
+            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>{user.college || 'Participant'}</p>
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
           {/* Enhanced Profile Card */}
-          <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)', cursor: 'pointer', transition: 'all 0.3s', color: '#fff' }} onClick={() => navigate('/profile')} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0) scale(1)'}>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', transition: 'all 0.3s', color: '#fff', position: 'relative', overflow: 'hidden' }} onClick={() => navigate('/profile')} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0) scale(1)'}>
+            <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
               <div style={{ 
                 width: '80px', 
@@ -163,7 +181,11 @@ const Home = () => {
           </div>
 
           {/* Enhanced My Events Card */}
-          <div style={{ background: 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 25px rgba(72, 187, 120, 0.3)', color: '#fff' }}>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
               <div>
                 <h3 style={{ fontSize: '1.4rem', margin: '0 0 5px 0', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>📅 My Events</h3>
@@ -309,7 +331,11 @@ const Home = () => {
           </div>
 
           {/* Enhanced QR Code Card */}
-          <div style={{ background: 'linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 25px rgba(159, 122, 234, 0.3)', color: '#fff', textAlign: 'center' }}>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             {/* <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📱</div> */}
             <h3 style={{ fontSize: '1.4rem', margin: '0 0 10px 0', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Your QR Code</h3>
             <p style={{ margin: '0 0 20px 0', fontSize: '0.9rem', opacity: 0.9 }}>Show this for attendance</p>

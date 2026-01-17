@@ -214,14 +214,21 @@ const Profile = () => {
                       
                       {profile.mobile && (
                         <div className="profile-field" style={{ 
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8))', 
+                          background: 'rgba(255,255,255,0.1)', 
+                          backdropFilter: 'blur(20px)',
                           padding: '20px', 
                           borderRadius: '15px',
-                          boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                          border: '1px solid rgba(102, 126, 234, 0.1)'
+                          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          position: 'relative',
+                          overflow: 'hidden'
                         }}>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: '#764ba2', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📱 Mobile Number</p>
-                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#667eea', fontWeight: '600' }}>{profile.mobile}</p>
+                          <div style={{ position: 'absolute', top: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
+                          <div style={{ position: 'absolute', top: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
+                          <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
+                          <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 4px rgba(0,234,255,0.6)' }} />
+                          <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', opacity: 0.8, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>📱 Mobile Number</p>
+                          <p style={{ margin: 0, fontSize: '1.1rem', color: '#00eaff', fontWeight: '600' }}>{profile.mobile}</p>
                         </div>
                       )}
                       

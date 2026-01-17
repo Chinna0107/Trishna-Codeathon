@@ -7,6 +7,7 @@ import config from '../../config';
 const CoordinatorDashboard = () => {
   const [coordinator, setCoordinator] = useState(null);
   const [assignedEvents, setAssignedEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const CoordinatorDashboard = () => {
 
   const fetchAssignedEvents = async (token) => {
     try {
+      setLoading(true);
       const res = await fetch(`${config.BASE_URL}/api/coordinators/my-event`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -45,6 +47,8 @@ const CoordinatorDashboard = () => {
       }
     } catch (err) {
       console.error('Error fetching assigned events:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,7 +71,30 @@ const CoordinatorDashboard = () => {
           <div style={{ background: '#fff', padding: '15px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
             <h3 style={{ fontSize: '1rem', color: '#2d3748', marginBottom: '12px', fontWeight: 'bold' }}>📅 My Events</h3>
             
-            {assignedEvents.length > 0 && (
+            {loading ? (
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                alignItems: 'center', 
+                justifyContent: 'center',
+                padding: '20px',
+                textAlign: 'center'
+              }}>
+                <div style={{ 
+                  width: '30px', 
+                  height: '30px', 
+                  border: '3px solid #e2e8f0',
+                  borderTop: '3px solid #667eea',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite',
+                  marginBottom: '10px'
+                }}></div>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#718096' }}>Loading events...</p>
+                <style>
+                  {`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
+                </style>
+              </div>
+            ) : assignedEvents.length > 0 ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '8px' }}>
                 {assignedEvents.map((event, idx) => (
                   <div key={idx} style={{ background: '#f7fafc', padding: '10px', borderRadius: '6px', textAlign: 'center', borderTop: '2px solid #FFD700' }}>
@@ -76,6 +103,15 @@ const CoordinatorDashboard = () => {
                     <p style={{ fontSize: '0.75rem', color: '#718096', margin: 0 }}>📂 {event.category}</p>
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div style={{ 
+                textAlign: 'center', 
+                padding: '20px',
+                color: '#718096',
+                fontSize: '0.9rem'
+              }}>
+                No events assigned yet
               </div>
             )}
           </div>

@@ -248,9 +248,9 @@ function filteredEvents(category) {
       { id: '10', eventId: 'algorithm-building', title: 'Algorithm Building / Writing', description: 'Design and write efficient algorithms for complex problems. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
     ],
     nontechnical: [
-      { id: '11', eventId: 'rube-cube', title: 'Rube a Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },
+      { id: '11', eventId: 'rube-cube', title: 'Rube A Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },
       { id: '12', eventId: 'cook-without-fire', title: 'Cook Without Fire', description: 'A unique event to test your creativity in the kitchen—without fire!', tags: ['Team', 'Creativity'], image: imgCookWithoutFood, pdf: samplePdf, icon: <FaUtensils /> },
-      { id: '13', eventId: 'crossword-sudoku', title: 'Crossword and Sudoku', description: 'Challenge your mind with crossword puzzles and sudoku.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaBrain /> },
+      { id: '13', eventId: 'crossword-sudoku', title: 'Crossword And Sudoku', description: 'Challenge your mind with crossword puzzles and sudoku.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaBrain /> },
       { id: '14', eventId: 'fun-tech', title: 'Fun Tech (Mind Games)', description: 'Engage in fun tech-based mind games and challenges. (NEW)', tags: ['Individual', 'Games'], image: imgRubeCube, pdf: samplePdf, icon: <FaGamepad /> },
     ],
     robotics: [

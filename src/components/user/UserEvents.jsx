@@ -42,7 +42,7 @@ const UserEvents = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <UserMenu />
-      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }} className="dashboard-wrapper">
+      <div style={{ marginLeft: '280px', flex: 1, padding: '40px', background: '#000', minHeight: '100vh' }} className="dashboard-wrapper">
         <style>
           {`
             @media (max-width: 768px) {
@@ -51,8 +51,8 @@ const UserEvents = () => {
           `}
         </style>
         
-        <h2 style={{ fontSize: '2.5rem', color: '#2d3748', marginBottom: '10px', fontWeight: 'bold' }}>My Events 📅</h2>
-        <p style={{ color: '#4a5568', fontSize: '1.1rem', marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '10px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>My Events 📅</h2>
+        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', marginBottom: '30px' }}>
           {loading ? 'Loading your events...' : `You have registered for ${registeredEvents.length} events`}
         </p>
 
@@ -74,17 +74,24 @@ const UserEvents = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {registeredEvents.map((event, idx) => (
               <div key={idx} style={{ 
-                background: '#fff', 
+                background: 'rgba(255,255,255,0.1)', 
+                backdropFilter: 'blur(20px)',
                 padding: '25px', 
                 borderRadius: '15px', 
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                border: '3px solid #FFD700',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+                border: '1px solid rgba(255,255,255,0.2)',
                 position: 'relative',
-                transition: 'transform 0.2s'
+                transition: 'transform 0.2s',
+                overflow: 'hidden'
               }}
               onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               >
+                {/* Corner pins */}
+                <div style={{ position: 'absolute', top: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 4px rgba(255,68,68,0.6)' }} />
+                <div style={{ position: 'absolute', top: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 4px rgba(255,68,68,0.6)' }} />
+                <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 4px rgba(255,68,68,0.6)' }} />
+                <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '6px', height: '6px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 4px rgba(255,68,68,0.6)' }} />
                 <div style={{ 
                   position: 'absolute',
                   top: '-12px',
@@ -105,17 +112,17 @@ const UserEvents = () => {
                 </div>
                 
                 <div style={{ marginTop: '10px' }}>
-                  <h3 style={{ fontSize: '1.3rem', color: '#2d3748', marginBottom: '10px', fontWeight: 'bold' }}>
+                  <h3 style={{ fontSize: '1.3rem', color: '#00eaff', marginBottom: '10px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
                     {event.eventName || event.event_name || 'Event'}
                   </h3>
                   
                   <div style={{ marginBottom: '15px' }}>
                     <span style={{ 
-                      background: '#e2e8f0', 
+                      background: 'rgba(255,255,255,0.2)', 
                       padding: '4px 12px', 
                       borderRadius: '12px', 
                       fontSize: '0.8rem', 
-                      color: '#4a5568',
+                      color: 'rgba(255,255,255,0.9)',
                       fontWeight: '500'
                     }}>
                       📂 {event.category || 'General'}
@@ -124,28 +131,28 @@ const UserEvents = () => {
 
                   {event.teamName && (
                     <div style={{ marginBottom: '10px' }}>
-                      <strong style={{ color: '#4a5568' }}>Team:</strong> {event.teamName}
+                      <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Team:</strong> <span style={{ color: '#00eaff' }}>{event.teamName}</span>
                     </div>
                   )}
 
                   <div style={{ marginBottom: '10px' }}>
-                    <strong style={{ color: '#4a5568' }}>Registration Type:</strong> {event.teamName ? 'Team' : 'Individual'}
+                    <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Registration Type:</strong> <span style={{ color: '#00eaff' }}>{event.teamName ? 'Team' : 'Individual'}</span>
                   </div>
 
                   {event.registrationDate && (
-                    <div style={{ marginBottom: '15px', fontSize: '0.9rem', color: '#718096' }}>
+                    <div style={{ marginBottom: '15px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)' }}>
                       Registered on: {new Date(event.registrationDate).toLocaleDateString()}
                     </div>
                   )}
 
                   <div style={{ 
-                    background: '#f0fff4', 
+                    background: 'rgba(0,234,255,0.2)', 
                     padding: '10px', 
                     borderRadius: '8px', 
-                    border: '1px solid #9ae6b4',
+                    border: '1px solid rgba(0,234,255,0.4)',
                     textAlign: 'center'
                   }}>
-                    <span style={{ color: '#22543d', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                    <span style={{ color: '#00eaff', fontWeight: 'bold', fontSize: '0.9rem' }}>
                       ✓ Successfully Registered
                     </span>
                   </div>
@@ -157,15 +164,23 @@ const UserEvents = () => {
           <div style={{ 
             textAlign: 'center', 
             padding: '60px 20px',
-            background: '#fff',
+            background: 'rgba(255,255,255,0.1)',
+            backdropFilter: 'blur(20px)',
             borderRadius: '20px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            position: 'relative',
+            overflow: 'hidden'
           }}>
+            <div style={{ position: 'absolute', top: '12px', left: '12px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', top: '12px', right: '12px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
+            <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🎯</div>
-            <h3 style={{ fontSize: '1.5rem', color: '#2d3748', marginBottom: '15px', fontWeight: 'bold' }}>
+            <h3 style={{ fontSize: '1.5rem', color: '#00eaff', marginBottom: '15px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
               No Events Registered Yet
             </h3>
-            <p style={{ color: '#718096', marginBottom: '30px', fontSize: '1rem' }}>
+            <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '30px', fontSize: '1rem' }}>
               Start your journey by registering for exciting events and competitions!
             </p>
             <button 
