@@ -43,12 +43,14 @@ const ViewAttendance = () => {
   };
 
   const handleExportExcel = () => {
-    const headers = ['S.No', 'Participant Name', 'Participant ID', 'Time'];
+    const headers = ['S.No', 'Participant Name', 'Participant ID', 'Roll No', 'Branch', 'College'];
     const rows = attendance.map((record, idx) => [
       idx + 1,
       record.participantName,
       record.participantId,
-      new Date(record.timestamp).toLocaleString()
+      record.rollNo || 'N/A',
+      record.branch || 'N/A',
+      record.college || 'N/A'
     ]);
     
     let csv = headers.join(',') + '\n';
@@ -115,7 +117,9 @@ const ViewAttendance = () => {
                   <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>S.No</th>
                   <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Participant Name</th>
                   <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Participant ID</th>
-                  <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Time</th>
+                  <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Roll No</th>
+                  <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>Branch</th>
+                  <th style={{ padding: 'clamp(10px, 2vw, 15px)', textAlign: 'left', color: '#37474f', fontWeight: 'bold', fontSize: 'clamp(0.85rem, 2vw, 1rem)' }}>College</th>
                 </tr>
               </thead>
               <tbody>
@@ -124,7 +128,9 @@ const ViewAttendance = () => {
                     <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{idx + 1}</td>
                     <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#2d3748', fontWeight: '500', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{record.participantName}</td>
                     <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{record.participantId}</td>
-                    <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{new Date(record.timestamp).toLocaleString()}</td>
+                    <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{record.rollNo || 'N/A'}</td>
+                    <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{record.branch || 'N/A'}</td>
+                    <td style={{ padding: 'clamp(10px, 2vw, 15px)', color: '#4a5568', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)' }}>{record.college || 'N/A'}</td>
                   </tr>
                 ))}
               </tbody>
