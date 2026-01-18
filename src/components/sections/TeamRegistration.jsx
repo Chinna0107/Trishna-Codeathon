@@ -277,13 +277,16 @@ const TeamRegistration = () => {
         
         <style>
           {`
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+            }
             @keyframes twinkle {
               0%, 100% { opacity: 0.3; transform: scale(1); }
               50% { opacity: 1; transform: scale(1.5); }
             }
           `}
         </style>
-        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
         <ProgressBar />
         <h2 style={{ fontSize: '2.5rem', marginBottom: '10px', textShadow: '2px 2px 8px rgba(0,0,0,0.3)' }}>👤 Team Leader Details</h2>
         {eventName && <p style={{ fontSize: '1.1rem', color: '#e0e0e0', marginBottom: '20px' }}>Event: {eventName}</p>}
@@ -488,7 +491,7 @@ const TeamRegistration = () => {
             }}>Cancel</button>
           </div>
         </form>
-        <BottomNavBar />
+        {/* <BottomNavBar /> */}
         
         <ToastContainer
           position="top-right"
@@ -540,7 +543,25 @@ const TeamRegistration = () => {
             />
           ))}
         </div>
-        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
+        {/* Enhanced TK Logo top left */}
+        <div style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px',
+          zIndex: 10
+        }}>
+          <img 
+            src={tkLogo} 
+            alt="TK26 Logo" 
+            style={{ 
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
+            }} 
+          />
+        </div>
         <ProgressBar />
         <h2 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>👥 Add Team Members</h2>
         <p style={{ fontSize: '1.1rem', color: '#e0e0e0', marginBottom: '5px' }}>Team: {teamName}</p>
@@ -739,9 +760,27 @@ const TeamRegistration = () => {
           />
         ))}
       </div>
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
+      {/* Enhanced TK Logo top left */}
+      <div style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        zIndex: 10
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
       <ProgressBar />
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>💳 Payment</h2>
+      <h2 style={{ fontSize: '2.5rem', marginBottom: '10px', marginTop: '60px' }}>💳 Payment</h2>
       <div style={{
         maxWidth: '700px', width: '100%', background: 'rgba(255,255,255,0.08)',
         backdropFilter: 'blur(20px)', padding: '40px', borderRadius: '20px',

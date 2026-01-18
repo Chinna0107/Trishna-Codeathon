@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaDirections } from 'react-icons/fa';
-import tkLogo from '../../assets/images/tk logo.png';
+import tkLogo from '../../assets/images/tk26.png';
 import BottomNavBar from './BottomNavBar';
 
 function Location() {
@@ -48,7 +48,44 @@ function Location() {
         backgroundSize: '80px 80px',
       }} />
       
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+      {/* Enhanced TK Logo top left */}
+      <div className="logo-container" style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        zIndex: 10
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
+      
+      <style>
+        {`
+          @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+            50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+          }
+          @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+          }
+          @media (max-width: 768px) {
+            .logo-container {
+              top: 10px !important;
+              left: 10px !important;
+            }
+          }
+        `}
+      </style>
       
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '1200px', margin: '0 auto', paddingTop: '4rem' }}>
         <h1 style={{ 

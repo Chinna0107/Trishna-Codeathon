@@ -6,7 +6,7 @@ const Gallery = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
+      background: '#000',
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
@@ -15,7 +15,7 @@ const Gallery = () => {
       justifyContent: 'center',
       padding: '2rem'
     }}>
-      {/* Blue grid overlay */}
+      {/* Matrix grid overlay with silver lines */}
       <div style={{
         pointerEvents: 'none',
         position: 'absolute',
@@ -24,106 +24,94 @@ const Gallery = () => {
         width: '100%',
         height: '100%',
         zIndex: 0,
-        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
-        backgroundSize: '80px 80px',
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px), repeating-linear-gradient(0deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px)`,
+        backgroundSize: '50px 50px',
         backgroundPosition: 'center',
       }} />
 
       {/* TK Logo */}
       <div style={{
         position: 'absolute',
-        top: 15,
-        left: 15,
-        zIndex: 101
+        top: '20px',
+        left: '20px',
+        zIndex: 10
       }}>
         <img 
           src={tkLogo} 
-          alt="TK Logo" 
+          alt="TK26 Logo" 
           style={{ 
-            width: 54, 
-            height: 54,
-            filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)'
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
           }} 
         />
       </div>
 
       {/* Main Content */}
       <div style={{
-        background: 'rgba(255,255,255,0.08)',
+        background: 'rgba(255,255,255,0.1)',
         backdropFilter: 'blur(20px)',
         borderRadius: '20px',
-        padding: '3rem',
+        padding: '60px 40px',
         textAlign: 'center',
-        boxShadow: '0 8px 32px rgba(0,234,255,0.2)',
-        border: '1px solid rgba(0,234,255,0.3)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+        border: '1px solid rgba(255,255,255,0.2)',
         position: 'relative',
         zIndex: 1,
-        maxWidth: '600px'
+        maxWidth: '600px',
+        overflow: 'hidden'
       }}>
-        <h1 style={{
-          color: '#00eaff',
-          fontFamily: 'Orbitron, monospace',
-          fontSize: '3rem',
-          fontWeight: 700,
-          marginBottom: '1rem',
-          textShadow: '0 0 20px rgba(0,234,255,0.5)'
-        }}>
-          Gallery
-        </h1>
+        {/* Corner Pins */}
+        <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
         
         <div style={{
-          fontSize: '6rem',
-          marginBottom: '2rem'
+          fontSize: '4rem',
+          marginBottom: '20px'
         }}>
           📸
         </div>
         
-        <h2 style={{
+        <h1 style={{
+          fontSize: '2.5rem',
           color: '#00eaff',
-          fontFamily: 'Orbitron, monospace',
-          fontSize: '2rem',
-          fontWeight: 600,
-          marginBottom: '1rem'
+          marginBottom: '15px',
+          fontWeight: 'bold',
+          textShadow: '0 2px 4px rgba(0,0,0,0.3)'
         }}>
-          Updates Soon
-        </h2>
+          Coming Soon
+        </h1>
         
         <p style={{
           color: 'rgba(255,255,255,0.8)',
           fontSize: '1.1rem',
           lineHeight: '1.6',
-          marginBottom: '2rem'
+          marginBottom: '30px'
         }}>
-          We're working hard to bring you an amazing gallery experience. 
-          Check back soon for event photos, memories, and highlights from TRISHNA 2K25!
+          We're working hard to bring you an amazing gallery experience with event photos and memories!
         </p>
         
         <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '10px'
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          padding: '15px 30px',
+          borderRadius: '12px',
+          color: '#fff',
+          fontWeight: 'bold',
+          display: 'inline-block'
         }}>
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '50%',
-                background: '#00eaff',
-                animation: `pulse 1.5s ease-in-out infinite`,
-                animationDelay: `${i * 0.3}s`
-              }}
-            />
-          ))}
+          📅 Feature Under Development
         </div>
       </div>
 
       <style>
         {`
-          @keyframes pulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+          @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+            50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
           }
         `}
       </style>

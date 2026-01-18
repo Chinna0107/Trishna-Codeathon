@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Swal from 'sweetalert2'
-import tkLogo from '../../assets/images/tk logo.png'
+import tkLogo from '../../assets/images/tk26.png'
 import BottomNavBar from './BottomNavBar'
 import config from '../../config'
 
@@ -116,9 +116,31 @@ function Contact() {
         backgroundSize: '80px 80px',
       }} />
       
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+      {/* Enhanced TK Logo top left */}
+      <div className="logo-container" style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        zIndex: 10
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
 
       <style>{`
+        @keyframes glow {
+          0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+          50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+        }
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
@@ -153,8 +175,8 @@ function Contact() {
           .contact-header p { font-size: 1rem !important; }
           .contact-form { padding: 30px 20px !important; }
           .contact-info-card { padding: 20px !important; }
-          .back-button { position: relative !important; margin-bottom: 20px !important; }
           .map-section { padding: 20px !important; }
+          .logo-container { top: 10px !important; left: 10px !important; }
         }
         @media (max-width: 480px) {
           .contact-header h1 { font-size: 2rem !important; }
@@ -171,36 +193,6 @@ function Contact() {
           className="contact-header"
           style={{ textAlign: 'center', marginBottom: '60px', position: 'relative' }}
         >
-          <button
-            onClick={() => navigate('/events')}
-            className="back-button"
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              padding: '12px 24px',
-              background: 'rgba(0,234,255,0.1)',
-              color: '#00eaff',
-              border: '1px solid #00eaff55',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              fontFamily: 'Orbitron, monospace',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = 'rgba(0,234,255,0.2)';
-              e.target.style.transform = 'translateX(-5px)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = 'rgba(0,234,255,0.1)';
-              e.target.style.transform = 'translateX(0)';
-            }}
-          >
-            ← Back
-          </button>
-
           <motion.h1
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}

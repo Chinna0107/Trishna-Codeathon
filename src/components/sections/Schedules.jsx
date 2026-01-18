@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock } from 'react-icons/fa';
-import tkLogo from '../../assets/images/tk logo.png';
+import tkLogo from '../../assets/images/tk26.png';
 import BottomNavBar from './BottomNavBar';
 
 const Schedule = () => {
@@ -23,7 +23,7 @@ const Schedule = () => {
   return (
     <section style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
+      background: '#000',
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
@@ -31,46 +31,90 @@ const Schedule = () => {
       justifyContent: 'center',
       padding: '2rem',
     }}>
+
+      
+      {/* Enhanced TK Logo top left */}
       <div style={{
         position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
-        backgroundSize: '80px 80px',
-      }} />
+        top: '20px',
+        left: '20px',
+        zIndex: 10
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
       
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+      <style>
+        {`
+          @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+            50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+          }
+        `}
+      </style>
       
       <div style={{
         position: 'relative',
         zIndex: 1,
-        background: 'rgba(0,234,255,0.08)',
-        backdropFilter: 'blur(10px)',
-        border: '2px solid #00eaff55',
+        background: 'rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255,255,255,0.2)',
         borderRadius: '20px',
-        padding: '4rem 3rem',
+        padding: '60px 40px',
         maxWidth: '600px',
         textAlign: 'center',
-        boxShadow: '0 8px 32px rgba(0,234,255,0.2)'
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+        overflow: 'hidden'
       }}>
+        {/* Corner Pins */}
+        <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+        <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
         <div style={{ fontSize: '4rem', marginBottom: '2rem' }}>
           <FaCalendarAlt style={{ color: '#00eaff' }} />
         </div>
         <h1 style={{
           color: '#00eaff',
           fontFamily: 'Orbitron, monospace',
-          fontSize: '1.8rem',
-          marginBottom: '2rem',
-          minHeight: '60px',
-          lineHeight: '1.5'
+          fontSize: '2.5rem',
+          marginBottom: '15px',
+          fontWeight: 'bold',
+          textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+        }}>
+          Coming Soon
+        </h1>
+        <p style={{
+          color: 'rgba(255,255,255,0.8)',
+          fontFamily: 'Orbitron, monospace',
+          fontSize: '1.1rem',
+          marginBottom: '30px',
+          lineHeight: '1.6',
+          minHeight: '60px'
         }}>
           {typedText}<span style={{ animation: 'blink 1s infinite' }}>|</span>
-        </h1>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', color: '#00eaff', opacity: 0.7 }}>
+        </p>
+        <div style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          padding: '15px 30px',
+          borderRadius: '12px',
+          color: '#fff',
+          fontWeight: 'bold',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '10px'
+        }}>
           <FaClock size={20} />
-          <p style={{ fontFamily: 'Orbitron, monospace', fontSize: '1rem', margin: 0 }}>Stay tuned for updates!</p>
+          📅 Feature Under Development
         </div>
       </div>
       

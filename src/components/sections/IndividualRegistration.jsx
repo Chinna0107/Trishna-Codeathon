@@ -200,17 +200,19 @@ const IndividualRegistration = () => {
         {/* TK Logo */}
         <div style={{
           position: 'absolute',
-          top: 15,
-          right: 15,
-          zIndex: 101
+          top: '20px',
+          left: '20px',
+          zIndex: 10
         }}>
           <img 
             src={tkLogo} 
-            alt="TK Logo" 
+            alt="TK26 Logo" 
             style={{ 
-              width: 54, 
-              height: 54,
-              filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)'
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
             }} 
           />
         </div>
@@ -247,6 +249,10 @@ const IndividualRegistration = () => {
             @keyframes twinkle {
               0%, 100% { opacity: 0.3; transform: scale(1); }
               50% { opacity: 1; transform: scale(1.5); }
+            }
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
             }
           `}
         </style>
@@ -642,17 +648,19 @@ const IndividualRegistration = () => {
         {/* TK Logo */}
         <div style={{
           position: 'absolute',
-          top: 15,
-          right: 15,
-          zIndex: 101
+          top: '20px',
+          left: '20px',
+          zIndex: 10
         }}>
           <img 
             src={tkLogo} 
-            alt="TK Logo" 
+            alt="TK26 Logo" 
             style={{ 
-              width: 54, 
-              height: 54,
-              filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)'
+              height: '35px', 
+              width: 'auto', 
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+              animation: 'glow 2s ease-in-out infinite alternate'
             }} 
           />
         </div>

@@ -83,7 +83,7 @@ const Events = () => {
   return (
     <section id="events" ref={ref} style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
+      background: '#000',
       position: 'relative',
       overflow: 'hidden',
       padding: 0,
@@ -92,8 +92,7 @@ const Events = () => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
-    }}>
-      {/* Blue grid overlay */}
+    }}>      {/* Matrix grid overlay with silver lines */}
       <div style={{
         pointerEvents: 'none',
         position: 'absolute',
@@ -102,25 +101,27 @@ const Events = () => {
         width: '100%',
         height: '100%',
         zIndex: 0,
-        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
-        backgroundSize: '80px 80px',
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px), repeating-linear-gradient(0deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px)`,
+        backgroundSize: '50px 50px',
         backgroundPosition: 'center',
       }} />
+
       {/* Enhanced TK Logo top left */}
       <div style={{
         position: 'absolute',
-        top: 15,
-        left: 15,
-        zIndex: 101
+        top: '20px',
+        left: '20px',
+        zIndex: 10
       }}>
         <img 
           src={tkLogo} 
-          alt="TK Logo" 
+          alt="TK26 Logo" 
           style={{ 
-            width: 54, 
-            height: 54,
-            filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)',
-            animation: 'logoGlow 3s ease-in-out infinite alternate'
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
           }} 
         />
       </div>
@@ -128,15 +129,9 @@ const Events = () => {
         
         <style>
           {`
-            @keyframes logoGlow {
-              0% { 
-                filter: drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1);
-                transform: scale(1);
-              }
-              100% { 
-                filter: drop-shadow(0 0 15px rgba(0,234,255,0.9)) brightness(1.3);
-                transform: scale(1.05);
-              }
+            @keyframes glow {
+              0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+              50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
             }
             @keyframes blink {
               0%, 50% { opacity: 1; }
@@ -144,7 +139,7 @@ const Events = () => {
             }
             @media (max-width: 768px) {
               .mascot-image {
-                width: 150px !important;
+                display: none !important;
               }
             }
           `}
@@ -155,7 +150,7 @@ const Events = () => {
         )}
         {/* Category selection cards */}
         {!category && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '2.5rem', marginTop: '5rem', padding: '0 2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '2.5rem', marginTop: '5rem', padding: '0 2rem', paddingBottom: '120px' }}>
             {categories.map((cat) => {
               const categoryImages = {
                 technical: imgProjectExpo,
@@ -232,7 +227,7 @@ const Events = () => {
               </button>
               <span style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontWeight: 700, fontSize: '1.1rem', marginLeft: 8, alignSelf: 'center' }}>{categories.find(c => c.key === category)?.label}</span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', padding: '0 2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', padding: '0 2rem', paddingBottom: '120px' }}>
               {filteredEvents(category).map((event, index) => (
                 <div
                   key={event.id}
@@ -365,7 +360,7 @@ function filteredEvents(category) {
       { id: '7', eventId: 'coding', title: 'Coding / Problem Solving', description: 'Solve challenging coding problems and algorithms.', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
       { id: '8', eventId: 'debugging', title: 'Debugging', description: 'Find and fix bugs in code under time pressure. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaLaptopCode /> },
       { id: '9', eventId: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon. (NEW)', tags: ['Team', 'Coding'], image: imgHackathon, pdf: samplePdf, icon: <FaLaptopCode /> },
-      { id: '10', eventId: 'algorithm-building', title: 'Algorithm Building', description: 'Design and write efficient algorithms for complex problems. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
+      // { id: '10', eventId: 'algorithm-building', title: 'Algorithm Building', description: 'Design and write efficient algorithms for complex problems. (NEW)', tags: ['Individual', 'Coding'], image: imgNextCode, pdf: samplePdf, icon: <FaCode /> },
     ],
     nontechnical: [
       { id: '11', eventId: 'rube-cube', title: 'Rube A Cube', description: 'Solve fun and tricky puzzles in a race against time.', tags: ['Individual', 'Puzzle'], image: imgRubeCube, pdf: samplePdf, icon: <FaCube /> },

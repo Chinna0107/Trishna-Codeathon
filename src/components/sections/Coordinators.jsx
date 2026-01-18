@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import tkLogo from '../../assets/images/tk logo.png'
+import tkLogo from '../../assets/images/tk26.png'
 import BottomNavBar from './BottomNavBar'
 
 const coordinators = [
@@ -82,8 +82,30 @@ function Coordinators() {
         backgroundSize: '80px 80px',
       }} />
       
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+      {/* Enhanced TK Logo top left */}
+      <div className="logo-container" style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
+        zIndex: 10
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK26 Logo" 
+          style={{ 
+            height: '35px', 
+            width: 'auto', 
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
+            animation: 'glow 2s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
       <style>{`
+        @keyframes glow {
+          0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2); }
+          50% { filter: drop-shadow(0 0 12px rgba(255,255,0,1)) brightness(1.4); }
+        }
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
@@ -91,6 +113,12 @@ function Coordinators() {
         @keyframes pulse {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }
+        }
+        @media (max-width: 768px) {
+          .logo-container {
+            top: 10px !important;
+            left: 10px !important;
+          }
         }
       `}</style>
 
@@ -100,35 +128,6 @@ function Coordinators() {
           animate={{ opacity: 1, y: 0 }}
           style={{ textAlign: 'center', marginBottom: '60px', position: 'relative' }}
         >
-          <button
-            onClick={() => navigate('/events')}
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              padding: '12px 24px',
-              background: 'rgba(0,234,255,0.1)',
-              color: '#00eaff',
-              border: '1px solid #00eaff55',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              fontFamily: 'Orbitron, monospace',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(0,234,255,0.2)';
-              e.target.style.boxShadow = '0 0 20px rgba(0,234,255,0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(0,234,255,0.1)';
-              e.target.style.boxShadow = 'none';
-            }}
-          >
-            ← Back
-          </button>
-
           <h1 style={{
             fontSize: '3rem',
             fontWeight: 'bold',
