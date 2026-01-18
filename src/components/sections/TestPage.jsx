@@ -47,6 +47,11 @@ const TestPage = () => {
           position: 'relative',
           overflow: 'hidden'
         }}>
+          {/* Corner Pins */}
+          <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+          <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+          <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
+          <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#ff0000', borderRadius: '50%' }}></div>
           <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🚧</div>
           <h1 style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '15px', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
             Coming Soon

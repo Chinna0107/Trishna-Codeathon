@@ -9,19 +9,27 @@ const UserMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = React.useState(false);
 
   const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      toast.success('You have been successfully logged out.', {
-        position: "top-right",
-        autoClose: 1500
-      });
-      setTimeout(() => {
-        navigate('/login');
-      }, 1000);
-    }
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setShowLogoutDialog(false);
+    toast.success('You have been successfully logged out.', {
+      position: "top-right",
+      autoClose: 1500
+    });
+    setTimeout(() => {
+      navigate('/login');
+    }, 1000);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutDialog(false);
   };
 
   const menuItems = [
@@ -126,6 +134,66 @@ const UserMenu = () => {
             animation: 'fadeIn 0.3s ease-out'
           }}
         />
+      )}
+
+      {/* Logout Confirmation Dialog */}
+      {showLogoutDialog && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3000
+        }}>
+          <div style={{
+            background: 'linear-gradient(180deg, #141223 0%, #1a1635 100%)',
+            padding: '30px',
+            borderRadius: '15px',
+            border: '2px solid #FFD700',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+            maxWidth: '400px',
+            width: '90%'
+          }}>
+            <h3 style={{ color: '#FFD700', marginBottom: '15px', fontSize: '1.3rem' }}>Logout?</h3>
+            <p style={{ color: '#ccc', marginBottom: '25px' }}>Are you sure you want to logout?</p>
+            <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={cancelLogout}
+                style={{
+                  padding: '10px 20px',
+                  background: '#6c757d',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                style={{
+                  padding: '10px 20px',
+                  background: '#FFD700',
+                  color: '#2d3748',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600'
+                }}
+              >
+                Yes, logout
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="sidebar" style={{ 

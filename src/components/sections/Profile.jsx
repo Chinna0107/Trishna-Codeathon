@@ -132,6 +132,7 @@ const Profile = () => {
               .mobile-padding { padding: 15px !important; }
               .profile-content { margin-left: 0 !important; padding: 0 !important; padding-top: 80px !important; }
               .details-qr-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+              .vertical-line { display: none !important; }
               .qr-section { padding-top: 0 !important; order: 2; }
               .details-section { order: 1; }
               .profile-card { padding: 25px !important; border-radius: 20px !important; }
@@ -260,7 +261,7 @@ const Profile = () => {
                     </div>
                     
                     {/* Vertical Line */}
-                    <div style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
+                    <div className="vertical-line" style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
                     
                     {/* Right Side - QR Code */}
                     <div className="qr-section qr-container" style={{ 
@@ -320,9 +321,7 @@ const Profile = () => {
                           style={{ 
                             height: '50px', 
                             width: 'auto', 
-                            objectFit: 'contain',
-                            filter: 'drop-shadow(0 0 8px rgba(255,255,0,0.8)) brightness(1.2)',
-                            animation: 'glow 2s ease-in-out infinite alternate'
+                            objectFit: 'contain'
                           }} 
                         />
                       </div>

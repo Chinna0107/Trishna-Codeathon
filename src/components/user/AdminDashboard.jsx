@@ -11,7 +11,8 @@ import {
   faTachometerAlt, faCalendarAlt, faUsers, faUserTie, faBell, faCommentDots, faUserCircle, faSignOutAlt, faBars, faTimes, faClock, faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import TrishnaLogo from '../../assets/images/trishna.png'; // Import the logo
+import TrishnaLogo from '../../assets/images/tk26.png';
+import config from '../../config';
 
 // Simple Modal Component (can be moved to its own file if preferred)
 const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
@@ -32,10 +33,14 @@ const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
 
 const AdminDashboard = () => {
   const [activePage, setActivePage] = useState('dashboard');
-  const [sidebarWidth, setSidebarWidth] = useState(60); // Initial width for collapsed state
+  const [sidebarWidth, setSidebarWidth] = useState(60);
   const [isResizing, setIsResizing] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // State for modal
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true); // Start with sidebar collapsed
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [events, setEvents] = useState([]);
+  const [registrationStats, setRegistrationStats] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const sidebarRef = useRef(null);
   const navigate = useNavigate();
 
@@ -43,8 +48,56 @@ const AdminDashboard = () => {
     const adminToken = localStorage.getItem('admintoken');
     if (!adminToken) {
       navigate('/login');
+    } else {
+      fetchDashboardData();
     }
   }, [navigate]);
+
+  const fetchDashboardData = async () => {
+    try {
+      const adminToken = localStorage.getItem('admintoken');
+      
+      // Fetch events
+      const eventsResponse = await fetch(`${config.BASE_URL}/api/events`, {
+        headers: { 'Authorization': `Bearer ${adminToken}` }
+      });
+      
+      if (eventsResponse.ok) {
+        const eventsData = await eventsResponse.json();
+        setEvents(eventsData);
+        
+        // Fetch registration stats for each event
+        const stats = {};
+        let totalRegistrations = 0;
+        
+        for (const event of eventsData) {
+          try {
+            const regResponse = await fetch(`${config.BASE_URL}/api/events/${event._id}/registrations`, {
+              headers: { 'Authorization': `Bearer ${adminToken}` }
+            });
+            
+            if (regResponse.ok) {
+              const regData = await regResponse.json();
+              const count = Array.isArray(regData) ? regData.length : regData.count || 0;
+              stats[event._id] = count;
+              totalRegistrations += count;
+            } else {
+              stats[event._id] = 0;
+            }
+          } catch (err) {
+            stats[event._id] = 0;
+          }
+        }
+        
+        stats.total = totalRegistrations;
+        setRegistrationStats(stats);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleNavClick = (page, event) => {
     event.preventDefault();
@@ -126,8 +179,59 @@ const AdminDashboard = () => {
       default:
         return (
           <div className="dashboard-welcome">
-            <h2>Welcome to the Admin Dashboard</h2>
-            <p>Select an option from the sidebar to get started.</p>
+            <h2>Admin Dashboard Overview</h2>
+            <p>Event Registration Statistics</p>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+              {/* Total Card - First Position */}
+              <div style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)', padding: '20px', borderRadius: '15px', boxShadow: '0 8px 32px rgba(255,215,0,0.3)', border: '2px solid rgba(255,215,0,0.5)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#fff', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#fff', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#fff', borderRadius: '50%' }}></div>
+                <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#fff', borderRadius: '50%' }}></div>
+                <h3 style={{ color: '#2d3748', marginBottom: '15px', fontSize: '1.2rem', fontWeight: 'bold' }}>🏆 Total Registrations</h3>
+                <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#2d3748', marginBottom: '10px' }}>
+                  {registrationStats.total || 0}
+                </div>
+                <p style={{ color: '#2d3748', margin: 0, fontWeight: '600' }}>
+                  All Events Combined
+                </p>
+              </div>
+              
+              {loading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '20px', borderRadius: '15px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: '#666', borderRadius: '50%' }}></div>
+                    <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: '#666', borderRadius: '50%' }}></div>
+                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: '#666', borderRadius: '50%' }}></div>
+                    <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: '#666', borderRadius: '50%' }}></div>
+                    <h3 style={{ color: '#666', marginBottom: '15px', fontSize: '1.2rem' }}>Loading...</h3>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '10px' }}>...</div>
+                    <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0 }}>Registrations</p>
+                  </div>
+                ))
+              ) : (
+                events.map((event, index) => {
+                  const colors = ['#00eaff', '#ff6b35', '#667eea', '#f093fb', '#48bb78'];
+                  const icons = ['🎯', '🎨', '🤖', '🎤', '⚡'];
+                  const color = colors[index % colors.length];
+                  const icon = icons[index % icons.length];
+                  const registrationCount = registrationStats[event._id] || 0;
+                  
+                  return (
+                    <div key={event._id} style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '20px', borderRadius: '15px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
+                      <div style={{ position: 'absolute', top: '10px', left: '10px', width: '8px', height: '8px', background: color, borderRadius: '50%' }}></div>
+                      <div style={{ position: 'absolute', top: '10px', right: '10px', width: '8px', height: '8px', background: color, borderRadius: '50%' }}></div>
+                      <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '8px', height: '8px', background: color, borderRadius: '50%' }}></div>
+                      <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '8px', height: '8px', background: color, borderRadius: '50%' }}></div>
+                      <h3 style={{ color: color, marginBottom: '15px', fontSize: '1.2rem' }}>{icon} {event.name}</h3>
+                      <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '10px' }}>{registrationCount}</div>
+                      <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0 }}>Registrations</p>
+                    </div>
+                  );
+                })
+              )}
+            </div>
           </div>
         );
     }

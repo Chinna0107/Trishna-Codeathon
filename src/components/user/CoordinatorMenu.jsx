@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faCalendarAlt, faClock, faCertificate, faUserCircle, faCog, faSignOutAlt, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,32 +10,27 @@ const CoordinatorMenu = () => {
   const location = useLocation();
   const [activeItem, setActiveItem] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = React.useState(false);
 
   const handleLogout = () => {
-    Swal.fire({
-      title: 'Logout?',
-      text: 'Are you sure you want to logout?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#667eea',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.removeItem('coordinatortoken');
-        localStorage.removeItem('coordinator');
-        Swal.fire({
-          icon: 'success',
-          title: 'Logged Out!',
-          text: 'You have been successfully logged out.',
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
-          navigate('/coordinator-login');
-        });
-      }
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = () => {
+    localStorage.removeItem('coordinatortoken');
+    localStorage.removeItem('coordinator');
+    setShowLogoutDialog(false);
+    toast.success('Logged out successfully!', {
+      position: "top-right",
+      autoClose: 1500
     });
+    setTimeout(() => {
+      navigate('/coordinator-login');
+    }, 1000);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutDialog(false);
   };
 
   const menuItems = [
@@ -102,6 +98,65 @@ const CoordinatorMenu = () => {
           }}
           className="mobile-toggle"
         />
+      )}
+
+      {/* Logout Confirmation Dialog */}
+      {showLogoutDialog && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3000
+        }}>
+          <div style={{
+            background: '#141223',
+            padding: '30px',
+            borderRadius: '15px',
+            border: '2px solid #667eea',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+            maxWidth: '400px',
+            width: '90%'
+          }}>
+            <h3 style={{ color: '#fff', marginBottom: '15px', fontSize: '1.3rem' }}>Logout?</h3>
+            <p style={{ color: '#ccc', marginBottom: '25px' }}>Are you sure you want to logout?</p>
+            <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={cancelLogout}
+                style={{
+                  padding: '10px 20px',
+                  background: '#6c757d',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                style={{
+                  padding: '10px 20px',
+                  background: '#667eea',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                Yes, logout
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="sidebar" style={{ width: '280px', background: '#141223', padding: '30px 0', position: 'fixed', height: '100vh', overflowY: 'auto', zIndex: 1000, transition: 'transform 0.3s' }}>
@@ -216,9 +271,21 @@ const CoordinatorMenu = () => {
           </div>
         </div>
       </div>
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };
-
 
 export default CoordinatorMenu;

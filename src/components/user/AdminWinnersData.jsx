@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import config from '../../config';
+import TrishnaLogo from '../../assets/images/tk26.png';
 
 const AdminWinnersData = () => {
   const navigate = useNavigate();
@@ -153,6 +154,19 @@ const AdminWinnersData = () => {
         </style>
         
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {/* Logo in top right corner */}
+          <div style={{ position: 'absolute', top: '-20px', right: '0', zIndex: 10 }}>
+            <img 
+              src={TrishnaLogo} 
+              alt="Trishna Logo" 
+              style={{ 
+                height: '50px', 
+                width: 'auto', 
+                objectFit: 'contain'
+              }} 
+            />
+          </div>
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '30px' }}>
             <button
               onClick={() => navigate('/admin/dashboard')}
