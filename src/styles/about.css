@@ -249,7 +249,7 @@
 
 /* Gradient background for the whole about area */
 .about-gradient-bg {
-  background: #05070d !important;
+  background: #000 !important;
   width: 100vw;
   min-height: 100vh;
   position: relative;
@@ -335,6 +335,6 @@
 }
 
 body, html, #root, .home-page {
-  background: #05070d !important;
-  background-color: #05070d !important;
+  background: #000 !important;
+  background-color: #000 !important;
 }
