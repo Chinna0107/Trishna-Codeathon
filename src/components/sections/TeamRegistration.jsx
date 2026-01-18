@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import tkLogo from '../../assets/images/tk logo.png';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import tkLogo from '../../assets/images/tk26.png';
 import BottomNavBar from './BottomNavBar';
 import config from '../../config';
 
@@ -70,21 +71,11 @@ const TeamRegistration = () => {
   const handleLeaderSubmit = (e) => {
     e.preventDefault();
     if (!emailVerified) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Email Not Verified',
-        text: 'Please verify team leader email before continuing.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Please verify team leader email before continuing.');
       return;
     }
     if (!isExistingUser && teamLeader.password !== teamLeader.confirmPassword) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Password Mismatch',
-        text: 'Passwords do not match!',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Passwords do not match!');
       return;
     }
     setStep(2);
@@ -92,12 +83,7 @@ const TeamRegistration = () => {
 
   const sendOtp = async () => {
     if (!teamLeader.email) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Email Required',
-        text: 'Please enter team leader email first.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.warning('Please enter team leader email first.');
       return;
     }
     setSendingOtp(true);
@@ -113,27 +99,12 @@ const TeamRegistration = () => {
         if (data.isExistingUser) {
           setIsExistingUser(true);
         }
-        Swal.fire({
-          icon: 'success',
-          title: 'OTP Sent!',
-          text: `Verification code sent to ${teamLeader.email}`,
-          confirmButtonColor: '#667eea'
-        });
+        toast.success(`Verification code sent to ${teamLeader.email}`);
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed to Send OTP',
-          text: data.message || 'Please try again.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.message || 'Please try again.');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to connect to server.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to connect to server.');
     } finally {
       setSendingOtp(false);
     }
@@ -153,27 +124,12 @@ const TeamRegistration = () => {
       const data = await response.json();
       if (response.ok) {
         setEmailVerified(true);
-        Swal.fire({
-          icon: 'success',
-          title: 'Email Verified!',
-          text: 'Team leader email verified successfully.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.success('Team leader email verified successfully.');
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid OTP',
-          text: data.message || 'Please enter the correct verification code.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.message || 'Please enter the correct verification code.');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to verify OTP.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to verify OTP.');
     } finally {
       setVerifyingOtp(false);
     }
@@ -194,12 +150,7 @@ const TeamRegistration = () => {
     const transactionId = e.target[0].value;
     
     if (!screenshotLink) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Screenshot Link Required',
-        text: 'Please provide Google Drive link for payment screenshot.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.warning('Please provide Google Drive link for payment screenshot.');
       return;
     }
     
@@ -241,37 +192,24 @@ const TeamRegistration = () => {
       console.log('Response data:', data);
 
       if (response.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Registration Complete!',
-          html: `<strong>Team:</strong> ${teamName}<br><strong>Leader:</strong> ${teamLeader.name}<br><strong>Total Team Size:</strong> ${members.length + 1}`,
-          confirmButtonColor: '#4CAF50'
-        }).then(() => {
+        toast.success(`Registration Complete! Team: ${teamName}`);
+        setTimeout(() => {
           navigate('/');
-        });
+        }, 2000);
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Registration Failed',
-          text: data.error || 'Something went wrong!',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.error || 'Something went wrong!');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to connect to server. Please try again.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to connect to server. Please try again.');
     } finally {
       setSubmittingPayment(false);
     }
   };
 
   const inputStyle = {
-    padding: '12px', borderRadius: '12px', border: '2px solid transparent', outline: 'none',
-    fontSize: '1rem', background: 'rgba(255,255,255,0.95)', color: '#333', width: '100%'
+    padding: '15px', borderRadius: '12px', border: '1px solid rgba(0,220,255,0.3)', outline: 'none',
+    fontSize: '1rem', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(10px)', color: '#fff', width: '100%',
+    transition: 'all 0.3s ease'
   };
 
   const ProgressBar = () => (
@@ -305,31 +243,99 @@ const TeamRegistration = () => {
     return (
       <div style={{
         padding: '50px 20px', textAlign: 'center',
-        background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
-        minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'
+        background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
+        minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center',
+        position: 'relative', overflow: 'hidden'
       }}>
-        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+        {/* Animated background dots */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}>
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '2px',
+                height: '2px',
+                background: 'rgba(0,220,255,0.6)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
+        
+        <style>
+          {`
+            @keyframes twinkle {
+              0%, 100% { opacity: 0.3; transform: scale(1); }
+              50% { opacity: 1; transform: scale(1.5); }
+            }
+          `}
+        </style>
+        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
         <ProgressBar />
         <h2 style={{ fontSize: '2.5rem', marginBottom: '10px', textShadow: '2px 2px 8px rgba(0,0,0,0.3)' }}>👤 Team Leader Details</h2>
         {eventName && <p style={{ fontSize: '1.1rem', color: '#e0e0e0', marginBottom: '20px' }}>Event: {eventName}</p>}
-        <form style={{
-          maxWidth: '700px', width: '100%', background: 'rgba(255,255,255,0.15)',
-          backdropFilter: 'blur(10px)', padding: '30px', borderRadius: '20px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.3)', display: 'grid', gap: '15px',
-          border: '1px solid rgba(255,255,255,0.2)'
+        <form className="form-grid" style={{
+          maxWidth: '900px', width: '100%', background: 'rgba(255,255,255,0.08)',
+          backdropFilter: 'blur(20px)', padding: '40px', borderRadius: '20px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', display: 'grid', gap: '20px',
+          border: '1px solid rgba(255,255,255,0.1)', position: 'relative', zIndex: 1
         }} onSubmit={handleLeaderSubmit}>
-          <input placeholder="Team name" value={teamName} onChange={(e) => setTeamName(e.target.value)} required style={inputStyle} />
+          <style>
+            {`
+              @media (min-width: 768px) {
+                .form-grid {
+                  grid-template-columns: 1fr 1fr;
+                  gap: 25px;
+                }
+                .form-full-width {
+                  grid-column: 1 / -1;
+                }
+                .form-half-width {
+                  grid-column: span 1;
+                }
+              }
+              @media (min-width: 1024px) {
+                .form-grid {
+                  grid-template-columns: 2fr 1fr 1fr;
+                  gap: 30px;
+                }
+                .form-two-thirds {
+                  grid-column: span 2;
+                }
+                .form-grid {
+                  padding: 50px;
+                }
+              }
+            `}
+          </style>
+          <input placeholder="Team name" value={teamName} onChange={(e) => setTeamName(e.target.value)} required className="form-full-width" style={inputStyle} />
           {['name', 'rollNo', 'mobile'].map((field) => (
             <input key={field} placeholder={field === 'name' ? 'Leader name' : field === 'rollNo' ? 'Roll number' : 'Mobile number'}
               name={field} type={field === 'mobile' ? 'tel' : 'text'}
-              value={teamLeader[field]} onChange={handleLeaderChange} required style={inputStyle} />
+              value={teamLeader[field]} onChange={handleLeaderChange} required 
+              className={field === 'name' ? 'form-two-thirds' : 'form-half-width'}
+              style={inputStyle} />
           ))}
           <select
             name="year"
             value={teamLeader.year}
             onChange={handleLeaderChange}
             required
-            style={{ ...inputStyle, color: teamLeader.year ? '#333' : '#999' }}
+            className="form-half-width"
+            style={{ ...inputStyle, color: teamLeader.year ? '#fff' : '#999' }}
           >
             <option value="" disabled>Select Year</option>
             <option value="I">I</option>
@@ -342,7 +348,8 @@ const TeamRegistration = () => {
             value={teamLeader.branch}
             onChange={handleLeaderChange}
             required
-            style={{ ...inputStyle, color: teamLeader.branch ? '#333' : '#999' }}
+            className="form-half-width"
+            style={{ ...inputStyle, color: teamLeader.branch ? '#fff' : '#999' }}
           >
             <option value="" disabled>Select Branch</option>
             <optgroup label="Computer Science">
@@ -375,10 +382,10 @@ const TeamRegistration = () => {
             </optgroup>
             <option value="OTHERS">OTHERS</option>
           </select>
-          <input placeholder="College" name="college" type="text" value={teamLeader.college} onChange={handleLeaderChange} required style={inputStyle} />
+          <input placeholder="College" name="college" type="text" value={teamLeader.college} onChange={handleLeaderChange} required className="form-full-width" style={inputStyle} />
           
           {/* Email with verification */}
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className="form-full-width" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <input
               placeholder="Leader Email"
               name="email"
@@ -418,7 +425,7 @@ const TeamRegistration = () => {
 
           {/* OTP verification */}
           {!emailVerified && teamLeader.email && (
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div className="form-full-width" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <input
                 placeholder="Enter OTP"
                 value={otp}
@@ -455,6 +462,7 @@ const TeamRegistration = () => {
                 value={teamLeader.password}
                 onChange={handleLeaderChange}
                 required
+                className="form-half-width"
                 style={inputStyle}
               />
               <input
@@ -464,11 +472,12 @@ const TeamRegistration = () => {
                 value={teamLeader.confirmPassword}
                 onChange={handleLeaderChange}
                 required
+                className="form-half-width"
                 style={inputStyle}
               />
             </>
           )}
-          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
+          <div className="form-full-width" style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
             <button type="submit" style={{
               padding: '14px 32px', borderRadius: '14px', background: '#fff', color: '#667eea',
               fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 5px 15px rgba(0,0,0,0.2)', fontSize: '1rem'
@@ -480,6 +489,19 @@ const TeamRegistration = () => {
           </div>
         </form>
         <BottomNavBar />
+        
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     );
   }
@@ -487,10 +509,38 @@ const TeamRegistration = () => {
   if (step === 2) {
     return (
       <div style={{
-        padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
-        minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', overflowY: 'auto'
+        padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
+        minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', overflowY: 'auto',
+        position: 'relative', overflow: 'hidden'
       }}>
-        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+        {/* Animated background dots */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}>
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '2px',
+                height: '2px',
+                background: 'rgba(0,220,255,0.6)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
+        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
         <ProgressBar />
         <h2 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>👥 Add Team Members</h2>
         <p style={{ fontSize: '1.1rem', color: '#e0e0e0', marginBottom: '5px' }}>Team: {teamName}</p>
@@ -499,8 +549,9 @@ const TeamRegistration = () => {
         </p>
         {members.length > 0 && (
           <div style={{
-            maxWidth: '700px', width: '100%', marginBottom: '20px', background: 'rgba(255,255,255,0.15)',
-            backdropFilter: 'blur(10px)', padding: '20px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.2)'
+            maxWidth: '700px', width: '100%', marginBottom: '20px', background: 'rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.1)',
+            position: 'relative', zIndex: 1
           }}>
             <h3 style={{ marginBottom: '15px', fontSize: '1.2rem' }}>Added Members:</h3>
             {members.map((member, idx) => (
@@ -520,24 +571,52 @@ const TeamRegistration = () => {
             ))}
           </div>
         )}
-        <form style={{
-          maxWidth: '700px', width: '100%', background: 'rgba(255,255,255,0.15)',
-          backdropFilter: 'blur(10px)', padding: '30px', borderRadius: '20px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.3)', display: 'grid', gap: '15px',
-          border: '1px solid rgba(255,255,255,0.2)'
+        <form className="form-grid" style={{
+          maxWidth: '900px', width: '100%', background: 'rgba(255,255,255,0.08)',
+          backdropFilter: 'blur(20px)', padding: '40px', borderRadius: '20px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', display: 'grid', gap: '20px',
+          border: '1px solid rgba(255,255,255,0.1)', position: 'relative', zIndex: 1
         }} onSubmit={addMember}>
-          <h3 style={{ textAlign: 'left', marginBottom: '5px' }}>Add New Member:</h3>
+          <style>
+            {`
+              @media (min-width: 768px) {
+                .form-grid {
+                  grid-template-columns: 1fr 1fr;
+                  gap: 25px;
+                }
+                .form-full-width {
+                  grid-column: 1 / -1;
+                }
+                .form-half-width {
+                  grid-column: span 1;
+                }
+              }
+              @media (min-width: 1024px) {
+                .form-grid {
+                  grid-template-columns: 2fr 1fr 1fr;
+                  gap: 30px;
+                }
+                .form-two-thirds {
+                  grid-column: span 2;
+                }
+              }
+            `}
+          </style>
+          <h3 className="form-full-width" style={{ textAlign: 'left', marginBottom: '5px' }}>Add New Member:</h3>
           {['name', 'rollNo', 'mobile'].map((field) => (
             <input key={field} placeholder={field === 'name' ? 'Member name' : field === 'rollNo' ? 'Roll number' : 'Mobile number'}
               name={field} type={field === 'mobile' ? 'tel' : 'text'}
-              value={currentMember[field]} onChange={handleMemberChange} required style={inputStyle} />
+              value={currentMember[field]} onChange={handleMemberChange} required 
+              className={field === 'name' ? 'form-two-thirds' : 'form-half-width'}
+              style={inputStyle} />
           ))}
           <select
             name="year"
             value={currentMember.year}
             onChange={handleMemberChange}
             required
-            style={{ ...inputStyle, color: currentMember.year ? '#333' : '#999' }}
+            className="form-half-width"
+            style={{ ...inputStyle, color: currentMember.year ? '#fff' : '#999' }}
           >
             <option value="" disabled>Select Year</option>
             <option value="I">I</option>
@@ -550,7 +629,8 @@ const TeamRegistration = () => {
             value={currentMember.branch}
             onChange={handleMemberChange}
             required
-            style={{ ...inputStyle, color: currentMember.branch ? '#333' : '#999' }}
+            className="form-half-width"
+            style={{ ...inputStyle, color: currentMember.branch ? '#fff' : '#999' }}
           >
             <option value="" disabled>Select Branch</option>
             <optgroup label="Computer Science">
@@ -583,9 +663,9 @@ const TeamRegistration = () => {
             </optgroup>
             <option value="OTHERS">OTHERS</option>
           </select>
-          <input placeholder="Email" name="email" type="email" value={currentMember.email} onChange={handleMemberChange} required style={inputStyle} />
-          <input placeholder="College" name="college" type="text" value={currentMember.college} onChange={handleMemberChange} required style={inputStyle} />
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
+          <input placeholder="Email" name="email" type="email" value={currentMember.email} onChange={handleMemberChange} required className="form-half-width" style={inputStyle} />
+          <input placeholder="College" name="college" type="text" value={currentMember.college} onChange={handleMemberChange} required className="form-half-width" style={inputStyle} />
+          <div className="form-full-width" style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
             <button type="submit" style={{
               padding: '14px 28px', borderRadius: '14px', background: '#fff', color: '#667eea',
               fontWeight: 'bold', border: 'none', cursor: 'pointer'
@@ -609,27 +689,69 @@ const TeamRegistration = () => {
           </div>
         </form>
         <BottomNavBar />
+        
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     );
   }
 
   return (
     <div style={{
-      padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%)',
-      minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'
+      padding: '50px 20px', textAlign: 'center', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
+      minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center',
+      position: 'relative', overflow: 'hidden'
     }}>
-      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
+      {/* Animated background dots */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0
+      }}>
+        {[...Array(50)].map((_, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              width: '2px',
+              height: '2px',
+              background: 'rgba(0,220,255,0.6)',
+              borderRadius: '50%',
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 2}s`
+            }}
+          />
+        ))}
+      </div>
+      <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 15, right: 15, width: 54, height: 54, zIndex: 101, filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)' }} />
       <ProgressBar />
       <h2 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>💳 Payment</h2>
       <div style={{
-        maxWidth: '700px', width: '100%', background: 'rgba(255,255,255,0.15)',
-        backdropFilter: 'blur(10px)', padding: '30px', borderRadius: '20px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)'
+        maxWidth: '700px', width: '100%', background: 'rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(20px)', padding: '40px', borderRadius: '20px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.1)',
+        position: 'relative', zIndex: 1
       }}>
         <h3 style={{ marginBottom: '20px', fontSize: '1.5rem' }}>📋 Registration Summary</h3>
         <div style={{
-          textAlign: 'left', marginBottom: '25px', background: 'rgba(255,255,255,0.2)',
-          padding: '25px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.3)'
+          textAlign: 'left', marginBottom: '25px', background: 'rgba(255,255,255,0.1)',
+          padding: '25px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.2)'
         }}>
           <div style={{ marginBottom: '12px', fontSize: '1.05rem' }}><strong>🏆 Team Name:</strong> {teamName}</div>
           <div style={{ marginBottom: '12px', fontSize: '1.05rem' }}><strong>👤 Leader:</strong> {teamLeader.name}</div>
@@ -696,6 +818,19 @@ const TeamRegistration = () => {
         </form>
       </div>
       <BottomNavBar />
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

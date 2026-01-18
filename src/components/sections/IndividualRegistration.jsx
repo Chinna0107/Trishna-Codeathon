@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import config from '../../config';
+import tkLogo from '../../assets/images/tk26.png';
 
 const BASE_URL = `${config.BASE_URL}/api/users`;
 
@@ -66,21 +68,11 @@ const IndividualRegistration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!emailVerified) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Email Not Verified',
-        text: 'Please verify your email before continuing.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Please verify your email before continuing.');
       return;
     }
     if (!isExistingUser && participant.password !== participant.confirmPassword) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Password Mismatch',
-        text: 'Passwords do not match!',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Passwords do not match!');
       return;
     }
     setStep(2);
@@ -88,12 +80,7 @@ const IndividualRegistration = () => {
 
   const sendOtp = async () => {
     if (!participant.email) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Email Required',
-        text: 'Please enter your email first.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.warning('Please enter your email first.');
       return;
     }
     setSendingOtp(true);
@@ -109,27 +96,12 @@ const IndividualRegistration = () => {
         if (data.isExistingUser) {
           setIsExistingUser(true);
         }
-        Swal.fire({
-          icon: 'success',
-          title: 'OTP Sent!',
-          text: `Verification code sent to ${participant.email}`,
-          confirmButtonColor: '#667eea'
-        });
+        toast.success(`Verification code sent to ${participant.email}`);
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed to Send OTP',
-          text: data.message || 'Please try again.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.message || 'Please try again.');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to connect to server.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to connect to server.');
     } finally {
       setSendingOtp(false);
     }
@@ -149,27 +121,12 @@ const IndividualRegistration = () => {
       const data = await response.json();
       if (response.ok) {
         setEmailVerified(true);
-        Swal.fire({
-          icon: 'success',
-          title: 'Email Verified!',
-          text: 'Your email has been verified successfully.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.success('Your email has been verified successfully.');
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid OTP',
-          text: data.message || 'Please enter the correct verification code.',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.message || 'Please enter the correct verification code.');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to verify OTP.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to verify OTP.');
     } finally {
       setVerifyingOtp(false);
     }
@@ -180,12 +137,7 @@ const IndividualRegistration = () => {
     const transactionId = e.target[0].value;
     
     if (!screenshotLink) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Screenshot Link Required',
-        text: 'Please provide Google Drive link for payment screenshot.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.warning('Please provide Google Drive link for payment screenshot.');
       return;
     }
     
@@ -212,29 +164,15 @@ const IndividualRegistration = () => {
       const data = await response.json();
 
       if (response.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Registration Complete!',
-          html: `<strong>Name:</strong> ${participant.name}<br><strong>Email:</strong> ${participant.email}`,
-          confirmButtonColor: '#667eea'
-        }).then(() => {
+        toast.success('Registration Complete!');
+        setTimeout(() => {
           navigate('/');
-        });
+        }, 2000);
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Registration Failed',
-          text: data.error || 'Something went wrong!',
-          confirmButtonColor: '#667eea'
-        });
+        toast.error(data.error || 'Something went wrong!');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Connection Error',
-        text: 'Failed to connect to server. Please try again.',
-        confirmButtonColor: '#667eea'
-      });
+      toast.error('Failed to connect to server. Please try again.');
     }
   };
 
@@ -249,14 +187,69 @@ const IndividualRegistration = () => {
         style={{
           padding: '50px 20px',
           textAlign: 'center',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%),',
+          background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
           minHeight: '100vh',
           color: '#fff',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* TK Logo */}
+        <div style={{
+          position: 'absolute',
+          top: 15,
+          right: 15,
+          zIndex: 101
+        }}>
+          <img 
+            src={tkLogo} 
+            alt="TK Logo" 
+            style={{ 
+              width: 54, 
+              height: 54,
+              filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)'
+            }} 
+          />
+        </div>
+        {/* Animated background dots */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}>
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '2px',
+                height: '2px',
+                background: 'rgba(0,220,255,0.6)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
+        
+        <style>
+          {`
+            @keyframes twinkle {
+              0%, 100% { opacity: 0.3; transform: scale(1); }
+              50% { opacity: 1; transform: scale(1.5); }
+            }
+          `}
+        </style>
         <motion.h2
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -268,23 +261,49 @@ const IndividualRegistration = () => {
         <p style={{ fontSize: '1.1rem', color: '#e0e0e0', marginBottom: '30px' }}>{eventName}</p>
 
         <motion.form
+          className="form-grid"
           style={{
             maxWidth: '700px',
             width: '100%',
-            background: 'rgba(255,255,255,0.15)',
-            backdropFilter: 'blur(10px)',
-            padding: '30px',
+            background: 'rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(20px)',
+            padding: '40px',
             borderRadius: '20px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
             display: 'grid',
-            gap: '15px',
-            border: '1px solid rgba(255,255,255,0.2)'
+            gap: '20px',
+            border: '1px solid rgba(255,255,255,0.1)',
+            position: 'relative',
+            zIndex: 1
           }}
           onSubmit={handleSubmit}
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
+          <style>
+            {`
+              @media (min-width: 768px) {
+                .form-grid {
+                  grid-template-columns: 1fr 1fr;
+                }
+                .form-full-width {
+                  grid-column: 1 / -1;
+                }
+                .form-half-width {
+                  grid-column: span 1;
+                }
+              }
+              @media (min-width: 1024px) {
+                .form-grid {
+                  grid-template-columns: 1fr 1fr 1fr;
+                }
+                .form-two-thirds {
+                  grid-column: span 2;
+                }
+              }
+            `}
+          </style>
           {['name', 'rollNo', 'mobile'].map((field) => (
             <motion.input
               key={field}
@@ -296,15 +315,18 @@ const IndividualRegistration = () => {
               value={participant[field]}
               onChange={handleChange}
               required
+              className={field === 'name' ? 'form-two-thirds' : 'form-half-width'}
               whileFocus={{ scale: 1.02 }}
               style={{
-                padding: '12px',
+                padding: '15px',
                 borderRadius: '12px',
-                border: '2px solid transparent',
+                border: '1px solid rgba(0,220,255,0.3)',
                 outline: 'none',
                 fontSize: '1rem',
-                background: 'rgba(255,255,255,0.95)',
-                color: '#333'
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                color: '#fff',
+                transition: 'all 0.3s ease'
               }}
             />
           ))}
@@ -314,15 +336,18 @@ const IndividualRegistration = () => {
             value={participant.year}
             onChange={handleChange}
             required
+            className="form-half-width"
             whileFocus={{ scale: 1.02 }}
             style={{
-              padding: '12px',
+              padding: '15px',
               borderRadius: '12px',
-              border: '2px solid transparent',
+              border: '1px solid rgba(0,220,255,0.3)',
               outline: 'none',
               fontSize: '1rem',
-              background: 'rgba(255,255,255,0.95)',
-              color: participant.year ? '#333' : '#999'
+              background: 'rgba(255,255,255,0.05)',
+              backdropFilter: 'blur(10px)',
+              color: '#fff',
+              transition: 'all 0.3s ease'
             }}
           >
             <option value="" disabled>Select Year</option>
@@ -337,15 +362,18 @@ const IndividualRegistration = () => {
             value={participant.branch}
             onChange={handleChange}
             required
+            className="form-half-width"
             whileFocus={{ scale: 1.02 }}
             style={{
-              padding: '12px',
+              padding: '15px',
               borderRadius: '12px',
-              border: '2px solid transparent',
+              border: '1px solid rgba(0,220,255,0.3)',
               outline: 'none',
               fontSize: '1rem',
-              background: 'rgba(255,255,255,0.95)',
-              color: participant.branch ? '#333' : '#999'
+              background: 'rgba(255,255,255,0.05)',
+              backdropFilter: 'blur(10px)',
+              color: '#fff',
+              transition: 'all 0.3s ease'
             }}
           >
             <option value="" disabled>Select Branch</option>
@@ -387,6 +415,7 @@ const IndividualRegistration = () => {
             value={participant.college}
             onChange={handleChange}
             required
+            className="form-full-width"
             whileFocus={{ scale: 1.02 }}
             style={{
               padding: '12px',
@@ -400,7 +429,7 @@ const IndividualRegistration = () => {
           />
 
           {/* Email with verification */}
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className="form-full-width" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <motion.input
               placeholder="Email"
               name="email"
@@ -447,7 +476,7 @@ const IndividualRegistration = () => {
 
           {/* OTP verification */}
           {!emailVerified && participant.email && (
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div className="form-full-width" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
               <motion.input
                 placeholder="Enter OTP"
                 value={otp}
@@ -496,15 +525,18 @@ const IndividualRegistration = () => {
                 value={participant.password}
                 onChange={handleChange}
                 required
+                className="form-half-width"
                 whileFocus={{ scale: 1.02 }}
                 style={{
-                  padding: '12px',
+                  padding: '15px',
                   borderRadius: '12px',
-                  border: '2px solid transparent',
+                  border: '1px solid rgba(0,220,255,0.3)',
                   outline: 'none',
                   fontSize: '1rem',
-                  background: 'rgba(255,255,255,0.95)',
-                  color: '#333'
+                  background: 'rgba(255,255,255,0.05)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#fff',
+                  transition: 'all 0.3s ease'
                 }}
               />
               <motion.input
@@ -514,21 +546,24 @@ const IndividualRegistration = () => {
                 value={participant.confirmPassword}
                 onChange={handleChange}
                 required
+                className="form-half-width"
                 whileFocus={{ scale: 1.02 }}
                 style={{
-                  padding: '12px',
+                  padding: '15px',
                   borderRadius: '12px',
-                  border: '2px solid transparent',
+                  border: '1px solid rgba(0,220,255,0.3)',
                   outline: 'none',
                   fontSize: '1rem',
-                  background: 'rgba(255,255,255,0.95)',
-                  color: '#333'
+                  background: 'rgba(255,255,255,0.05)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#fff',
+                  transition: 'all 0.3s ease'
                 }}
               />
             </>
           )}
 
-          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
+          <div className="form-full-width" style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
             <motion.button
               type="submit"
               whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(0,0,0,0.3)' }}
@@ -567,28 +602,87 @@ const IndividualRegistration = () => {
             </motion.button>
           </div>
         </motion.form>
+        
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </motion.div>
     );
   }
 
   // Step 2: Payment
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.6 }}
-      style={{
-        padding: '50px 20px',
-        textAlign: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%),',
-        minHeight: '100vh',
-        color: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}
-    >
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.6 }}
+        style={{
+          padding: '50px 20px',
+          textAlign: 'center',
+          background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
+          minHeight: '100vh',
+          color: '#fff',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* TK Logo */}
+        <div style={{
+          position: 'absolute',
+          top: 15,
+          right: 15,
+          zIndex: 101
+        }}>
+          <img 
+            src={tkLogo} 
+            alt="TK Logo" 
+            style={{ 
+              width: 54, 
+              height: 54,
+              filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)'
+            }} 
+          />
+        </div>
+        {/* Animated background dots */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}>
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '2px',
+                height: '2px',
+                background: 'rgba(0,220,255,0.6)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
       <motion.h2
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -603,12 +697,14 @@ const IndividualRegistration = () => {
         style={{
           maxWidth: '700px',
           width: '100%',
-          background: 'rgba(255,255,255,0.15)',
-          backdropFilter: 'blur(10px)',
-          padding: '30px',
+          background: 'rgba(255,255,255,0.08)',
+          backdropFilter: 'blur(20px)',
+          padding: '40px',
           borderRadius: '20px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-          border: '1px solid rgba(255,255,255,0.2)'
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          position: 'relative',
+          zIndex: 1
         }}
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -771,6 +867,19 @@ const IndividualRegistration = () => {
             </motion.button>
           </div>
         </form>
+        
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </motion.div>
     </motion.div>
   );

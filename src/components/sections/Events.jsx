@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Removed useNavigate as it's unused
 import { FaCode, FaGamepad, FaRobot, FaChalkboardTeacher, FaMicrophone, FaLaptopCode, FaPalette, FaLightbulb, FaCube, FaUtensils, FaCar, FaRocket, FaReact, FaBrain, FaGithub, FaNetworkWired } from 'react-icons/fa';
-import tkLogo from '../../assets/images/tk logo.png';
+import tkLogo from '../../assets/images/tk26.png';
 import eventpic from '../../assets/images/elephant-removebg-preview (1).png';
 import samplePdf from '../../assets/images/21AK1A0427 APSCHE.pdf';
 import imgProjectExpo from '../../assets/images/12979916_5079835.jpg';
@@ -106,52 +106,118 @@ const Events = () => {
         backgroundSize: '80px 80px',
         backgroundPosition: 'center',
       }} />
+      {/* Enhanced TK Logo top left */}
+      <div style={{
+        position: 'absolute',
+        top: 15,
+        left: 15,
+        zIndex: 101
+      }}>
+        <img 
+          src={tkLogo} 
+          alt="TK Logo" 
+          style={{ 
+            width: 54, 
+            height: 54,
+            filter: 'drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1)',
+            animation: 'logoGlow 3s ease-in-out infinite alternate'
+          }} 
+        />
+      </div>
       <div className="container mx-auto px-4" style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
-        {/* TK Logo top left */}
-        <img src={tkLogo} alt="TK Logo" style={{ position: 'absolute', top: 18, left: 18, width: 54, height: 54, zIndex: 101 }} />
-        {/* Theme pic bottom left */}
+        
+        <style>
+          {`
+            @keyframes logoGlow {
+              0% { 
+                filter: drop-shadow(0 0 8px rgba(0,234,255,0.6)) brightness(1.1);
+                transform: scale(1);
+              }
+              100% { 
+                filter: drop-shadow(0 0 15px rgba(0,234,255,0.9)) brightness(1.3);
+                transform: scale(1.05);
+              }
+            }
+            @keyframes blink {
+              0%, 50% { opacity: 1; }
+              51%, 100% { opacity: 0; }
+            }
+            @media (max-width: 768px) {
+              .mascot-image {
+                width: 150px !important;
+              }
+            }
+          `}
+        </style>
+        {/* Theme pic bottom right */}
         { !category && (
-          <img src={eventpic} alt="Theme Pic" style={{ position: 'absolute', left: 18, bottom: 18, width: 320, height: 'auto', zIndex: 101, opacity: 0.95 }} />
+          <img src={eventpic} alt="Theme Pic" className="mascot-image" style={{ position: 'absolute', right: 18, bottom: 18, width: 320, height: 'auto', zIndex: 101, opacity: 0.95 }} />
         )}
         {/* Category selection cards */}
         {!category && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '2.5rem', marginTop: '5rem', padding: '0 2rem' }}>
-            {categories.map((cat) => (
-              <div
-                key={cat.key}
-                onClick={() => setCategory(cat.key)}
-                style={{
-                  background: 'rgba(0,234,255,0.08)',
-                  border: '2px solid #00eaff55',
-                  borderRadius: '16px',
-                  padding: '2rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  minHeight: '200px',
-                  boxShadow: '0 4px 20px rgba(0,234,255,0.1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(0,234,255,0.18)';
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,234,255,0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(0,234,255,0.08)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,234,255,0.1)';
-                }}
-              >
-                <div style={{ fontSize: '3rem', color: '#00eaff' }}>{cat.icon}</div>
-                <h3 style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '1.3rem', fontWeight: 700, margin: 0 }}>{cat.label}</h3>
-                <p style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '0.95rem', margin: 0, minHeight: '24px', opacity: 0.8 }}>
-                  {typedTexts[cat.key] || ''}<span style={{ animation: 'blink 1s infinite' }}>|</span>
-                </p>
-              </div>
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '2.5rem', marginTop: '5rem', padding: '0 2rem' }}>
+            {categories.map((cat) => {
+              const categoryImages = {
+                technical: imgProjectExpo,
+                nontechnical: imgRubeCube,
+                robotics: imgRoboRace
+              };
+              
+              return (
+                <div
+                  key={cat.key}
+                  onClick={() => setCategory(cat.key)}
+                  style={{
+                    background: 'rgba(255,255,255,0.08)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 32px rgba(0,234,255,0.2)',
+                    border: '1px solid rgba(0,234,255,0.3)',
+                    position: 'relative'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,234,255,0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,234,255,0.2)';
+                  }}
+                >
+                  {/* Category Image */}
+                  <div style={{ height: '200px', overflow: 'hidden' }}>
+                    <img 
+                      src={categoryImages[cat.key]} 
+                      alt={cat.label} 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Category Details */}
+                  <div style={{ padding: '1.5rem', textAlign: 'center' }}>
+                    <div style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '1rem' }}>{cat.icon}</div>
+                    <h3 style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '1.3rem', fontWeight: 700, margin: '0 0 1rem 0' }}>{cat.label}</h3>
+                    <p style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'Orbitron, monospace', fontSize: '0.95rem', margin: 0, minHeight: '24px' }}>
+                      {typedTexts[cat.key] || ''}<span style={{ animation: 'blink 1s infinite' }}>|</span>
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
         {/* Show project cards only after category is selected */}
@@ -166,60 +232,114 @@ const Events = () => {
               </button>
               <span style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontWeight: 700, fontSize: '1.1rem', marginLeft: 8, alignSelf: 'center' }}>{categories.find(c => c.key === category)?.label}</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', padding: '0 2rem' }}>
               {filteredEvents(category).map((event, index) => (
-                <div // Changed from motion.div as motion import was removed
+                <div
                   key={event.id}
-                  // initial={{ opacity: 0, y: 20 }} // Animation props removed
-                  // animate={inView ? { opacity: 1, y: 0 } : {}} // Animation props removed
-                  // transition={{ duration: 0.5, delay: index * 0.1 }} // Animation props removed
-                  className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                  style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transition: 'opacity 0.5s ease-out, transform 0.5s ease-out', transitionDelay: `${index * 0.1}s` }} // Basic fade-in-up with inView
+                  style={{
+                    background: 'rgba(255,255,255,0.08)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    boxShadow: '0 8px 32px rgba(0,234,255,0.2)',
+                    border: '1px solid rgba(0,234,255,0.3)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    opacity: inView ? 1 : 0,
+                    transform: inView ? 'translateY(0)' : 'translateY(20px)',
+                    transitionDelay: `${index * 0.1}s`
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,234,255,0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,234,255,0.2)';
+                  }}
                 >
-                  <div className="h-48 bg-gray-200 flex items-center justify-center">
-                    {event.image ? (
-                      <img 
-                        src={event.image} 
-                        alt={event.title} 
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-gray-500">Event Image</span>
-                    )}
+                  {/* Event Image */}
+                  <div style={{ height: '200px', overflow: 'hidden' }}>
+                    <img 
+                      src={event.image} 
+                      alt={event.title} 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                    />
                   </div>
-                  <div className="p-6">
+                  
+                  {/* Event Details */}
+                  <div style={{ padding: '1.5rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                      {event.icon && <span style={{ color: '#667eea', fontSize: '1.2rem' }}>{event.icon}</span>}
-                      <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
+                      {event.icon && <span style={{ color: '#00eaff', fontSize: '1.2rem' }}>{event.icon}</span>}
+                      <h3 style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>{event.title}</h3>
                     </div>
-                    <p className="text-gray-600 mb-4">{event.description}</p>
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: '1.4', marginBottom: '1rem' }}>{event.description}</p>
+                    
+                    {/* Registration Buttons */}
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
                       {event.tags && event.tags.filter(tag => tag === 'Team' || tag === 'Individual').map((tag) => (
                         <Link
                           key={tag}
                           to={tag === 'Team' ? `/team-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}` : `/individual-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}`}
-                          className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-full transition-colors cursor-pointer"
-                          style={{ textDecoration: 'none' }}
+                          style={{
+                            background: 'linear-gradient(90deg, #00eaff 0%, #0057ff 100%)',
+                            color: '#fff',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '8px',
+                            fontSize: '0.85rem',
+                            fontWeight: 600,
+                            textDecoration: 'none',
+                            transition: 'all 0.3s ease',
+                            border: 'none'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                            e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,234,255,0.4)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
                         >
                           Register as {tag}
                         </Link>
                       ))}
                     </div>
-                    <a href={event.pdf} target="_blank" rel="noopener noreferrer" style={{
-                      ...sciFiBtnStyle,
-                      minWidth: 90,
-                      minHeight: 32,
-                      fontSize: '0.95rem',
-                      background: 'linear-gradient(90deg, #00eaff 0%, #0057ff 100%)',
-                      color: '#fff',
-                      border: 'none',
-                      boxShadow: 'none',
-                      textDecoration: 'none',
-                      padding: '0.25em 0',
-                      display: 'inline-flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>Details</a>
+                    
+                    {/* Details Button */}
+                    <a 
+                      href={event.pdf} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      style={{
+                        ...sciFiBtnStyle,
+                        minWidth: 90,
+                        minHeight: 32,
+                        fontSize: '0.9rem',
+                        background: 'rgba(0,234,255,0.1)',
+                        color: '#00eaff',
+                        border: '1px solid #00eaff',
+                        textDecoration: 'none',
+                        padding: '0.5rem 1rem',
+                        display: 'inline-flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: '8px'
+                      }}
+                    >
+                      View Details
+                    </a>
                   </div>
                 </div>
               ))}

@@ -116,14 +116,16 @@ const CoordinatorProfile = () => {
               .details-qr-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
               .qr-section { padding-top: 0 !important; order: 2; }
               .details-section { order: 1; }
-              .profile-card { padding: 25px !important; border-radius: 20px !important; }
+              .profile-card { padding: 25px !important; border-radius: 20px !important; margin-top: 80px !important; }
+              .vertical-line { display: none !important; }
+              .logo-container { top: 10px !important; right: 10px !important; z-index: 1000 !important; }
             }
           `}
         </style>
         
         <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)', padding: '40px', position: 'relative', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="mobile-padding">
           {/* Logo in top right corner */}
-          <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+          <div className="logo-container" style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
             <img 
               src={tkLogo} 
               alt="TK26 Logo" 
@@ -222,7 +224,7 @@ const CoordinatorProfile = () => {
                   </div>
                   
                   {/* Vertical Line */}
-                  <div style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
+                  <div className="vertical-line" style={{ width: '2px', background: '#C0C0C0', height: '100%', minHeight: '400px' }}></div>
                   
                   {/* Right Side - QR Code */}
                   <div className="qr-section" style={{ 

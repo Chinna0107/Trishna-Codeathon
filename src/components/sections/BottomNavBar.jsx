@@ -14,19 +14,21 @@ const MENU_ITEMS_BASE = [
   { label: 'Home', url: '/', icon: faHome, hoverColor: 'hover:text-blue-500' }, // Blue for home/trust
   { label: 'About', url: '/about', icon: faInfoCircle, hoverColor: 'hover:text-sky-500' }, // Sky blue for information
   { label: 'Events', url: '/events', icon: faCalendarAlt, hoverColor: 'hover:text-violet-500' }, // Violet for events/celebration
-  { label: 'Sponsors', url: '/sponsors', icon: faCoins, hoverColor: 'hover:text-yellow-400' }, // Yellow/gold for money/sponsors
-  { label: 'Workshops', url: '/workshops', icon: faLaptop, hoverColor: 'hover:text-orange-500' }, // Orange for learning/workshops
+  // { label: 'Sponsors', url: '/sponsors', icon: faCoins, hoverColor: 'hover:text-yellow-400' }, // Yellow/gold for money/sponsors
+  // { label: 'Workshops', url: '/workshops', icon: faLaptop, hoverColor: 'hover:text-orange-500' }, // Orange for learning/workshops
  { label: 'Schedule', url: '/schedule', icon: faCalendarAlt, hoverColor: 'hover:text-rose-500' }, // Green for schedules/checkmarks
 
 ];
 
 const MORE_SUB_ITEMS_FA = [
-   { label: 'Contests', url: '/contests', icon: faTrophy, hoverColor: 'hover:text-amber-500' }, // Amber/gold for trophies/contests
+  //  { label: 'Contests', url: '/contests', icon: faTrophy, hoverColor: 'hover:text-amber-500' }, // Amber/gold for trophies/contests
   { label: 'Team', url: '/team', icon: faUsers, hoverColor: 'hover:text-indigo-500' }, // Indigo for teamwork/collaboration
   { label: 'Playground', url: '/playground', icon: faGamepad, hoverColor: 'hover:text-orange-500' }, // Red for gaming/energy
-  { label: 'Stay', url: '/stay', icon: faBed, hoverColor: 'hover:text-pink-500' }, // Rose for comfort/accommodation
+  // { label: 'Stay', url: '/stay', icon: faBed, hoverColor: 'hover:text-pink-500' }, // Rose for comfort/accommodation
   { label: 'Location', url: '/location', icon: faMapMarker, hoverColor: 'hover:text-emerald-500' }, // Emerald for maps/location
   { label: 'Contact Us', url: '/contact', icon: faLaptop, hoverColor: 'hover:text-orange-500' }, // Orange for learning/workshops
+  //gallery
+  { label: 'Gallery', url: '/gallery', icon: faInfoCircle, hoverColor: 'hover:text-orange-500' }, // Orange for learning/workshops
 ];
 
 const LOGIN_ITEM = { label: 'Login', url: '/login', icon: faArrowRightToBracket, hoverColor: 'hover:text-cyan-500' }; // Cyan for login/access

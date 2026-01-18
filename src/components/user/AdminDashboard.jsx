@@ -179,8 +179,8 @@ const AdminDashboard = () => {
       default:
         return (
           <div className="dashboard-welcome">
-            <h2>Admin Dashboard Overview</h2>
-            <p>Event Registration Statistics</p>
+            {/* <h2>Admin Dashboard Overview</h2> */}
+            <h2>Event Registration Statistics</h2>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               {/* Total Card - First Position */}

@@ -38,6 +38,7 @@ import WinnersData from './components/user/WinnersData';
 import AdminWinnersData from './components/user/AdminWinnersData';
 import UserEvents from './components/user/UserEvents';
 import TestPage from './components/sections/TestPage';
+import Gallery from './components/sections/Gallery';
 
 const Router = () => (
   <BrowserRouter>
@@ -82,6 +83,7 @@ const Router = () => (
       <Route path="/coordinator/winners/:eventName" element={<WinnersData />} />
       <Route path="/admin/winners" element={<AdminWinnersData />} />
       <Route path="/admin/winners/:eventName" element={<AdminWinnersData />} />
+      <Route path="/gallery" element={<Gallery />} />
       <Route path='*' element={<Hero />} />
     </Routes>
   </BrowserRouter>
