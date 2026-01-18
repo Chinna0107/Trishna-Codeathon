@@ -106,15 +106,7 @@ function Contact() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundImage: `repeating-linear-gradient(90deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(0,234,255,0.08) 0 1px, transparent 1px 80px)`,
-        backgroundSize: '80px 80px',
-      }} />
+
       
       {/* Enhanced TK Logo top left */}
       <div className="logo-container" style={{

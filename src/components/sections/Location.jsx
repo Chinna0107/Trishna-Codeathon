@@ -33,7 +33,7 @@ function Location() {
   return (
     <section style={{
       minHeight: '100vh',
-      background: 'radial-gradient(ellipse at center, #0a1a2f 80%, #000 100%)',
+      background: '#000',
       position: 'relative',
       overflow: 'hidden',
       padding: '2rem 1rem',

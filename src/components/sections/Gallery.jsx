@@ -15,19 +15,7 @@ const Gallery = () => {
       justifyContent: 'center',
       padding: '2rem'
     }}>
-      {/* Matrix grid overlay with silver lines */}
-      <div style={{
-        pointerEvents: 'none',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
-        backgroundImage: `repeating-linear-gradient(90deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px), repeating-linear-gradient(0deg, rgba(192,192,192,0.15) 0 1px, transparent 1px 50px)`,
-        backgroundSize: '50px 50px',
-        backgroundPosition: 'center',
-      }} />
+
 
       {/* TK Logo */}
       <div style={{
