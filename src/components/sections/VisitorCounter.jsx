@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../../styles/VisitorCounter.css';
-import trishnaLogo from '../../assets/images/tk26.png';
+// import trishnaLogo from '../../assets/images/tk26.png';
 import config from '../../config';
 
 const VisitorCounter = () => {
@@ -16,7 +16,7 @@ const VisitorCounter = () => {
   return (
     <div className="visitor-counter" style={{ padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '10px', width: 'auto' }}>
       <div className="counter-icon" style={{ width: '40px', height: '40px' }}>
-        <img src={trishnaLogo} alt="Trishna Logo" style={{ width: '100%', height: '100%' }} />
+        <img src='https://res.cloudinary.com/dbkhniuzt/image/upload/v1772566102/co3_bvpgrn.jpg' alt="Trishna Logo" style={{ width: '100%', height: '100%' }} />
       </div>
       <div className="counter-content" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
         <div className="counter-value" style={{ fontSize: '1.5rem', color: '#3ecc94' }}>
