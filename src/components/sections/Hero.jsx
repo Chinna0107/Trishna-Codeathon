@@ -10,7 +10,7 @@ import { TracingBeam } from '../TracingBeam'; // Import TracingBeam
 
 // Image imports
 
-import namepic from '../../assets/images/tk26.png';
+import namepic from '../../assets/images/co4.png';
 
 // Mascot/Logo imports for top-right section
 import ieteMascot from '../../assets/images/ietelogo.png';
@@ -217,7 +217,7 @@ const Hero = () => {
 
               
               <span className="hide-on-mobile">
-                <img src={namepic} alt="Trishna 2K25 Logo" className="h-auto max-w-[1000px] sm:max-w-[1000px] md:max-w-[1000px] lg:max-w-[750px]" style={{ marginTop: '11rem' }} />
+                <img src={namepic} alt="Trishna 2K25 Logo" className="h-auto max-w-[1200px] sm:max-w-[1200px] md:max-w-[1200px] lg:max-w-[900px]" style={{ marginTop: '11rem' }} />
               </span>
               
 

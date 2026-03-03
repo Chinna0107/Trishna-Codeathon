@@ -1,5 +1,5 @@
 import React from 'react';
-import tkLogo from '../../assets/images/tk26.png';
+import tkLogo from '../../assets/images/nametk.png';
 import BottomNavBar from './BottomNavBar';
 
 const Gallery = () => {

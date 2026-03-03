@@ -74,7 +74,7 @@ const AdminCoordinators = () => {
       'Technical': [
         // 'Project Expo',
         'Circuitron',
-        // 'Presentation',
+        'Presentation',
         'Tech Quiz',
         // 'Poster Design',
         'Web development',
