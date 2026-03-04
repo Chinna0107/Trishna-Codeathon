@@ -35,6 +35,31 @@ const IndividualRegistration = () => {
   const [isExistingUser, setIsExistingUser] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [selectedCoordinator, setSelectedCoordinator] = useState('');
+
+  const coordinators = [
+    { id: 1, name: "B GURU GANGADHAR REDDY" },
+    { id: 2, name: "K HEMANTH" },
+    { id: 3, name: "O JAGADEESH" },
+    { id: 4, name: "K EEKSHITHA" },
+    { id: 5, name: "B GEETHIKA" },
+    { id: 6, name: "ANKITHA" },
+    { id: 7, name: "HEMA" },
+    { id: 8, name: "ANIL" },
+    { id: 9, name: "HANEESH" },
+    { id: 10, name: "SUSMITHA" },
+    { id: 11, name: "VEENA" },
+    { id: 12, name: "MOHAN" },
+    { id: 13, name: "CHARAN" },
+    { id: 14, name: "CHANDRIKA" },
+    { id: 15, name: "KUMARI" },
+    { id: 16, name: "SANJANA" },
+    { id: 17, name: "RAKESH REDDY" },
+    { id: 18, name: "AKASH" },
+    { id: 19, name: "BHARATH" },
+    { id: 20, name: "VARUN" },
+    { id: 21, name: "TILAK" }
+  ];
 
   const eventsList = [
     { id: 'project-expo', name: 'Project Expo' },
@@ -135,7 +160,7 @@ const IndividualRegistration = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    const transactionId = e.target[0].value;
+    const transactionId = paymentMethod === 'upi' ? e.target[0].value : '';
     
     if (!screenshotLink) {
       toast.warning('Please provide Google Drive link for payment screenshot.');
@@ -158,7 +183,9 @@ const IndividualRegistration = () => {
           eventId: eventId || '',
           eventName: eventName || '',
           transactionId: transactionId,
-          screenshotUrl: screenshotLink
+          screenshotUrl: screenshotLink,
+          paymentMethod: paymentMethod,
+          coordinator: paymentMethod === 'cash' ? selectedCoordinator : ''
         })
       });
 
@@ -889,39 +916,74 @@ const IndividualRegistration = () => {
 
           {/* Hand Cash Section */}
           {paymentMethod === 'cash' && (
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{
-                display: 'block',
-                marginBottom: '10px',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                textAlign: 'left'
-              }}>
-                🆔 Google Drive Link for ID Card *
-              </label>
-              <motion.input
-                type="url"
-                placeholder="https://drive.google.com/..."
-                value={screenshotLink}
-                onChange={(e) => setScreenshotLink(e.target.value)}
-                required
-                whileFocus={{ scale: 1.02 }}
-                style={{
-                  padding: '14px',
-                  borderRadius: '12px',
-                  border: '2px solid transparent',
-                  outline: 'none',
+            <>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
                   fontSize: '1rem',
-                  background: 'rgba(255,255,255,0.95)',
-                  color: '#333',
-                  width: '100%',
-                  marginBottom: '15px'
-                }}
-              />
-              <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
-                Upload your college ID card. Ensure the link has view access enabled
-              </p>
-            </div>
+                  fontWeight: 'bold',
+                  textAlign: 'left'
+                }}>
+                  👤 Select Coordinator *
+                </label>
+                <motion.select
+                  value={selectedCoordinator}
+                  onChange={(e) => setSelectedCoordinator(e.target.value)}
+                  required
+                  whileFocus={{ scale: 1.02 }}
+                  style={{
+                    padding: '14px',
+                    borderRadius: '12px',
+                    border: '2px solid transparent',
+                    outline: 'none',
+                    fontSize: '1rem',
+                    background: 'rgba(255,255,255,0.95)',
+                    color: '#333',
+                    width: '100%',
+                    marginBottom: '15px'
+                  }}
+                >
+                  <option value="">Select a coordinator</option>
+                  {coordinators.map((coord) => (
+                    <option key={coord.id} value={coord.name}>{coord.name}</option>
+                  ))}
+                </motion.select>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  textAlign: 'left'
+                }}>
+                  🆔 Google Drive Link for ID Card *
+                </label>
+                <motion.input
+                  type="url"
+                  placeholder="https://drive.google.com/..."
+                  value={screenshotLink}
+                  onChange={(e) => setScreenshotLink(e.target.value)}
+                  required
+                  whileFocus={{ scale: 1.02 }}
+                  style={{
+                    padding: '14px',
+                    borderRadius: '12px',
+                    border: '2px solid transparent',
+                    outline: 'none',
+                    fontSize: '1rem',
+                    background: 'rgba(255,255,255,0.95)',
+                    color: '#333',
+                    width: '100%',
+                    marginBottom: '15px'
+                  }}
+                />
+                <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
+                  Upload your college ID card. Ensure the link has view access enabled
+                </p>
+              </div>
+            </>
           )}
 
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>

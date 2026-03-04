@@ -7,6 +7,8 @@ const AdminUsers = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState({});
+  const [expandedUser, setExpandedUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,7 +64,10 @@ const AdminUsers = () => {
             { key: 'branch', label: 'Branch', width: 60 },
             { key: 'mobile', label: 'Mobile', width: 70 },
             { key: 'college', label: 'College', width: 80 },
-            { key: 'role', label: 'Role', width: 50 }
+            { key: 'paymentMethod', label: 'Payment Method', width: 70 },
+            { key: 'transactionId', label: 'Transaction ID', width: 100 },
+            { key: 'coordinator', label: 'Coordinator', width: 80 },
+            { key: 'screenshotUrl', label: 'Screenshot', width: 80 }
           ],
           includeTeamMembers: true,
           format: 'professional',
@@ -100,6 +105,20 @@ const AdminUsers = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error exporting to PDF:', err);
+    }
+  };
+
+  const updatePaymentStatus = async (userId, status) => {
+    try {
+      await authFetch(`/api/admin/payment-status/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentStatus: status })
+      });
+      setPaymentStatus(prev => ({ ...prev, [userId]: status }));
+      setExpandedUser(null);
+    } catch (err) {
+      console.error('Error updating payment status:', err);
     }
   };
 
@@ -228,6 +247,11 @@ const AdminUsers = () => {
                     <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Mobile</th>
                     <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>College</th>
                     <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Role</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Payment</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Transaction ID</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Coordinator</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Screenshot/ID</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #00eaff55' }}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -244,6 +268,64 @@ const AdminUsers = () => {
                         <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.mobile || reg.teamLeaderMobile}</td>
                         <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.college}</td>
                         <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.registrationType === 'Team' ? 'Leader' : 'Individual'}</td>
+                        <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.payment_method || reg.paymentMethod || 'UPI'}</td>
+                        <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.transaction_id || reg.transactionId || '-'}</td>
+                        <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{reg.coordinator || '-'}</td>
+                        <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>
+                          {reg.screenshot_url || reg.screenshotUrl ? <a href={reg.screenshot_url || reg.screenshotUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#00eaff' }}>View</a> : '-'}
+                        </td>
+                        <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>
+                          {expandedUser === reg.id ? (
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              <button
+                                onClick={() => updatePaymentStatus(reg.id, 'paid')}
+                                style={{
+                                  padding: '6px 10px',
+                                  borderRadius: '4px',
+                                  border: 'none',
+                                  background: '#4CAF50',
+                                  color: '#fff',
+                                  cursor: 'pointer',
+                                  fontSize: '0.8rem',
+                                  fontWeight: 'bold'
+                                }}
+                              >
+                                ✓ Paid
+                              </button>
+                              <button
+                                onClick={() => updatePaymentStatus(reg.id, 'unpaid')}
+                                style={{
+                                  padding: '6px 10px',
+                                  borderRadius: '4px',
+                                  border: 'none',
+                                  background: '#ff6b6b',
+                                  color: '#fff',
+                                  cursor: 'pointer',
+                                  fontSize: '0.8rem',
+                                  fontWeight: 'bold'
+                                }}
+                              >
+                                ✗ Unpaid
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setExpandedUser(reg.id)}
+                              style={{
+                                padding: '6px 12px',
+                                borderRadius: '4px',
+                                border: 'none',
+                                background: paymentStatus[reg.id] ? (paymentStatus[reg.id] === 'paid' ? '#4CAF50' : '#ff6b6b') : '#999',
+                                color: '#fff',
+                                cursor: 'pointer',
+                                fontSize: '0.8rem',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              {paymentStatus[reg.id] ? paymentStatus[reg.id].toUpperCase() : 'VERIFY'}
+                            </button>
+                          )}
+                        </td>
                       </tr>
                     );
                     // Team members rows
@@ -259,6 +341,8 @@ const AdminUsers = () => {
                             <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{member.mobile}</td>
                             <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>{member.college}</td>
                             <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>Member</td>
+                            <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>-</td>
+                            <td style={{ padding: '10px', border: '1px solid #00eaff22' }}>-</td>
                           </tr>
                         );
                       });

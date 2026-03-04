@@ -32,6 +32,32 @@ const TeamRegistration = () => {
   const [submittingPayment, setSubmittingPayment] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [isExistingUser, setIsExistingUser] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [selectedCoordinator, setSelectedCoordinator] = useState('');
+
+  const coordinators = [
+    { id: 1, name: "B GURU GANGADHAR REDDY" },
+    { id: 2, name: "K HEMANTH" },
+    { id: 3, name: "O JAGADEESH" },
+    { id: 4, name: "K EEKSHITHA" },
+    { id: 5, name: "B GEETHIKA" },
+    { id: 6, name: "ANKITHA" },
+    { id: 7, name: "HEMA" },
+    { id: 8, name: "ANIL" },
+    { id: 9, name: "HANEESH" },
+    { id: 10, name: "SUSMITHA" },
+    { id: 11, name: "VEENA" },
+    { id: 12, name: "MOHAN" },
+    { id: 13, name: "CHARAN" },
+    { id: 14, name: "CHANDRIKA" },
+    { id: 15, name: "KUMARI" },
+    { id: 16, name: "SANJANA" },
+    { id: 17, name: "RAKESH REDDY" },
+    { id: 18, name: "AKASH" },
+    { id: 19, name: "BHARATH" },
+    { id: 20, name: "VARUN" },
+    { id: 21, name: "TILAK" }
+  ];
 
   const eventsList = [
     { id: 'project-expo', name: 'Project Expo' },
@@ -147,7 +173,7 @@ const TeamRegistration = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    const transactionId = e.target[0].value;
+    const transactionId = paymentMethod === 'upi' ? e.target[0].value : '';
     
     if (!screenshotLink) {
       toast.warning('Please provide Google Drive link for payment screenshot.');
@@ -173,6 +199,8 @@ const TeamRegistration = () => {
       eventName: eventName || '',
       transactionId,
       screenshotUrl: screenshotLink,
+      paymentMethod: paymentMethod,
+      coordinator: paymentMethod === 'cash' ? selectedCoordinator : '',
       isExistingUser
     };
     
@@ -811,35 +839,140 @@ const TeamRegistration = () => {
           <p style={{ color: '#333', marginTop: '10px', fontSize: '0.9rem' }}>Scan to Pay</p>
         </div>
         <form onSubmit={handlePayment}>
-          <input placeholder="Enter Transaction ID / UPI Reference" required style={{
-            ...inputStyle, marginBottom: '15px'
-          }} />
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{
-              display: 'block',
-              marginBottom: '10px',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              textAlign: 'left',
-              color: '#fff'
-            }}>
-              🔗 Google Drive Link for Payment Screenshot *
+          {/* Payment Method Selection */}
+          <div style={{ marginBottom: '25px', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.1rem', fontWeight: 'bold' }}>
+              💳 Select Payment Method *
             </label>
-            <input
-              type="url"
-              placeholder="https://drive.google.com/..."
-              value={screenshotLink}
-              onChange={(e) => setScreenshotLink(e.target.value)}
-              required
-              style={{
-                ...inputStyle,
-                marginBottom: '5px'
-              }}
-            />
-            <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
-              Please ensure the link has view access enabled
-            </p>
+            <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('upi')}
+                style={{
+                  padding: '15px 30px',
+                  borderRadius: '12px',
+                  background: paymentMethod === 'upi' ? '#4CAF50' : 'rgba(255,255,255,0.1)',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  border: paymentMethod === 'upi' ? '2px solid #4CAF50' : '2px solid rgba(255,255,255,0.3)',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                📱 UPI Payment
+              </button>
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('cash')}
+                style={{
+                  padding: '15px 30px',
+                  borderRadius: '12px',
+                  background: paymentMethod === 'cash' ? '#4CAF50' : 'rgba(255,255,255,0.1)',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  border: paymentMethod === 'cash' ? '2px solid #4CAF50' : '2px solid rgba(255,255,255,0.3)',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                💵 Hand Cash
+              </button>
+            </div>
           </div>
+
+          {/* UPI Payment Section */}
+          {paymentMethod === 'upi' && (
+            <>
+              <input placeholder="Enter Transaction ID / UPI Reference" required style={{
+                ...inputStyle, marginBottom: '15px'
+              }} />
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  textAlign: 'left',
+                  color: '#fff'
+                }}>
+                  🔗 Google Drive Link for Payment Screenshot *
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://drive.google.com/..."
+                  value={screenshotLink}
+                  onChange={(e) => setScreenshotLink(e.target.value)}
+                  required
+                  style={{
+                    ...inputStyle,
+                    marginBottom: '5px'
+                  }}
+                />
+                <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
+                  Please ensure the link has view access enabled
+                </p>
+              </div>
+            </>
+          )}
+
+          {/* Hand Cash Section */}
+          {paymentMethod === 'cash' && (
+            <>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  textAlign: 'left',
+                  color: '#fff'
+                }}>
+                  👤 Select Coordinator *
+                </label>
+                <select
+                  value={selectedCoordinator}
+                  onChange={(e) => setSelectedCoordinator(e.target.value)}
+                  required
+                  style={{
+                    ...inputStyle,
+                    marginBottom: '15px',
+                    color: selectedCoordinator ? '#fff' : '#999'
+                  }}
+                >
+                  <option value="">Select a coordinator</option>
+                  {coordinators.map((coord) => (
+                    <option key={coord.id} value={coord.name}>{coord.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  textAlign: 'left',
+                  color: '#fff'
+                }}>
+                  🆔 Google Drive Link for ID Card *
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://drive.google.com/..."
+                  value={screenshotLink}
+                  onChange={(e) => setScreenshotLink(e.target.value)}
+                  required
+                  style={{
+                    ...inputStyle,
+                    marginBottom: '5px'
+                  }}
+                />
+                <p style={{ fontSize: '0.85rem', color: '#e0e0e0', textAlign: 'left', marginTop: '5px' }}>
+                  Upload your college ID card. Ensure the link has view access enabled
+                </p>
+              </div>
+            </>
+          )}
           <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button type="submit" disabled={submittingPayment} style={{
               padding: '14px 32px', borderRadius: '14px', 

@@ -7,7 +7,7 @@ import Countdown from './Countdown';
 import VisitorCounter from './VisitorCounter';
 import Playground from '../games/Playground';
 import { TracingBeam } from '../TracingBeam'; // Import TracingBeam
-import Details from './Details'; // Import Details component
+import Details from './Details';
 
 // Image imports
 
@@ -37,7 +37,21 @@ const SOCIAL_ICONS = [
 
 const Hero = () => {
   const [iconActive, setIconActive] = useState({});
+  const [showSocialIcons, setShowSocialIcons] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = document.getElementById('hero');
+      if (heroSection) {
+        const heroBottom = heroSection.offsetHeight;
+        setShowSocialIcons(window.scrollY < heroBottom);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleIconClick = (key, url) => {
     setIconActive((prev) => ({ ...prev, [key]: true }));
@@ -166,8 +180,9 @@ const Hero = () => {
       
        
 
-        {/* Center-right icons (Social, Login, Games) - Responsive positioning */}
-        <div className="absolute right-6 top-6 md:right-7 md:top-1/3 md:transform md:-translate-y-1/2 flex flex-col space-y-3 md:space-y-3 z-40">
+        {/* Center-right icons (Social, Login, Games) - Only show on hero section */}
+        {showSocialIcons && (
+        <div className="fixed right-4 top-1/3 transform -translate-y-1/2 flex flex-col space-y-3 z-40">
           {SOCIAL_ICONS.map(social => (
             <a
               key={social.key}
@@ -204,6 +219,7 @@ const Hero = () => {
             <img src={games} alt="Games" className="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:rotate-12" style={{ filter: 'brightness(0) invert(1)' }} />
           </Link>
         </div>
+        )}
         
         {/* Main Hero Content Container - Updated Structure */}
         <div className="relative z-10 flex flex-col items-center justify-center text-center p-4 md:p-8 w-full">
@@ -226,27 +242,7 @@ const Hero = () => {
 
             {/* Buttons - In a row, centered below logo */}
             <div className="hero-buttons flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 -mt-8" style={{ marginTop: '-2rem' }}>
-              <button onClick={() => navigate('/events')} className="px-6 py-2.5 
-px-6 py-2.5 
-bg-green-400 
-text-black 
-text-base 
-font-sci-fi 
-font-medium 
-rounded-full 
-shadow-xl 
-transform 
-hover:scale-105 
-hover:bg-transparent 
-hover:text-green-400 
-transition-all 
-duration-300 
-focus:outline-none 
-focus:ring-2 
-focus:ring-green-300 
-focus:ring-opacity-75 
-border-2 
-border-green-400">
+              <button onClick={() => navigate('/events')} className="px-6 py-2.5 bg-gradient-to-r from-white to-green-400 text-black text-base font-sci-fi font-medium rounded-full shadow-xl transform hover:scale-105 hover:bg-transparent hover:text-green-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-opacity-75 border-2 border-green-400">
                 <span className="menu-btn-text">Register Now</span>
               </button>
             </div>
@@ -263,23 +259,19 @@ border-green-400">
           {/* Countdown Component */}
           <Countdown />
         </section>
+
         {/* Details Component */}
-       
-        
+        <div className="relative z-10 w-full" style={{ marginTop: '100px' }}>
+          <Details />
+        </div>
         
        
       </section>
-      {/* <section> */}
-         <section className="relative z-10 w-full" style={{ marginTop: '-50px' }}>
-          <Details />
-        </section>
-      {/* </section> */}
        
          
         <section className="hero-next-section flex flex-col md:flex-row items-center justify-center" style={{ marginTop: '180px' }}>
         
         </section>
-
       
     </TracingBeam>
     

@@ -32,8 +32,8 @@ const Events = () => {
   const [category, setCategory] = useState('');
   const [typedTexts, setTypedTexts] = useState({});
   const categories = [
-    { key: 'development', label: 'Development Events', icon: <FaCode size={20} />, desc: 'Code, Create, Innovate' },
-    { key: 'competetive', label: 'Competitive Events', icon: <FaGamepad size={20} />, desc: 'Fun, Creative, Engaging' },
+    { key: 'development', label: 'Development Events', icon: <FaCode size={20} /> },
+    { key: 'competetive', label: 'Competitive Events', icon: <FaGamepad size={20} /> },
     // { key: 'robotics', label: 'Robotics', icon: <FaRobot size={20} />, desc: 'Build, Race, Compete' },
     // { key: 'workshops', label: 'Workshops', icon: <FaChalkboardTeacher size={20} />, desc: 'Learn, Practice, Master' },
     // { key: 'guest', label: 'Guest Lectures', icon: <FaMicrophone size={20} />, desc: 'Inspire, Educate, Connect' },
@@ -59,14 +59,14 @@ const Events = () => {
     fontFamily: 'Orbitron, monospace',
     fontWeight: 700,
     fontSize: '1.25rem',
-    color: '#00eaff',
+    color: '#00ff88',
     background: 'rgba(0,0,0,0.18)',
-    border: '2px solid #00eaff55',
+    border: '2px solid #00ff8855',
     borderRadius: 8,
     padding: '0.7em 0',
     textAlign: 'center',
     letterSpacing: 2,
-    boxShadow: '0 0 4px #00eaff22',
+    boxShadow: '0 0 4px #00ff8822',
     textDecoration: 'none',
     transition: 'background 0.2s, color 0.2s, border 0.2s',
     position: 'relative',
@@ -156,17 +156,17 @@ const Events = () => {
                     overflow: 'hidden',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 32px rgba(0,234,255,0.2)',
-                    border: '1px solid rgba(0,234,255,0.3)',
+                    boxShadow: '0 8px 32px rgba(0,255,136,0.2)',
+                    border: '1px solid rgba(0,255,136,0.3)',
                     position: 'relative'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-8px)';
-                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,234,255,0.4)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,255,136,0.4)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,234,255,0.2)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,255,136,0.2)';
                   }}
                 >
                   {/* Category Image */}
@@ -191,8 +191,8 @@ const Events = () => {
                   
                   {/* Category Details */}
                   <div style={{ padding: '1.5rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '2.5rem', color: '#00eaff', marginBottom: '1rem' }}>{cat.icon}</div>
-                    <h3 style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '1.3rem', fontWeight: 700, margin: '0 0 1rem 0' }}>{cat.label}</h3>
+                    <div style={{ fontSize: '2.5rem', color: '#00ff88', marginBottom: '1rem' }}>{cat.icon}</div>
+                    <h3 style={{ color: '#00ff88', fontFamily: 'Orbitron, monospace', fontSize: '1.3rem', fontWeight: 700, margin: '0 0 1rem 0' }}>{cat.label}</h3>
                     <p style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'Orbitron, monospace', fontSize: '0.95rem', margin: 0, minHeight: '24px' }}>
                       {typedTexts[cat.key] || ''}<span style={{ animation: 'blink 1s infinite' }}>|</span>
                     </p>
@@ -208,11 +208,11 @@ const Events = () => {
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem', marginTop: '5rem' }}>
               <button
                 onClick={() => setCategory('')}
-                style={{ ...sciFiBtnStyle, minWidth: 100, minHeight: 36, fontSize: '1rem', background: 'rgba(0,0,0,0.18)', color: '#00eaff', border: '2px solid #00eaff55', marginBottom: 0, marginRight: 8, cursor: 'pointer' }}
+                style={{ ...sciFiBtnStyle, minWidth: 100, minHeight: 36, fontSize: '1rem', background: 'rgba(0,0,0,0.18)', color: '#00ff88', border: '2px solid #00ff8855', marginBottom: 0, marginRight: 8, cursor: 'pointer' }}
               >
                 Back
               </button>
-              <span style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontWeight: 700, fontSize: '1.1rem', marginLeft: 8, alignSelf: 'center' }}>{categories.find(c => c.key === category)?.label}</span>
+              <span style={{ color: '#00ff88', fontFamily: 'Orbitron, monospace', fontWeight: 700, fontSize: '1.1rem', marginLeft: 8, alignSelf: 'center' }}>{categories.find(c => c.key === category)?.label}</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', padding: '0 2rem', paddingBottom: '120px' }}>
               {filteredEvents(category).map((event, index) => (
@@ -223,8 +223,8 @@ const Events = () => {
                     backdropFilter: 'blur(20px)',
                     borderRadius: '20px',
                     overflow: 'hidden',
-                    boxShadow: '0 8px 32px rgba(0,234,255,0.2)',
-                    border: '1px solid rgba(0,234,255,0.3)',
+                    boxShadow: '0 8px 32px rgba(0,255,136,0.2)',
+                    border: '1px solid rgba(0,255,136,0.3)',
                     transition: 'all 0.3s ease',
                     cursor: 'pointer',
                     opacity: inView ? 1 : 0,
@@ -233,11 +233,11 @@ const Events = () => {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-8px)';
-                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,234,255,0.4)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,255,136,0.4)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,234,255,0.2)';
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,255,136,0.2)';
                   }}
                 >
                   {/* Event Image */}
@@ -263,8 +263,8 @@ const Events = () => {
                   {/* Event Details */}
                   <div style={{ padding: '1.5rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                      {event.icon && <span style={{ color: '#00eaff', fontSize: '1.2rem' }}>{event.icon}</span>}
-                      <h3 style={{ color: '#00eaff', fontFamily: 'Orbitron, monospace', fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>{event.title}</h3>
+                      {event.icon && <span style={{ color: '#00ff88', fontSize: '1.2rem' }}>{event.icon}</span>}
+                      <h3 style={{ color: '#00ff88', fontFamily: 'Orbitron, monospace', fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>{event.title}</h3>
                     </div>
                     <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: '1.4', marginBottom: '1rem' }}>{event.description}</p>
                     
@@ -275,7 +275,7 @@ const Events = () => {
                           key={tag}
                           to={tag === 'Team' ? `/team-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}` : `/individual-registration?event=${event.eventId}&name=${encodeURIComponent(event.title)}`}
                           style={{
-                            background: 'linear-gradient(90deg, #00eaff 0%, #0057ff 100%)',
+                            background: 'linear-gradient(90deg, #00ff88 0%, #00cc66 100%)',
                             color: '#fff',
                             padding: '0.5rem 1rem',
                             borderRadius: '8px',
@@ -287,7 +287,7 @@ const Events = () => {
                           }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'scale(1.05)';
-                            e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,234,255,0.4)';
+                            e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,255,136,0.4)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = 'scale(1)';
@@ -309,9 +309,9 @@ const Events = () => {
                         minWidth: 90,
                         minHeight: 32,
                         fontSize: '0.9rem',
-                        background: 'rgba(0,234,255,0.1)',
-                        color: '#00eaff',
-                        border: '1px solid #00eaff',
+                        background: 'rgba(0,255,136,0.1)',
+                        color: '#00ff88',
+                        border: '1px solid #00ff88',
                         textDecoration: 'none',
                         padding: '0.5rem 1rem',
                         display: 'inline-flex',

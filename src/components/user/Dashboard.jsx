@@ -43,7 +43,7 @@ const Dashboard = () => {
       </aside>
       <div className="dashboard-container">
         <header className="dashboard-header">
-          <div className="dashboard-logo">TRISHNA 2K25</div>
+          <div className="dashboard-logo">CODEATHON 2K26</div>
           <div className="dashboard-user">Welcome, {participant.name}</div>
         </header>
         <main className="dashboard-main">

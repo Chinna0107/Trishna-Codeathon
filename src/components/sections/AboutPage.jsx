@@ -191,7 +191,7 @@ const AboutPage = () => {
           <div className="about-section-content">
             <h2>About CODEATHON 2K26</h2>
             <p>
-              CODEATHON 2K26, an exciting and vibrant two-day event, is going to host by Department of ECE at Annamacharya Institute of Technology & Sciences (AITS), Tirupati, on 24<sup>th</sup> and 25<sup>th</sup> March 2026. The event was meticulously organising to provide a platform for students to demonstrate their technical expertise, creativity, and leadership abilities in a competitive yet friendly environment. The event is going to attract a large number of participants from both the host institution and other colleges, with a total of 18 diverse competitions and spread on two days.
+              CODEATHON 2K26, an exciting and vibrant two-day event, is going to host by Department of ECE at Annamacharya Institute of Technology & Sciences (AITS), Tirupati, on 24<sup>th</sup> and 25<sup>th</sup> March 2026. The event was meticulously organising to provide a platform for students to demonstrate their technical expertise, creativity, and leadership abilities in a competitive yet friendly environment. The event is going to attract a large number of participants from both the host institution and other colleges, with a total of 6 diverse competitions and spread on two days.
             </p>
           </div>
         </section>
