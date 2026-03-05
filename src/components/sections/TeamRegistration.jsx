@@ -34,6 +34,7 @@ const TeamRegistration = () => {
   const [isExistingUser, setIsExistingUser] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [selectedCoordinator, setSelectedCoordinator] = useState('');
+  const [transactionId, setTransactionId] = useState('');
 
   const coordinators = [
     { id: 1, name: "B GURU GANGADHAR REDDY" },
@@ -197,7 +198,7 @@ const TeamRegistration = () => {
       members,
       eventId: eventId || '',
       eventName: eventName || '',
-      transactionId,
+      transactionId: paymentMethod === 'upi' ? transactionId : '',
       screenshotUrl: screenshotLink,
       paymentMethod: paymentMethod,
       coordinator: paymentMethod === 'cash' ? selectedCoordinator : '',
@@ -221,9 +222,8 @@ const TeamRegistration = () => {
 
       if (response.ok) {
         toast.success(`Registration Complete! Team: ${teamName}`);
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
+        setSubmittingPayment(false);
+        navigate('/');
       } else {
         toast.error(data.error || 'Something went wrong!');
       }
@@ -883,7 +883,7 @@ const TeamRegistration = () => {
           {/* UPI Payment Section */}
           {paymentMethod === 'upi' && (
             <>
-              <input placeholder="Enter Transaction ID / UPI Reference" required style={{
+              <input placeholder="Enter Transaction ID / UPI Reference" value={transactionId} onChange={(e) => setTransactionId(e.target.value)} required style={{
                 ...inputStyle, marginBottom: '15px'
               }} />
               <div style={{ marginBottom: '20px' }}>
@@ -895,7 +895,7 @@ const TeamRegistration = () => {
                   textAlign: 'left',
                   color: '#fff'
                 }}>
-                  🔗 Google Drive Link for Payment Screenshot *
+                  🔗 Image to Url Link for Payment Screenshot *
                 </label>
                 <input
                   type="url"

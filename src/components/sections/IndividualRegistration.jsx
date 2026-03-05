@@ -37,6 +37,7 @@ const IndividualRegistration = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [selectedCoordinator, setSelectedCoordinator] = useState('');
   const [submittingPayment, setSubmittingPayment] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
 
   const coordinators = [
     { id: 1, name: "B GURU GANGADHAR REDDY" },
@@ -161,10 +162,14 @@ const IndividualRegistration = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    const transactionId = paymentMethod === 'upi' ? e.target[0].value : '';
     
     if (!screenshotLink) {
       toast.warning('Please provide Google Drive link for payment screenshot.');
+      return;
+    }
+    
+    if (paymentMethod === 'upi' && !transactionId) {
+      toast.warning('Please enter transaction ID.');
       return;
     }
     
@@ -184,7 +189,7 @@ const IndividualRegistration = () => {
           password: participant.password,
           eventId: eventId || '',
           eventName: eventName || '',
-          transactionId: transactionId,
+          transactionId: paymentMethod === 'upi' ? transactionId : '',
           screenshotUrl: screenshotLink,
           paymentMethod: paymentMethod,
           coordinator: paymentMethod === 'cash' ? selectedCoordinator : ''
@@ -195,9 +200,8 @@ const IndividualRegistration = () => {
 
       if (response.ok) {
         toast.success('Registration Complete!');
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
+        setSubmittingPayment(false);
+        navigate('/');
       } else {
         toast.error(data.error || 'Something went wrong!');
       }
@@ -867,6 +871,8 @@ const IndividualRegistration = () => {
             <>
               <motion.input
                 placeholder="Enter Transaction ID / UPI Reference"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
                 required
                 whileFocus={{ scale: 1.02 }}
                 style={{
@@ -962,7 +968,7 @@ const IndividualRegistration = () => {
                   fontWeight: 'bold',
                   textAlign: 'left'
                 }}>
-                  🆔 Google Drive Link for ID Card *
+                  🆔 Image to Url  Link for ID Card *
                 </label>
                 <motion.input
                   type="url"
