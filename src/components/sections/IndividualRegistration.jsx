@@ -189,13 +189,15 @@ const IndividualRegistration = () => {
           branch: participant.branch,
           email: participant.email,
           college: participant.college,
-          password: participant.password,
+          password: participant.password || '',
           eventId: eventId || '',
           eventName: eventName || '',
           transactionId: paymentMethod === 'upi' ? transactionId : '',
           screenshotUrl: screenshotLink,
           paymentMethod: paymentMethod,
-          coordinator: paymentMethod === 'cash' ? selectedCoordinator : ''
+          coordinator: paymentMethod === 'cash' ? selectedCoordinator : '',
+          isExistingUser: isExistingUser,
+          amount: 50
         })
       });
 

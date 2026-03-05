@@ -186,6 +186,9 @@ const TeamRegistration = () => {
     
     setSubmittingPayment(true);
     
+    const totalMembers = (members?.length || 0) + 1;
+    const amount = totalMembers * 50;
+    
     const payload = {
       teamName,
       teamLeader: {
@@ -196,7 +199,7 @@ const TeamRegistration = () => {
         branch: teamLeader.branch,
         email: teamLeader.email,
         college: teamLeader.college,
-        password: teamLeader.password
+        password: teamLeader.password || ''
       },
       members,
       eventId: eventId || '',
@@ -205,7 +208,8 @@ const TeamRegistration = () => {
       screenshotUrl: screenshotLink,
       paymentMethod: paymentMethod,
       coordinator: paymentMethod === 'cash' ? selectedCoordinator : '',
-      isExistingUser
+      isExistingUser,
+      amount: amount
     };
     
     console.log('Payload being sent:', payload);
