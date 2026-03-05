@@ -32,8 +32,8 @@ const Contact = () => {
   }
 
   const contacts = [
-    { name: 'Contact 1', phone: '8179860935', ws: 'https://wa.me/918179860935' },
-    { name: 'Contact 2', phone: '9177067341', ws: 'https://wa.me/919177067341' }
+    { name: 'Hemanth', phone: '8179860935', ws: 'https://wa.me/918179860935' },
+    { name: 'Jagadeesh', phone: '9177067341', ws: 'https://wa.me/919177067341' }
   ]
 
   const allCards = [

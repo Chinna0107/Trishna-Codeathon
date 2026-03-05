@@ -225,7 +225,7 @@ function Schedules() {
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #000 0%, #1a1a2e 50%, #16213e 100%)',
+      background: '#0a0a0a',
       minHeight: '100vh',
       padding: isMobile ? '40px 20px 180px' : '60px 50px 120px',
       fontFamily: 'Orbitron, monospace',
