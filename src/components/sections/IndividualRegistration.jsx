@@ -833,10 +833,29 @@ const IndividualRegistration = () => {
         <div style={{
           background: '#fff', padding: '20px', borderRadius: '15px', marginBottom: '20px', display: 'inline-block'
         }}>
+          <button
+            type="button"
+            onClick={() => window.open('https://imgbb.com/', '_blank')}
+            style={{
+              marginBottom: '15px',
+              background: '#667eea',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 20px',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+              fontWeight: 'bold',
+              display: 'block',
+              width: '100%'
+            }}
+          >
+            Generate image to url
+          </button>
           <img src={qrCodeUrl} alt="QR Code" style={{
             width: '200px', height: '200px', borderRadius: '10px', objectFit: 'cover'
           }} />
-          <p style={{ color: '#333', marginTop: '10px', fontSize: '0.9rem' }}>Scan to Pay</p>
+          <p style={{ color: '#333', marginTop: '10px', fontSize: '0.9rem' }}>Use these  to Pay</p>
         </div>
 
         <form onSubmit={handlePayment}>
