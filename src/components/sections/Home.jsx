@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import UserMenu from '../user/UserMenu';
-import config from '../../config';
-// import tkLogo from 'https://res.cloudinary.com/dbkhniuzt/image/upload/v1772559590/co1_mlx7ok.jpg';Ft
+import useHomeStats from '../../hooks/useHomeStats';
 
 const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [stats, setStats] = useState({ totalEvents: 0, myRegistrations: 0 });
-  const [registeredEvents, setRegisteredEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { stats, registeredEvents, loading } = useHomeStats();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -22,31 +19,23 @@ const Home = () => {
     }
     
     setUser(JSON.parse(userData));
-    fetchStats(JSON.parse(userData));
   }, [navigate]);
 
-  const fetchStats = async (userData) => {
-    try {
-      const token = localStorage.getItem('token');
-      const [eventsRes, regsRes] = await Promise.all([
-        fetch(`${config.BASE_URL}/api/events`),
-        fetch(`${config.BASE_URL}/api/participants/registrations?email=${userData.email}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-      ]);
-      const events = await eventsRes.json();
-      const regs = await regsRes.json();
-      const eventsData = regs.registrations || regs || [];
-      setRegisteredEvents(eventsData.slice(0, 4)); // Show max 4 events
-      setStats({
-        totalEvents: 6,
-        myRegistrations: eventsData.length || 0
-      });
-    } catch (err) {
-      console.error('Error fetching stats:', err);
-    } finally {
-      setLoading(false);
-    }
+  const handleProfileClick = () => navigate('/profile');
+  const handleProfileHover = (e) => {
+    e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+  };
+  const handleProfileLeave = (e) => {
+    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+  };
+  const handleEventsClick = () => navigate('/events');
+  const handleButtonHover = (e) => {
+    e.target.style.background = 'rgba(255,255,255,0.3)';
+    e.target.style.borderColor = 'rgba(255,255,255,0.5)';
+  };
+  const handleButtonLeave = (e) => {
+    e.target.style.background = 'rgba(255,255,255,0.2)';
+    e.target.style.borderColor = 'rgba(255,255,255,0.3)';
   };
 
   if (!user) return null;
@@ -74,7 +63,6 @@ const Home = () => {
           `}
         </style>
         
-        {/* Logo in top right corner */}
         <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
           <img 
             src='https://res.cloudinary.com/dbkhniuzt/image/upload/v1772559590/co1_mlx7ok.jpg'
@@ -92,9 +80,7 @@ const Home = () => {
         <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', marginBottom: '30px' }}>Hello {user?.name}, ready to explore amazing events?</p>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '30px' }}>
-          {/* Stats Cards */}
           <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
-            {/* Corner pins */}
             <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 6px rgba(0,234,255,0.6)' }} />
@@ -105,7 +91,6 @@ const Home = () => {
           </div>
 
           <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '15px', borderRadius: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', overflow: 'hidden' }}>
-            {/* Corner pins */}
             <div style={{ position: 'absolute', top: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
             <div style={{ position: 'absolute', top: '8px', right: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '8px', height: '8px', background: 'linear-gradient(45deg, #ff4444, #cc0000)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,68,68,0.6)' }} />
@@ -127,29 +112,13 @@ const Home = () => {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-          {/* Enhanced Profile Card */}
-          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', transition: 'all 0.3s', color: '#fff', position: 'relative', overflow: 'hidden' }} onClick={() => navigate('/profile')} onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0) scale(1)'}>
+          <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', transition: 'all 0.3s', color: '#fff', position: 'relative', overflow: 'hidden' }} onClick={handleProfileClick} onMouseOver={handleProfileHover} onMouseOut={handleProfileLeave}>
             <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                borderRadius: '50%', 
-                background: 'rgba(255,255,255,0.2)', 
-                backdropFilter: 'blur(10px)',
-                border: '3px solid rgba(255,255,255,0.3)',
-                color: '#fff', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                fontSize: '2rem', 
-                fontWeight: 'bold',
-                marginRight: '20px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
-              }}>
+              <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '3px solid rgba(255,255,255,0.3)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold', marginRight: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
                 {user.name?.charAt(0).toUpperCase()}
               </div>
               <div>
@@ -175,32 +144,11 @@ const Home = () => {
                 </p>
               </div>
             </div>
-            <button style={{ 
-              background: 'rgba(255,255,255,0.2)', 
-              color: '#fff', 
-              border: '2px solid rgba(255,255,255,0.3)', 
-              padding: '12px 24px', 
-              borderRadius: '12px', 
-              fontWeight: 'bold', 
-              cursor: 'pointer', 
-              width: '100%',
-              fontSize: '1rem',
-              transition: 'all 0.3s',
-              backdropFilter: 'blur(10px)'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.3)';
-              e.target.style.borderColor = 'rgba(255,255,255,0.5)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.2)';
-              e.target.style.borderColor = 'rgba(255,255,255,0.3)';
-            }}>
+            <button style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', border: '2px solid rgba(255,255,255,0.3)', padding: '12px 24px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', width: '100%', fontSize: '1rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }} onMouseOver={handleButtonHover} onMouseOut={handleButtonLeave}>
               View Full Profile →
             </button>
           </div>
 
-          {/* Enhanced My Events Card */}
           <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
@@ -211,190 +159,64 @@ const Home = () => {
                 <h3 style={{ fontSize: '1.4rem', margin: '0 0 5px 0', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>📅 My Events</h3>
                 <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.9 }}>{loading ? 'Loading...' : `${stats.myRegistrations} events registered`}</p>
               </div>
-              <div style={{ 
-                background: 'rgba(255,255,255,0.2)', 
-                padding: '10px 15px', 
-                borderRadius: '12px', 
-                textAlign: 'center',
-                backdropFilter: 'blur(10px)'
-              }}>
+              <div style={{ background: 'rgba(255,255,255,0.2)', padding: '10px 15px', borderRadius: '12px', textAlign: 'center', backdropFilter: 'blur(10px)' }}>
                 <div style={{ fontSize: '1.8rem', fontWeight: 'bold', lineHeight: 1 }}>{loading ? '...' : stats.myRegistrations}</div>
                 <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>TOTAL</div>
               </div>
             </div>
             
             {loading ? (
-              <div style={{ 
-                background: 'rgba(255,255,255,0.1)', 
-                padding: '25px', 
-                borderRadius: '15px', 
-                backdropFilter: 'blur(10px)',
-                textAlign: 'center'
-              }}>
-                <div style={{ 
-                  width: '40px', 
-                  height: '40px', 
-                  border: '3px solid rgba(255,255,255,0.3)',
-                  borderTop: '3px solid #fff',
-                  borderRadius: '50%',
-                  animation: 'spin 1s linear infinite',
-                  margin: '0 auto 15px'
-                }}></div>
+              <div style={{ background: 'rgba(255,255,255,0.1)', padding: '25px', borderRadius: '15px', backdropFilter: 'blur(10px)', textAlign: 'center' }}>
+                <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.3)', borderTop: '3px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 15px' }}></div>
                 <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.8 }}>Loading your events...</p>
-                <style>
-                  {`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
-                </style>
+                <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
               </div>
             ) : registeredEvents.length > 0 ? (
-              <div style={{ 
-                background: 'rgba(255,255,255,0.1)', 
-                padding: '15px', 
-                borderRadius: '15px', 
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)'
-              }}>
+              <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
                   {registeredEvents.map((event, idx) => (
-                    <div key={idx} style={{ 
-                      background: 'rgba(255,255,255,0.9)', 
-                      padding: '12px', 
-                      borderRadius: '10px', 
-                      textAlign: 'center', 
-                      color: '#2d3748',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                      border: '2px solid #FFD700',
-                      position: 'relative'
-                    }}>
-                      <div style={{ 
-                        position: 'absolute',
-                        top: '-8px',
-                        left: '8px',
-                        background: '#FFD700',
-                        color: '#2d3748',
-                        width: '24px',
-                        height: '24px',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.8rem',
-                        fontWeight: 'bold'
-                      }}>
+                    <div key={idx} style={{ background: 'rgba(255,255,255,0.9)', padding: '12px', borderRadius: '10px', textAlign: 'center', color: '#2d3748', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', border: '2px solid #FFD700', position: 'relative' }}>
+                      <div style={{ position: 'absolute', top: '-8px', left: '8px', background: '#FFD700', color: '#2d3748', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 'bold' }}>
                         {idx + 1}
                       </div>
                       <h4 style={{ fontSize: '0.9rem', margin: '8px 0 5px 0', fontWeight: 'bold', lineHeight: 1.2 }}>
                         {event.eventName || event.event_name || 'Event'}
                       </h4>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-                        {/* <span style={{ fontSize: '0.7rem', background: '#e2e8f0', padding: '2px 6px', borderRadius: '8px', color: '#4a5568' }}>
-                          📂 {event.category || 'General'}
-                        </span> */}
-                      </div>
                       <div style={{ marginTop: '8px', fontSize: '0.7rem', color: '#718096' }}>
                         ✓ Registered
                       </div>
                     </div>
                   ))}
                 </div>
-                
                 {registeredEvents.length < stats.myRegistrations && (
-                  <div style={{ 
-                    textAlign: 'center', 
-                    marginTop: '15px', 
-                    padding: '10px',
-                    background: 'rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
-                    fontSize: '0.8rem'
-                  }}>
+                  <div style={{ textAlign: 'center', marginTop: '15px', padding: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.8rem' }}>
                     +{stats.myRegistrations - registeredEvents.length} more events
                   </div>
                 )}
               </div>
             ) : (
-              <div style={{ 
-                textAlign: 'center', 
-                padding: '25px',
-                background: 'rgba(255,255,255,0.1)',
-                borderRadius: '15px',
-                backdropFilter: 'blur(10px)'
-              }}>
+              <div style={{ textAlign: 'center', padding: '25px', background: 'rgba(255,255,255,0.1)', borderRadius: '15px', backdropFilter: 'blur(10px)' }}>
                 <div style={{ fontSize: '3rem', marginBottom: '15px', opacity: 0.7 }}>🎯</div>
                 <p style={{ margin: '0 0 15px 0', fontSize: '1rem', fontWeight: '500' }}>No events registered yet</p>
                 <p style={{ margin: '0 0 20px 0', fontSize: '0.85rem', opacity: 0.8 }}>Start your journey by registering for exciting events!</p>
-                <button 
-                  onClick={() => navigate('/events')} 
-                  style={{ 
-                    padding: '12px 24px', 
-                    background: 'rgba(255,255,255,0.2)', 
-                    color: '#fff', 
-                    border: '2px solid rgba(255,255,255,0.3)', 
-                    borderRadius: '12px', 
-                    fontSize: '0.9rem', 
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.3s'
-                  }}
-                  onMouseOver={(e) => {
-                    e.target.style.background = 'rgba(255,255,255,0.3)';
-                    e.target.style.borderColor = 'rgba(255,255,255,0.5)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.target.style.background = 'rgba(255,255,255,0.2)';
-                    e.target.style.borderColor = 'rgba(255,255,255,0.3)';
-                  }}
-                >
+                <button onClick={handleEventsClick} style={{ padding: '12px 24px', background: 'rgba(255,255,255,0.2)', color: '#fff', border: '2px solid rgba(255,255,255,0.3)', borderRadius: '12px', fontSize: '0.9rem', fontWeight: 'bold', cursor: 'pointer', backdropFilter: 'blur(10px)', transition: 'all 0.3s' }} onMouseOver={handleButtonHover} onMouseOut={handleButtonLeave}>
                   🚀 Browse Events
                 </button>
               </div>
             )}
           </div>
 
-          {/* Enhanced QR Code Card */}
           <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', padding: '25px', borderRadius: '20px', boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', top: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '12px', left: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
             <div style={{ position: 'absolute', bottom: '12px', right: '12px', width: '10px', height: '10px', background: 'linear-gradient(45deg, #00eaff, #667eea)', borderRadius: '50%', boxShadow: '0 0 8px rgba(0,234,255,0.6)' }} />
-            {/* <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📱</div> */}
             <h3 style={{ fontSize: '1.4rem', margin: '0 0 10px 0', fontWeight: 'bold', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Your QR Code</h3>
             <p style={{ margin: '0 0 20px 0', fontSize: '0.9rem', opacity: 0.9 }}>Show this for attendance</p>
-            
-            <div style={{ 
-              background: 'rgba(255,255,255,0.1)', 
-              padding: '20px', 
-              borderRadius: '15px', 
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              marginBottom: '15px'
-            }}>
-              <div style={{ 
-                background: '#fff', 
-                padding: '15px', 
-                borderRadius: '12px', 
-                marginBottom: '15px', 
-                display: 'inline-block',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}>
-                <QRCodeSVG 
-                  value={qrData} 
-                  size={140} 
-                  level="H"
-                  includeMargin={true}
-                />
+            <div style={{ background: 'rgba(255,255,255,0.1)', padding: '20px', borderRadius: '15px', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', marginBottom: '15px' }}>
+              <div style={{ background: '#fff', padding: '15px', borderRadius: '12px', marginBottom: '15px', display: 'inline-block', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+                <QRCodeSVG value={qrData} size={140} level="H" includeMargin={true} />
               </div>
-              
-              {/* <div style={{ 
-                fontSize: '0.9rem', 
-                fontWeight: 'bold', 
-                fontFamily: 'monospace', 
-                letterSpacing: '1px',
-                background: 'rgba(255,255,255,0.1)',
-                padding: '8px 12px',
-                borderRadius: '8px'
-              }}>
-                ID: PART-{user.id || user._id}
-              </div> */}
             </div>
           </div>
         </div>

@@ -3,47 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import UserMenu from '../user/UserMenu';
 import tkLogo from '../../assets/images/tk26.png';
-import Events from './Events';
+import useProfile from '../../hooks/useProfile';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchProfile = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-
-      if (!token || !user) {
-        navigate('/login');
-        return;
-      }
-
-      const response = await fetch(`${config.BASE_URL}/api/users/profile`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data);
-      } else {
-        setProfile(JSON.parse(user));
-      }
-    } catch (err) {
-      console.error('Profile fetch error:', err);
-      const user = localStorage.getItem('user');
-      if (user) {
-        setProfile(JSON.parse(user));
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { profile, loading } = useProfile();
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    if (!token || !user) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   if (loading) {
     return (
@@ -213,8 +186,6 @@ const Profile = () => {
                       {/* Horizontal Line */}
                       <hr style={{ border: 'none', height: '2px', background: 'linear-gradient(90deg, #87CEEB, transparent)', margin: '10px 0', borderRadius: '1px' }} />
                       
-
-                      
                       {/* Event Name */}
                       <div style={{ marginBottom: '10px', display: 'flex' }}>
                         <span style={{ fontSize: '1.1rem', color: '#87CEEB', fontWeight: '600', minWidth: '100px' }}>Event :</span>
@@ -325,8 +296,6 @@ const Profile = () => {
                           }} 
                         />
                       </div>
-                      
-
                     </div>
                   </div>
                 </div>

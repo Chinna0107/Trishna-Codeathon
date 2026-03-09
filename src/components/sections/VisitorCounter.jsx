@@ -1,17 +1,10 @@
 import { useState, useEffect } from 'react';
 import '../../styles/VisitorCounter.css';
 import codeathonlogo from '../../assets/images/co6.png';
-import config from '../../config';
+import useVisitorCount from '../../hooks/useVisitorCount';
 
 const VisitorCounter = () => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch(`${config.BASE_URL}/api/users/visitor-count`)
-      .then(res => res.json())
-      .then(data => setCount(data.count))
-      .catch(error => console.error('Error fetching visitor count:', error));
-  }, []);
+  const count = useVisitorCount();
 
   return (
     <div className="visitor-counter" style={{ padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '10px', width: 'auto' }}>

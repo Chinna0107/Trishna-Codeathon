@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import UserMenu from '../user/UserMenu';
 import tkLogo from '../../assets/images/tk26.png';
-import config from '../../config';
+import useRegisteredEvents from '../../hooks/useRegisteredEvents';
 import '../../styles/Home.css';
 
 const TestPage = () => {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [registeredEvents, setRegisteredEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { events: registeredEvents, loading } = useRegisteredEvents();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -16,25 +15,6 @@ const TestPage = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    fetchRegisteredEvents();
-  }, []);
-
-  const fetchRegisteredEvents = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${config.BASE_URL}/api/users/registered-events`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
-      setRegisteredEvents(data.events || []);
-    } catch (error) {
-      console.error('Error fetching registered events:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const sciFiBtnStyle = {
     fontFamily: 'Orbitron, monospace',

@@ -2,13 +2,15 @@
 
 import Hero from './components/sections/Hero';
 import Router from './router';
-
+import { CacheProvider } from './context/CacheContext';
 
 // Import other sections as you create them
 
 const App = () => {
   return (
-    <Router />
+    <CacheProvider>
+      <Router />
+    </CacheProvider>
   );
 };
 
