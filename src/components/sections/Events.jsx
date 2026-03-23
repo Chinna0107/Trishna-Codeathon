@@ -299,14 +299,14 @@ function filteredEvents(category) {
     
     
     development: [
-      // { id: '6', eventId: 'web-design', title: 'Web Development', description: 'Design and build creative websites in a time-bound challenge.', tags: ['Individual', 'UI/UX'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647792/5_i0dcqp.png', pdf: Webdev, icon: <FaPalette /> },
-      // { id: '7', eventId: 'codeathon-2k25', title: 'Crack the Code', description: 'Solve challenging coding problems and algorithms.', tags: ['Individual', 'Coding'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647786/4_p9eplw.png', pdf: CracktheCode, icon: <FaCode /> },
-      // { id: '9', eventId: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon.', tags: ['Team', 'Coding'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647798/6_pbrkg5.png', pdf: Hackathon, icon: <FaLaptopCode /> },
+      { id: '6', eventId: 'web-design', title: 'Web Development', description: 'Design and build creative websites in a time-bound challenge.', tags: ['Individual', 'UI/UX'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647792/5_i0dcqp.png', pdf: Webdev, icon: <FaPalette /> },
+      { id: '7', eventId: 'codeathon-2k25', title: 'Crack the Code', description: 'Solve challenging coding problems and algorithms.', tags: ['Individual', 'Coding'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647786/4_p9eplw.png', pdf: CracktheCode, icon: <FaCode /> },
+      { id: '9', eventId: 'hackathon', title: 'Hackathon', description: 'Solve real-world problems in a 24-hour coding marathon.', tags: ['Team', 'Coding'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647798/6_pbrkg5.png', pdf: Hackathon, icon: <FaLaptopCode /> },
     ],
     competetive: [
-      // { id: '2', eventId: 'circuitron', title: 'Circuitron', description: 'Design and build electronic circuits to solve challenges.', tags: ['Team', 'Electronics'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647765/1_vcbzgr.png', pdf: Circuitron, icon: <FaNetworkWired /> },
-      // { id: '3', eventId: 'presentation', title: 'Presentation', description: 'Present your ideas and innovations to a panel of judges.', tags: ['Team', 'Communication'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647772/2_fdomhf.png', pdf: Presentation, icon: <FaChalkboardTeacher /> },
-      // { id: '4', eventId: 'tech-quiz', title: 'Tech Quiz', description: 'Test your technical knowledge in this exciting quiz competition.', tags: ['Individual', 'Quiz'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647779/3_ci7xts.png', pdf: TechQuiz, icon: <FaBrain /> },
+      { id: '2', eventId: 'circuitron', title: 'Circuitron', description: 'Design and build electronic circuits to solve challenges.', tags: ['Team', 'Electronics'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647765/1_vcbzgr.png', pdf: Circuitron, icon: <FaNetworkWired /> },
+      { id: '3', eventId: 'presentation', title: 'Presentation', description: 'Present your ideas and innovations to a panel of judges.', tags: ['Team', 'Communication'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647772/2_fdomhf.png', pdf: Presentation, icon: <FaChalkboardTeacher /> },
+      { id: '4', eventId: 'tech-quiz', title: 'Tech Quiz', description: 'Test your technical knowledge in this exciting quiz competition.', tags: ['Individual', 'Quiz'], image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647779/3_ci7xts.png', pdf: TechQuiz, icon: <FaBrain /> },
     ],
   };
   return allEvents[category] || [];
