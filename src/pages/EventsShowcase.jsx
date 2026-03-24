@@ -22,6 +22,13 @@ const EventsShowcase = () => {
       image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647786/4_p9eplw.png',
       description: 'Solve puzzles and crack the code',
       link: 'https://codeathon-three.vercel.app/'
+    },
+     {
+      id: 4,
+      name: 'Crack The Code  first years',
+      image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647786/4_p9eplw.png',
+      description: 'Solve puzzles and crack the code',
+      link: 'https://quiz-app-orcin-kappa.vercel.app/'
     }
   ];
 
