@@ -2,20 +2,20 @@ import React from 'react';
 
 const EventsShowcase = () => {
   const events = [
-    {
-      id: 1,
-      name: 'Circuitron',
-      image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647765/1_vcbzgr.png',
-      description: 'Test your circuit design and electronics knowledge',
-      link: 'https://quiz-app-orcin-kappa.vercel.app/'
-    },
-    {
-      id: 2,
-      name: 'Tech Quiz',
-      image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647779/3_ci7xts.png',
-      description: 'Challenge yourself with technology trivia',
-      link: 'https://quiz-app-orcin-kappa.vercel.app/'
-    },
+    // {
+    //   id: 1,
+    //   name: 'Circuitron',
+    //   image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647765/1_vcbzgr.png',
+    //   description: 'Test your circuit design and electronics knowledge',
+    //   link: 'https://quiz-app-orcin-kappa.vercel.app/'
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Tech Quiz',
+    //   image: 'https://res.cloudinary.com/dgyykbmt6/image/upload/v1772647779/3_ci7xts.png',
+    //   description: 'Challenge yourself with technology trivia',
+    //   link: 'https://quiz-app-orcin-kappa.vercel.app/'
+    // },
     {
       id: 3,
       name: 'Crack The Code',
